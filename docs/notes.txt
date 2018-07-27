@@ -1,0 +1,17 @@
+- Course
+- Location
+- Game (activity)
+
+StudentCourseProgress
+
+GameState
+
+userId, gameId, state
+
+endpoints:
+
+get student progress
+finish activity
+
+enable location?
+visit location? set current location?

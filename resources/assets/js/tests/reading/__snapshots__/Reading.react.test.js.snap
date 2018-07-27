@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Reading can be rendered 1`] = `
+<div>
+  <div
+    className="container"
+  >
+    <div
+      className="row justify-content-center"
+    >
+      <div
+        className="col-md-8"
+      >
+        <div
+          className="card"
+        >
+          <div
+            className="card-header"
+          >
+            Reading course
+          </div>
+          <div
+            className="card-body"
+          >
+            Current location: 
+            map
+          </div>
+        </div>
+        <div
+          className="card"
+        >
+          <div
+            className="card-header"
+          >
+            Map location
+          </div>
+          <div
+            className="card-body"
+          >
+            <svg
+              height={600}
+              width={600}
+            >
+              <rect
+                fill="#272b4d"
+                height={600}
+                rx={14}
+                width={600}
+              />
+              <circle
+                cx={250}
+                cy={250}
+                fill="#383ce5e"
+                r={10}
+              />
+              <rect
+                className="location-entrance-home"
+                fill="#161a3c"
+                height={50}
+                onClick={[Function]}
+                width={50}
+                x={250}
+                y={250}
+              />
+              <rect
+                className="location-entrance-fair"
+                fill="#161a3c"
+                height={50}
+                onClick={[Function]}
+                width={50}
+                x={50}
+                y={450}
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Student can navigate to home 1`] = `<div />`;
