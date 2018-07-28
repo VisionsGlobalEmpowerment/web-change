@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use App\Courses\Reading;
-use App\StudentCourseProgress;
-use App\User;
+use WebChange\Courses\Reading;
+use WebChange\StudentCourseProgress;
+use WebChange\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;

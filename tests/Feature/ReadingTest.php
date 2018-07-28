@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\StudentCourseProgress;
+use WebChange\StudentCourseProgress;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
