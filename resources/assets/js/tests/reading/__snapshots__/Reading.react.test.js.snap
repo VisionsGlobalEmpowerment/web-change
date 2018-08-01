@@ -38,8 +38,7 @@ exports[`Reading can be rendered 1`] = `
             className="card-body"
           >
             <svg
-              height={600}
-              width={600}
+              viewBox="0 0 600 600"
             >
               <rect
                 fill="#272b4d"
@@ -47,29 +46,49 @@ exports[`Reading can be rendered 1`] = `
                 rx={14}
                 width={600}
               />
+              <g
+                onClick={[Function]}
+                transform="translate(250,250)"
+              >
+                <rect
+                  className="location-entrance-home"
+                  fill="#161a3c"
+                  height={50}
+                  width={50}
+                  x={0}
+                  y={0}
+                />
+                <text
+                  x={0}
+                  y={25}
+                >
+                  Home
+                </text>
+              </g>
+              <g
+                onClick={[Function]}
+                transform="translate(50,450)"
+              >
+                <rect
+                  className="location-entrance-fair"
+                  fill="#161a3c"
+                  height={50}
+                  width={50}
+                  x={0}
+                  y={0}
+                />
+                <text
+                  x={0}
+                  y={25}
+                >
+                  Fair
+                </text>
+              </g>
               <circle
                 cx={250}
                 cy={250}
                 fill="#383ce5e"
                 r={10}
-              />
-              <rect
-                className="location-entrance-home"
-                fill="#161a3c"
-                height={50}
-                onClick={[Function]}
-                width={50}
-                x={250}
-                y={250}
-              />
-              <rect
-                className="location-entrance-fair"
-                fill="#161a3c"
-                height={50}
-                onClick={[Function]}
-                width={50}
-                x={50}
-                y={450}
               />
             </svg>
           </div>
@@ -79,5 +98,3 @@ exports[`Reading can be rendered 1`] = `
   </div>
 </div>
 `;
-
-exports[`Student can navigate to home 1`] = `<div />`;
