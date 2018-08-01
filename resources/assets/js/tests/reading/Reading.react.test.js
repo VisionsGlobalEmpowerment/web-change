@@ -3,7 +3,6 @@ import React from "react";
 import axios from "axios";
 import Reading from "../../components/reading/Reading";
 import Home from "../../components/reading/locations/Home"
-import { Spring } from 'react-spring'
 
 jest.mock('axios');
 jest.mock('react-spring', () => ({
@@ -33,16 +32,13 @@ test('Student can navigate to home', () => {
     const resp = {data:{availableLocations: ['home', 'map']}};
     axios.get.mockResolvedValue(resp);
 
-    const component = shallow(<Reading />);
+    const component = mount(<Reading />);
 
     return Promise
         .resolve(component)
         .then(() => {
             expect(component.state().currentLocation).toEqual('map');
-            const map = component.find('Map').shallow();
-            map.find('.location-entrance-home').simulate('click');
-            const spring = map.find('Spring').shallow();
-            expect(spring).toMatchSnapshot();
+            component.find('.location-entrance-home').simulate('click');
             expect(component.state().currentLocation).toEqual('home');
         });
 });
