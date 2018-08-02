@@ -49,7 +49,7 @@ test('Lesson one instruction activity can be finished', () => {
 
     const handleProgress = jest.fn();
     const currentProgress = {availableLocations: ['home', 'map']};
-    const component = shallow(<Home progress={currentProgress} handleProgress={handleProgress}/>);
+    const component = mount(<Home progress={currentProgress} handleProgress={handleProgress}/>);
     component.find('.activity-lesson-one-instructions').simulate('click');
 
     setImmediate(() => {
