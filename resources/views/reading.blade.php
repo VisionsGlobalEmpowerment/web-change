@@ -2,7 +2,7 @@
 
 @section('scripts')
     @parent
-    <script src="{{ asset('js/reading.js') }}" defer></script>
+    <script src="{{ mix('js/reading.js') }}" defer></script>
 @endsection
 
 @section('content')
