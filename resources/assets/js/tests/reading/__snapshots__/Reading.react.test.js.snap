@@ -41,7 +41,7 @@ exports[`Reading can be rendered 1`] = `
               viewBox="0 0 600 600"
             >
               <rect
-                fill="#272b4d"
+                fill="#2196f3"
                 height={600}
                 rx={14}
                 width={600}
@@ -52,14 +52,15 @@ exports[`Reading can be rendered 1`] = `
               >
                 <rect
                   className="location-entrance-home"
-                  fill="#161a3c"
+                  fill="#00bcd4"
                   height={50}
+                  rx={5}
                   width={50}
                   x={0}
                   y={0}
                 />
                 <text
-                  x={0}
+                  x={5}
                   y={25}
                 >
                   Home
@@ -71,14 +72,15 @@ exports[`Reading can be rendered 1`] = `
               >
                 <rect
                   className="location-entrance-fair"
-                  fill="#161a3c"
+                  fill="#00bcd4"
                   height={50}
+                  rx={5}
                   width={50}
                   x={0}
                   y={0}
                 />
                 <text
-                  x={0}
+                  x={5}
                   y={25}
                 >
                   Fair

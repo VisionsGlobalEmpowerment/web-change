@@ -13,9 +13,9 @@ function getDuration(to, from) {
 
 export function LocationEntrance(props) {
     return <g transform={'translate(' + props.x + ',' + props.y + ')'} onClick={() => props.onClick()}>
-        <rect x={0} y={0} width={50} height={50} fill={"#161a3c"}
+        <rect x={0} y={0} width={50} height={50} rx={5} fill={"#00bcd4"}
               className={'location-entrance-' + props.locationKey} />
-        <text x={0} y={25} >{props.name}</text>
+        <text x={5} y={25} >{props.name}</text>
     </g>;
 }
 
@@ -42,4 +42,27 @@ export function Character(props) {
             <animated.circle cx={x} cy={y} r={radius} fill={"#383ce5e"} />
         )}
     </Spring>;
+}
+
+export function ModalText(props) {
+    return <div className="modal-static">
+        <div className="modal" tabIndex="-1" role="dialog">
+            <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title">{props.name}</h5>
+                        <button type="button" className="close" aria-label="Close" onClick={props.onHide}>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        <p>{props.text}</p>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" onClick={props.onHide}>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }

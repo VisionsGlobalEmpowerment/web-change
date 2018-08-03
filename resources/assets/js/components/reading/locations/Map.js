@@ -78,7 +78,7 @@ export default class Map extends Component {
 
                 <div className="card-body">
                     <svg viewBox={'0 0 ' + width + ' ' + height}>
-                        <rect width={width} height={height} rx={14} fill={"#272b4d"} />
+                        <rect width={width} height={height} rx={14} fill={"#2196f3"} />
 
                         {this.locations
                             .filter(location => location.hasOwnProperty('x'))

@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
-import {Character, LocationEntrance} from "../../common";
+import {Character, LocationEntrance, ModalText} from "../../common";
 import Activity from "../../common/Activity";
 
 export default class Home extends Component {
     state = {
-        movement: {isMoving: false}
+        movement: {isMoving: false},
+        currentActivity: null,
     }
 
     locations = [{
@@ -38,10 +39,17 @@ export default class Home extends Component {
                 const progress = res.data;
                 this.props.handleProgress(progress);
             })
+            .then(() => {
+                this.setState({currentActivity: activity});
+            })
     }
 
     getLocation = (key) => {
         return this.locations.find(location => location.key === key);
+    }
+
+    getActivity = (key) => {
+        return this.activities.find(activity => activity.key === key);
     }
 
     moveTo = (locationKey) => {
@@ -70,12 +78,18 @@ export default class Home extends Component {
         const map = this.locations[0];
 
         return (
+            <div>
+                {this.state.currentActivity && <ModalText
+                    text={this.getActivity(this.state.currentActivity).text}
+                    name={this.getActivity(this.state.currentActivity).name}
+                    onHide={() => this.setState({currentActivity: null})} />}
+
             <div className="card">
                 <div className="card-header">Home location</div>
 
                 <div className="card-body">
                     <svg viewBox={'0 0 ' + width + ' ' + height}>
-                        <rect width={width} height={height} rx={14} fill={"#272b4d"} />
+                        <rect width={width} height={height} rx={14} fill={"#bbdefb"} />
 
                         {this.locations
                             .filter(location => location.hasOwnProperty('x'))
@@ -95,7 +109,6 @@ export default class Home extends Component {
                                 x={activity.x} y={activity.y}
                                 activityKey={activity.key}
                                 name={activity.name}
-                                text={activity.text}
                                 onFinish={() => this.finishActivity(activity.key)}/>
                         )}
 
@@ -105,6 +118,7 @@ export default class Home extends Component {
                             onMovementFinish={this.onMovementFinish} />
                     </svg>
                 </div>
+            </div>
             </div>
         )
     }

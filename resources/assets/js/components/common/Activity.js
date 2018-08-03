@@ -13,19 +13,24 @@ export default class Activity extends Component {
         }
     }
 
+    textX(text) {
+        return -(text.length * 4 / 2);
+    }
+
     render() {
         const {
             x,
             y,
             activityKey,
-            name,
-            text
+            name
         } = this.props;
 
+        const label = name + (this.state.activated ? ' (activated)' : '');
+
         return <g transform={'translate(' + x + ',' + y + ')'} onClick={() => this.activate()}>
-            <rect x={0} y={0} width={40} height={60} rx={4} fill={"#161a3c"}
+            <rect x={0} y={0} width={40} height={60} rx={4} fill={"#bdbdbd"}
                   className={'activity-' + activityKey} />
-            <text x={0} y={25} >{name}{this.state.activated ? '(activated)' : ''}</text>
+            <text x={this.textX(label)} y={-15} >{label}</text>
         </g>;
     }
 }
