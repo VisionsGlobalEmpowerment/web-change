@@ -1,14 +1,15 @@
 import {animated, Spring} from "react-spring";
 import { TimingAnimation, Easing } from 'react-spring/dist/addons.cjs'
 import React from "react";
+import {movementSpeed} from "./animations";
 
 function getDuration(to, from) {
-    const duration = Math.sqrt(Math.pow((to.x - from.x), 2) + Math.pow((to.y - from.y), 2)) * 10;
-    if (duration < 100) {
-        return 100;
+    const duration = Math.sqrt(Math.pow((to.x - from.x), 2) + Math.pow((to.y - from.y), 2));
+    if (duration < 10) {
+        return 10 * movementSpeed;
     }
 
-    return duration;
+    return duration * movementSpeed;
 }
 
 export function LocationEntrance(props) {

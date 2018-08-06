@@ -2,16 +2,12 @@ import renderer from "react-test-renderer";
 import React from "react";
 import axios from "axios";
 import Reading from "../../components/reading/Reading";
-import Home from "../../components/reading/locations/Home"
+import Home from "../../components/reading/locations/Home";
 
 jest.mock('axios');
-jest.mock('react-spring', () => ({
-    Spring: ({onRest}) => {
-        onRest();
-        return (<div />)
-    }
+jest.mock('../../components/animations', () => ({
+    movementSpeed: 0,
 }));
-
 
 test('Reading can be rendered', () => {
     const resp = {data:{availableLocations: ['home', 'map']}};
@@ -42,6 +38,23 @@ test('Student can navigate to home', () => {
             expect(component.state().currentLocation).toEqual('home');
         });
 });
+
+test('Student can open the Ferris Wheel', () => {
+    const resp = {data:{availableLocations: ['home', 'map', 'fair', 'ferris-wheel']}};
+    axios.get.mockResolvedValue(resp);
+
+    const component = mount(<Reading />);
+
+    return Promise
+        .resolve(component)
+        .then(() => {
+            component.find('.location-entrance-fair').simulate('click');
+            component.find('.location-entrance-ferris-wheel').simulate('click');
+
+            expect(component.state().currentLocation).toEqual('ferris-wheel');
+        });
+});
+
 
 test('Lesson one instruction activity can be finished', () => {
     const resp = {data:{availableLocations: ['home', 'map', 'fair'], finishedActivities: ['lesson-one-instructions']}};

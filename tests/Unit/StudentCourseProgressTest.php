@@ -37,4 +37,18 @@ class StudentCourseProgressTest extends TestCase
 
         $this->assertEquals(['some-activity'], $progress->data['finishedActivities']);
     }
+
+    public function testLocationCanBeEnabledOnlyOnce()
+    {
+        $progressData = [
+            'availableLocations' => ['home', 'map', 'test'],
+            'finishedActivities' => ['some-activity']
+        ];
+
+        /** @var StudentCourseProgress $progress */
+        $progress = factory(StudentCourseProgress::class)->make(['data' => $progressData]);
+        $progress->enableLocation('test');
+
+        $this->assertEquals(['home', 'map', 'test'], $progress->data['availableLocations']);
+    }
 }

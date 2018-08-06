@@ -15,7 +15,7 @@ class Reading
     const COURSE_ID = 'reading';
 
     private $activityLocations = [
-        'lesson-one-instructions' => 'fair',
+        'lesson-one-instructions' => ['fair', 'ferris-wheel'],
     ];
 
     public function getInitialData()
@@ -27,7 +27,9 @@ class Reading
     {
         $progress->finishActivity($activityName);
         if (isset($this->activityLocations[$activityName])) {
-            $progress->enableLocation($this->activityLocations[$activityName]);
+            foreach ($this->activityLocations[$activityName] as $locationName) {
+                $progress->enableLocation($locationName);
+            }
         }
     }
 }

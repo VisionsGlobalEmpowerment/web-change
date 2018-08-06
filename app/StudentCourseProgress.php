@@ -31,6 +31,10 @@ class StudentCourseProgress extends Model
 
     public function enableLocation($locationName)
     {
+        if ($this->isLocationAvailable($locationName)) {
+            return;
+        }
+
         $this->addTo('availableLocations', $locationName);
     }
 
@@ -50,5 +54,10 @@ class StudentCourseProgress extends Model
     private function isActivityFinished($activityName)
     {
         return in_array($activityName, $this->data['finishedActivities'] ?? []);
+    }
+
+    private function isLocationAvailable($locationName)
+    {
+        return in_array($locationName, $this->data['availableLocations'] ?? []);
     }
 }

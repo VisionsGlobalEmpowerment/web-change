@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import Map from "./locations/Map";
 import Fair from "./locations/Fair";
 import Home from "./locations/Home";
+import FerrisWheel from "./lessons/FerrisWheel";
 
 export default class Reading extends Component {
     state = {
@@ -12,12 +13,11 @@ export default class Reading extends Component {
     }
 
     locations = {
-        home: Home,
-        fair: Fair,
-        map: Map
+        'home': Home,
+        'fair': Fair,
+        'map': Map,
+        'ferris-wheel': FerrisWheel
     }
-
-
 
     handleProgress = (progress) => {
         this.setState({ progress });
