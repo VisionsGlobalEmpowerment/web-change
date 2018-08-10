@@ -12,6 +12,11 @@ function wordIsGuessed(component, word) {
     expect(component.state('toGuess')).not.toContain(word);
 }
 
+function wordIsNotGuessed(component, word) {
+    expect(component.state('guessed')).not.toContain(word);
+    expect(component.state('toGuess')).toContain(word);
+}
+
 const items = [{
     key: 'tornado',
     name: 'Tornado',
@@ -57,5 +62,23 @@ test('Correct word can be picked', () => {
 
             component.find('.word-' + currentWord).simulate('click');
             wordIsGuessed(component, currentWord);
+        });
+});
+
+test('Incorrect word cannot be picked', () => {
+    axios.get.mockResolvedValue({data: items});
+
+    const component = mount(<FerrisWheel />);
+
+    return Promise
+        .resolve(component)
+        .then(() => {
+            const currentWord = 'tornado';
+            currentWordIs(component, currentWord);
+
+            const incorrectWord = 'cocodrilo';
+            component.find('.word-' + incorrectWord).simulate('click');
+            wordIsNotGuessed(component, currentWord);
+            wordIsNotGuessed(component, incorrectWord);
         });
 });

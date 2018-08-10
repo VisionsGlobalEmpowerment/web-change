@@ -3,6 +3,7 @@ import React from "react";
 
 import { animated, Keyframes, config } from 'react-spring'
 import { TimingAnimation, Easing } from 'react-spring/dist/addons.cjs'
+import * as PropTypes from "prop-types";
 
 const radius = 200;
 
@@ -34,13 +35,26 @@ function getCoordinates(index, length) {
     }
 }
 
-const Element = ({x, y, rotation, data, onClick}) => {
-    return <g transform={'translate(' + x + ' ' + y + ')'} className={'word-' + data.key} onClick={() => onClick(data.key)}>
-        <animated.rect
-            transform={rotation.interpolate(r => `rotate(-${r}) translate(-25 0)`)}
-            width={50} height={50} rx={5}
-            fill={data.color} />
-    </g>
+class Element extends Component {
+    state = {
+        guessed: false
+    };
+
+    guess() {
+        this.setState({guessed: true});
+    }
+
+    render() {
+        const {x, y, rotation, data, onClick} = this.props;
+        return <g transform={'translate(' + x + ' ' + y + ')'} className={'word-' + data.key}
+                  onClick={() => onClick(data.key, this.guess.bind(this))}>
+            <animated.g transform={rotation.interpolate(r => `rotate(-${r}) translate(-25 0)`)}>
+                <rect width={50} height={50} rx={5} fill={this.state.guessed ? '#606060' : data.color}/>
+                <text x={0} y={-5}>{data.name}</text>
+            </animated.g>
+
+        </g>
+    }
 }
 
 export default class Wheel extends Component {

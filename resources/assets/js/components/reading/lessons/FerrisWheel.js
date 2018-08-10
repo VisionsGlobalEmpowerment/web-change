@@ -47,10 +47,12 @@ export default class FerrisWheel extends Component {
         this.setState({currentWord})
     }
 
-    pick(key) {
+    pick(key, guess) {
         if (this.state.currentWord !== key) {
             return;
         }
+
+        guess();
 
         const toGuess = this.state.toGuess.filter(value => value !== key);
         const nextWord = this.nextWord(toGuess);
