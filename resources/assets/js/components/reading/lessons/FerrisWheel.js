@@ -1,6 +1,7 @@
 import {Component} from "react";
 import React from "react";
 import Wheel from "./ferris-wheel/Wheel";
+import axios from "axios";
 
 
 export default class FerrisWheel extends Component {
@@ -10,20 +11,6 @@ export default class FerrisWheel extends Component {
         toGuess: [],
         currentWord: null,
     };
-
-    items = [{
-        key: 'tornado',
-        name: 'Tornado',
-        color: '#00bcd4',
-    }, {
-        key: 'cocodrilo',
-        name: 'Cocodrilo',
-        color: '#109cf4',
-    }, {
-        key: 'corona',
-        name: 'Corona',
-        color: '#703cf4',
-    }];
 
     initItems(items) {
         const toGuess = items.map(item => item.key);
@@ -81,7 +68,10 @@ export default class FerrisWheel extends Component {
     }
 
     componentDidMount() {
-        this.initItems(this.items);
+        return axios.get('/datasets/ferris-wheel')
+            .then(res => {
+                this.initItems(res.data);
+            });
     }
 
     render() {
