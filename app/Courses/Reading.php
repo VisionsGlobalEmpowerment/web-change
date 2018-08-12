@@ -15,7 +15,7 @@ class Reading
     const COURSE_ID = 'reading';
 
     private $activityLocations = [
-        'lesson-one-instructions' => ['fair', 'ferris-wheel'],
+        'lesson-one-instructions' => ['fair', 'ferris-wheel', 'chapas'],
     ];
 
     public function getInitialData()

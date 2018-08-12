@@ -13,6 +13,11 @@ export default class Fair extends Component {
         key: 'ferris-wheel',
         x: 250,
         y: 250
+    }, {
+        name: 'Chapas',
+        key: 'chapas',
+        x: 450,
+        y: 450
     }];
 
     render() {
