@@ -31,4 +31,40 @@ class DataSetTest extends TestCase
                 "color" => '#703cf4',
             ]]);
     }
+
+    public function testChapasDataCanBeRetrieved()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)
+            ->get("/datasets/chapas");
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([[
+                "key" => 'mapa',
+                "name" => 'Mapa',
+                "color" =>  '#00bcd4',
+            ], [
+                "key" => 'jabón',
+                "name" => 'Jabón',
+                "color" => '#109cf4',
+            ], [
+                "key" => 'turquía',
+                "name" => 'Turquía',
+                "color" => '#703cf4',
+            ], [
+                "key" => 'llave',
+                "name" => 'Llave',
+                "color" => '#703cf4',
+            ], [
+                "key" => 'regalo',
+                "name" => 'Regalo',
+                "color" => '#703cf4',
+            ], [
+                "key" => 'naranja',
+                "name" => 'Naranja',
+                "color" => '#703cf4',
+            ]]);
+    }
 }

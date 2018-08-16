@@ -70,3 +70,19 @@ test('Lesson one instruction activity can be finished', () => {
         expect(handleProgress.mock.calls[0][0]).toEqual(resp.data);
     });
 });
+
+test('Student can open Chapas', () => {
+    const resp = {data:{availableLocations: ['home', 'map', 'fair', 'chapas']}};
+    axios.get.mockResolvedValue(resp);
+
+    const component = mount(<Reading />);
+
+    return Promise
+        .resolve(component)
+        .then(() => {
+            component.find('.location-entrance-fair').simulate('click');
+            component.find('.location-entrance-chapas').simulate('click');
+
+            expect(component.state().currentLocation).toEqual('chapas');
+        });
+});
