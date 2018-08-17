@@ -188,7 +188,12 @@ export default class Chapas extends Component {
 
         return (
             <div className="card">
-                <div className="card-header">Chapas ({this.state.currentWord} - {this.state.caps})</div>
+                <div className="card-header">
+                    Chapas ({this.state.currentWord} - {this.state.caps})
+                    <div className="float-right">
+                        <a onClick={() => this.props.handleMove('fair')} href="#">Back</a>
+                    </div>
+                </div>
 
                 <div className="card-body">
                     <svg viewBox="0 0 600 600">

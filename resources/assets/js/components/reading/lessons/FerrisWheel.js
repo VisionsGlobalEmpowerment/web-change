@@ -83,7 +83,12 @@ export default class FerrisWheel extends Component {
 
         return (
             <div className="card">
-                <div className="card-header">Ferris wheel ({this.state.currentWord})</div>
+                <div className="card-header">
+                    Ferris wheel ({this.state.currentWord})
+                    <div className="float-right">
+                        <a onClick={() => this.props.handleMove('fair')} href="#">Back</a>
+                    </div>
+                </div>
 
                 <div className="card-body">
                     <svg viewBox="0 0 512 512" width={600} height={600}>
