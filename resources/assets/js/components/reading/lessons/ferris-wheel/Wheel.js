@@ -45,11 +45,13 @@ class Element extends Component {
     }
 
     render() {
-        const {x, y, rotation, data, onClick} = this.props;
+        const {x, y, rotation, data, isGuessed, onClick} = this.props;
+        const disabled = isGuessed || this.state.guessed;
+
         return <g transform={'translate(' + x + ' ' + y + ')'} className={'word-' + data.key}
                   onClick={() => onClick(data.key, this.guess.bind(this))}>
             <animated.g transform={rotation.interpolate(r => `rotate(-${r}) translate(-25 0)`)}>
-                <rect width={50} height={50} rx={5} fill={this.state.guessed ? '#606060' : data.color}/>
+                <rect width={50} height={50} rx={5} fill={disabled ? '#606060' : data.color}/>
                 <text x={0} y={-5}>{data.name}</text>
             </animated.g>
 
@@ -63,7 +65,7 @@ export default class Wheel extends Component {
     }
 
     render() {
-        const { items, onClick } = this.props;
+        const { items, guessed, onClick } = this.props;
 
         const Wheel = ({ rotation }) => {
             return <g>
@@ -74,7 +76,7 @@ export default class Wheel extends Component {
                     {items.map((item, index) => {
                         const coordinates = getCoordinates(index, items.length);
                         return <Element x={coordinates.x} y={coordinates.y} rotation={rotation}
-                                        data={item} key={item.key} onClick={onClick}/>
+                                        data={item} key={item.key} isGuessed={guessed.includes(item.key)} onClick={onClick}/>
                     })}
 
                 </animated.g>

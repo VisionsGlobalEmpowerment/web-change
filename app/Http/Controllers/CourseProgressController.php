@@ -46,6 +46,33 @@ class CourseProgressController extends Controller
         return response($progress->data);
     }
 
+    public function saveLessonState(Request $request, $courseId, $lessonName)
+    {
+        $course = $this->getCourse($courseId);
+        $progress = StudentCourseProgress::where('course_id', $courseId)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        $course->saveLessonState($progress, $lessonName, $request->json()->all());
+
+        $progress->save();
+
+        return response($progress->data);
+    }
+
+    public function getLessonState($courseId, $lessonName)
+    {
+        $progress = StudentCourseProgress::where('course_id', $courseId)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        if (!isset($progress->data['lessonStates'][$lessonName])) {
+            abort(404);
+        }
+
+        return response($progress->data['lessonStates'][$lessonName]);
+    }
+
     private function getCourse($courseId)
     {
         return new Reading();

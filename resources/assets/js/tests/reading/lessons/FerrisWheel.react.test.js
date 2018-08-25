@@ -33,52 +33,94 @@ const items = [{
 
 jest.mock('axios');
 
-test('Words can be rendered', () => {
-    axios.get.mockResolvedValue({data: items});
+function mockLessonData(items) {
+    axios.get.mockResolvedValueOnce({data: items});
+    axios.get.mockRejectedValueOnce({response: {status: 404}});
+}
+
+function mockLessonDataWithState(items, state) {
+    axios.get.mockResolvedValueOnce({data: items});
+    axios.get.mockResolvedValueOnce({data: state});
+}
+
+test('Words can be rendered', (done) => {
+    mockLessonData(items);
 
     const component = mount(<FerrisWheel />);
 
-    return Promise
-        .resolve(component)
-        .then(() => {
-            component.update();
+    setImmediate(() => {
+        component.update();
 
-            expect(component.find('.word-tornado')).toHaveLength(1);
-            expect(component.find('.word-cocodrilo')).toHaveLength(1);
-            expect(component.find('.word-corona')).toHaveLength(1);
-        });
+        expect(component.find('.word-tornado')).toHaveLength(1);
+        expect(component.find('.word-cocodrilo')).toHaveLength(1);
+        expect(component.find('.word-corona')).toHaveLength(1);
+        done();
+    })
 });
 
-test('Correct word can be picked', () => {
-    axios.get.mockResolvedValue({data: items});
+test('Correct word can be picked', (done) => {
+    mockLessonData(items);
 
     const component = mount(<FerrisWheel />);
 
-    return Promise
-        .resolve(component)
-        .then(() => {
-            const currentWord = 'tornado';
-            currentWordIs(component, currentWord);
+    setImmediate(() => {
+        const currentWord = 'tornado';
+        currentWordIs(component, currentWord);
 
-            component.find('.word-' + currentWord).simulate('click');
-            wordIsGuessed(component, currentWord);
-        });
+        component.find('.word-' + currentWord).simulate('click');
+        wordIsGuessed(component, currentWord);
+        done();
+    });
 });
 
-test('Incorrect word cannot be picked', () => {
-    axios.get.mockResolvedValue({data: items});
+test('Incorrect word cannot be picked', (done) => {
+    mockLessonData(items);
 
     const component = mount(<FerrisWheel />);
 
-    return Promise
-        .resolve(component)
-        .then(() => {
-            const currentWord = 'tornado';
-            currentWordIs(component, currentWord);
+    setImmediate(() => {
+        const currentWord = 'tornado';
+        currentWordIs(component, currentWord);
 
-            const incorrectWord = 'cocodrilo';
-            component.find('.word-' + incorrectWord).simulate('click');
-            wordIsNotGuessed(component, currentWord);
-            wordIsNotGuessed(component, incorrectWord);
+        const incorrectWord = 'cocodrilo';
+        component.find('.word-' + incorrectWord).simulate('click');
+        wordIsNotGuessed(component, currentWord);
+        wordIsNotGuessed(component, incorrectWord);
+        done();
+    });
+});
+
+test('Saved lesson state can be restored', (done) => {
+    mockLessonDataWithState(items, {
+        toGuess: ['cocodrilo', 'corona'],
+        guessed: ['tornado']
+    });
+
+    const component = mount(<FerrisWheel />);
+
+    setImmediate(() => {
+        wordIsGuessed(component, 'tornado');
+        done();
+    });
+});
+
+test('Saved lesson state is saved on pick', (done) => {
+    mockLessonData(items);
+    axios.post = jest.fn();
+
+    const component = mount(<FerrisWheel />);
+
+    setImmediate(() => {
+        const currentWord = 'tornado';
+        currentWordIs(component, currentWord);
+
+        component.find('.word-' + currentWord).simulate('click');
+
+        expect(axios.post.mock.calls.length).toBe(1);
+        expect(axios.post.mock.calls[0][1]).toMatchObject({
+            guessed: [currentWord]
         });
+
+        done();
+    });
 });

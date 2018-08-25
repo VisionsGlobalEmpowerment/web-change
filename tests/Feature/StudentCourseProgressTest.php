@@ -63,4 +63,54 @@ class StudentCourseProgressTest extends TestCase
                 'finishedActivities' => [$activity]
             ]);
     }
+
+    public function testLessonStateCanBeSaved()
+    {
+        $progress = factory(StudentCourseProgress::class)->create();
+        $lesson = 'test-lesson';
+        $state = [
+            'test-key' => 'test-value',
+        ];
+
+        $response = $this->actingAs($progress->user)
+            ->json("POST", "/courses/{$progress->course_id}/lessons/{$lesson}/state", $state);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'lessonStates' => [$lesson => $state]
+            ]);
+    }
+
+    public function testLessonStateCanBeRetrieved()
+    {
+        $progress = factory(StudentCourseProgress::class)->create();
+        $lesson = 'test-lesson';
+        $state = [
+            'test-key' => 'test-value',
+        ];
+
+        $this->actingAs($progress->user)
+            ->json("POST", "/courses/{$progress->course_id}/lessons/{$lesson}/state", $state);
+
+        $response = $this->actingAs($progress->user)
+            ->get("/courses/{$progress->course_id}/lessons/{$lesson}/state");
+
+
+        $response
+            ->assertStatus(200)
+            ->assertJson($state);
+    }
+
+    public function testEmptyLessonStateReturns404()
+    {
+        $progress = factory(StudentCourseProgress::class)->create();
+        $lesson = 'test-lesson';
+        $response = $this->actingAs($progress->user)
+            ->get("/courses/{$progress->course_id}/lessons/{$lesson}/state");
+
+
+        $response
+            ->assertStatus(404);
+    }
 }

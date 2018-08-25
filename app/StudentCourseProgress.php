@@ -60,4 +60,12 @@ class StudentCourseProgress extends Model
     {
         return in_array($locationName, $this->data['availableLocations'] ?? []);
     }
+
+    public function saveLessonState($name, $state)
+    {
+        $this->changeData(function ($data) use ($name, $state) {
+            $data['lessonStates'][$name] = $state;
+            return $data;
+        });
+    }
 }
