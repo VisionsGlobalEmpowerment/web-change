@@ -23,5 +23,8 @@ Route::get('/reading', 'CourseController@reading');
 Route::get('/courses/{id}/progress', 'CourseProgressController@getProgress');
 Route::post('/courses/{courseId}/activities/{activityName}/finish', 'CourseProgressController@finishActivity');
 
+Route::get('/courses/{courseId}/lessons/{lessonName}/state', 'CourseProgressController@getLessonState');
+Route::post('/courses/{courseId}/lessons/{lessonName}/state', 'CourseProgressController@saveLessonState');
+
 Route::get('/datasets/ferris-wheel', 'DataSetController@getFerrisWheelData');
 Route::get('/datasets/chapas', 'DataSetController@getChapasData');

@@ -24,19 +24,18 @@ test('Reading can be rendered', () => {
         });
 });
 
-test('Student can navigate to home', () => {
+test('Student can navigate to home', (done) => {
     const resp = {data:{availableLocations: ['home', 'map']}};
     axios.get.mockResolvedValue(resp);
 
     const component = mount(<Reading />);
 
-    return Promise
-        .resolve(component)
-        .then(() => {
-            expect(component.state().currentLocation).toEqual('map');
-            component.find('.location-entrance-home').simulate('click');
-            expect(component.state().currentLocation).toEqual('home');
-        });
+    setImmediate(() => {
+        expect(component.state().currentLocation).toEqual('map');
+        component.find('.location-entrance-home').simulate('click');
+        expect(component.state().currentLocation).toEqual('home');
+        done();
+    });
 });
 
 test('Student can open the Ferris Wheel', () => {

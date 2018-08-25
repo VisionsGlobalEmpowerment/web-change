@@ -32,4 +32,9 @@ class Reading
             }
         }
     }
+
+    public function saveLessonState(StudentCourseProgress $progress, $lessonName, $data)
+    {
+        $progress->saveLessonState($lessonName, $data);
+    }
 }
