@@ -104,7 +104,7 @@ test('Saved lesson state can be restored', (done) => {
     });
 });
 
-test('Saved lesson state is saved on pick', (done) => {
+test('Lesson state is saved on pick', (done) => {
     mockLessonData(items);
     axios.post = jest.fn();
 

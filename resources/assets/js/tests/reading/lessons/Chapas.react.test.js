@@ -1,6 +1,7 @@
 import React from "react";
 import Chapas from "../../../components/reading/lessons/Chapas";
 import axios from "axios";
+import FerrisWheel from "../../../components/reading/lessons/FerrisWheel";
 
 function currentWordIs(component, word) {
     component.setState({currentWord: word});
@@ -43,37 +44,50 @@ jest.mock('../../../components/animations', () => ({
     chapasSpringFriction: 0,
 }));
 
+function mockLessonData(items) {
+    axios.get.mockResolvedValueOnce({data: items});
+    axios.get.mockRejectedValueOnce({response: {status: 404}});
+}
+
+function mockLessonDataWithState(items, state) {
+    axios.get.mockResolvedValueOnce({data: items});
+    axios.get.mockResolvedValueOnce({data: state});
+}
+
 function wait(time) {
     return new Promise((fulfilled) => {
         setTimeout (() => fulfilled(), time)
     });
 }
 
-test('Words can be rendered', () => {
-    axios.get.mockResolvedValue({data: items});
+test('Words can be rendered', (done) => {
+    mockLessonData(items);
 
     const component = mount(<Chapas />);
 
-    return Promise
-        .resolve(component)
-        .then(() => {
-            component.update();
+    setImmediate(() => {
+        component.update();
 
-            expect(component.find('.word-mapa')).toHaveLength(1);
-            expect(component.find('.word-jabon')).toHaveLength(1);
-            expect(component.find('.word-turquia')).toHaveLength(1);
-        });
+        expect(component.find('.word-mapa')).toHaveLength(1);
+        expect(component.find('.word-jabon')).toHaveLength(1);
+        expect(component.find('.word-turquia')).toHaveLength(1);
+
+        done();
+    });
 });
 
 
-test('Correct number of flicks moves word to guessed', () => {
-    axios.get.mockResolvedValue({data: items});
+test('Correct number of flicks moves word to guessed', (done) => {
+    mockLessonData(items);
 
     const component = mount(<Chapas />);
     const currentWord = 'mapa';
 
-    return Promise
-        .resolve(component)
+    return new Promise((resolve) => {
+            setImmediate(() => {
+                resolve(component);
+            })
+        })
         .then(() => {
             currentWordIs(component, currentWord);
         })
@@ -90,18 +104,22 @@ test('Correct number of flicks moves word to guessed', () => {
         .then(() => {
             renewWord(component);
             wordIsGuessed(component, currentWord);
-        });
+        })
+        .then(() => done());
 });
 
 
 test('Lesser number of flicks does not move word to guessed', () => {
-    axios.get.mockResolvedValue({data: items});
+    mockLessonData(items);
 
     const component = mount(<Chapas />);
     const currentWord = 'mapa';
 
-    return Promise
-        .resolve(component)
+    return new Promise((resolve) => {
+            setImmediate(() => {
+                resolve(component);
+            })
+        })
         .then(() => {
             currentWordIs(component, currentWord);
         })
@@ -117,13 +135,16 @@ test('Lesser number of flicks does not move word to guessed', () => {
 });
 
 test('Bigger number of flicks does not move word to guessed', () => {
-    axios.get.mockResolvedValue({data: items});
+    mockLessonData(items);
 
     const component = mount(<Chapas />);
     const currentWord = 'mapa';
 
-    return Promise
-        .resolve(component)
+    return new Promise((resolve) => {
+            setImmediate(() => {
+                resolve(component);
+            })
+        })
         .then(() => {
             currentWordIs(component, currentWord);
         })
@@ -146,4 +167,54 @@ test('Bigger number of flicks does not move word to guessed', () => {
             renewWord(component);
             wordIsNotGuessed(component, currentWord);
         });
+});
+
+test('Saved lesson state can be restored', (done) => {
+    mockLessonDataWithState(items, {
+        toGuess: ['mapa', 'jabon'],
+        guessed: ['turquia']
+    });
+
+    const component = mount(<Chapas />);
+
+    setImmediate(() => {
+        wordIsGuessed(component, 'turquia');
+        done();
+    });
+});
+
+test('Lesson state is saved on guess', (done) => {
+    mockLessonData(items);
+    axios.post = jest.fn();
+
+    const component = mount(<Chapas />);
+    const currentWord = 'mapa';
+
+    return new Promise((resolve) => {
+            setImmediate(() => {
+                resolve(component);
+            })
+        })
+        .then(() => {
+            currentWordIs(component, currentWord);
+        })
+        .then(() => {
+            component.update();
+            component.find('.bottle-cap').simulate('click');
+            return wait(100);
+        })
+        .then(() => {
+            component.update();
+            component.find('.bottle-cap').simulate('click');
+            return wait(100);
+        })
+        .then(() => {
+            renewWord(component);
+
+            expect(axios.post.mock.calls.length).toBe(1);
+            expect(axios.post.mock.calls[0][1]).toMatchObject({
+                guessed: [currentWord]
+            });
+        })
+        .then(() => done());
 });

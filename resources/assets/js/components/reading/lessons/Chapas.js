@@ -1,8 +1,9 @@
 import {Component} from "react";
 import React from "react";
-import axios from "axios";
 import {animated, Spring, config} from "react-spring";
 import {chapasSpringFriction} from "../../animations";
+import {getDataset, getLessonState, resetLessonState, setLessonState} from "../../../model/lessons";
+import Reading from "../Reading";
 
 function getCoordinates(index) {
     const coordintaes = [{
@@ -62,6 +63,8 @@ class ChapasCap extends Component {
 }
 
 export default class Chapas extends Component {
+    static lesson = 'chapas';
+
     state = {
         items: [],
         guessed: [],
@@ -72,13 +75,17 @@ export default class Chapas extends Component {
         pick: 0,
     };
 
-    initItems(items) {
+    initItems(items, lessonState) {
         items = items.slice(0, 5);
-        const toGuess = items.map(item => item.key);
+        const {
+            toGuess = items.map(item => item.key),
+            guessed = []
+        } = lessonState;
         const nextWord = this.nextWord(toGuess);
         const state = {
             items: items,
             toGuess: toGuess,
+            guessed: guessed,
             currentWord: nextWord,
         };
 
@@ -113,6 +120,10 @@ export default class Chapas extends Component {
         const guessed = isCurrentWordGuessed ?
             this.state.guessed.concat(this.state.currentWord) :
             this.state.guessed;
+
+        if (isCurrentWordGuessed) {
+            setLessonState(Reading.course, Chapas.lesson, {toGuess: toGuess, guessed: guessed});
+        }
 
         const nextWord = this.nextWord(toGuess);
 
@@ -169,11 +180,16 @@ export default class Chapas extends Component {
         return this.state.guessed.includes(key);
     }
 
-    componentDidMount() {
-        return axios.get('/datasets/chapas')
-            .then(res => {
-                this.initItems(res.data);
-            });
+    reset() {
+        resetLessonState(Reading.course, Chapas.lesson);
+        this.props.handleMove('fair');
+    }
+
+    async componentDidMount() {
+        return this.initItems(
+            await getDataset(Chapas.lesson),
+            await getLessonState(Reading.course, Chapas.lesson)
+        );
     }
 
     render() {
@@ -192,6 +208,8 @@ export default class Chapas extends Component {
                     Chapas ({this.state.currentWord} - {this.state.caps})
                     <div className="float-right">
                         <a onClick={() => this.props.handleMove('fair')} href="#">Back</a>
+                        &nbsp;
+                        <a onClick={() => this.reset()} href="#">Reset</a>
                     </div>
                 </div>
 

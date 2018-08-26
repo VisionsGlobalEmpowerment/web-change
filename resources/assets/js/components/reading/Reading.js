@@ -8,6 +8,8 @@ import FerrisWheel from "./lessons/FerrisWheel";
 import Chapas from "./lessons/Chapas";
 
 export default class Reading extends Component {
+    static course = 'reading';
+
     state = {
         progress: {},
         currentLocation: 'map',

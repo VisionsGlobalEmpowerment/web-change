@@ -1,10 +1,13 @@
 import {Component} from "react";
 import React from "react";
 import Wheel from "./ferris-wheel/Wheel";
-import axios from "axios";
+import {getDataset, getLessonState, resetLessonState, setLessonState} from "../../../model/lessons";
+import Reading from "../Reading";
 
 
 export default class FerrisWheel extends Component {
+    static lesson = 'ferris-wheel';
+
     state = {
         items: [],
         guessed: [],
@@ -71,33 +74,21 @@ export default class FerrisWheel extends Component {
             this.renewWord(nextWord);
         }, 5000);
 
-        this.setLessonState({toGuess: toGuess, guessed: guessed});
+        setLessonState(Reading.course, FerrisWheel.lesson, {toGuess: toGuess, guessed: guessed});
 
         this.setState(state);
     }
 
-    getDataset() {
-        return axios.get('/datasets/ferris-wheel')
-            .then(res => res.data);
-    }
-
-    getLessonState() {
-        return axios.get('/courses/reading/lessons/ferris-wheel/state')
-            .catch(error => {
-                if (error.response && error.response.status === 404) {
-                    return {data: {}}
-                }
-                throw error;
-            })
-            .then(res => res.data);
-    }
-
-    setLessonState(lessonState) {
-        return axios.post('/courses/reading/lessons/ferris-wheel/state', lessonState);
+    reset() {
+        resetLessonState(Reading.course, FerrisWheel.lesson);
+        this.props.handleMove('fair');
     }
 
     async componentDidMount() {
-        return this.initItems(await this.getDataset(), await this.getLessonState());
+        return this.initItems(
+            await getDataset(FerrisWheel.lesson),
+            await getLessonState(Reading.course, FerrisWheel.lesson)
+        );
     }
 
     render() {
@@ -111,6 +102,8 @@ export default class FerrisWheel extends Component {
                     Ferris wheel ({this.state.currentWord})
                     <div className="float-right">
                         <a onClick={() => this.props.handleMove('fair')} href="#">Back</a>
+                        &nbsp;
+                        <a onClick={() => this.reset()} href="#">Reset</a>
                     </div>
                 </div>
 
