@@ -3,81 +3,16 @@ import React from "react";
 import Wheel from "./ferris-wheel/Wheel";
 import {getDataset, getLessonState, resetLessonState, setLessonState} from "../../../model/lessons";
 import Reading from "../Reading";
+import FerrisWheelModel from "../../../model/lessons/ferrisWheelModel";
 
 
 export default class FerrisWheel extends Component {
     static lesson = 'ferris-wheel';
 
     state = {
-        items: [],
-        guessed: [],
-        toGuess: [],
-        currentWord: null,
+        ferrisWheel: new FerrisWheelModel(),
+        initialized: false,
     };
-
-    initItems(items, lessonState) {
-        const {
-            toGuess = items.map(item => item.key),
-            guessed = []
-        } = lessonState;
-
-        const nextWord = this.nextWord(toGuess);
-        const state = {
-            items: items,
-            toGuess: toGuess,
-            guessed: guessed,
-            currentWord: nextWord,
-        };
-
-        setTimeout(() => {
-            this.renewWord(nextWord);
-        }, 5000);
-
-        this.setState(state);
-    }
-
-    nextWord(toGuess) {
-        return toGuess[Math.floor(Math.random() * toGuess.length)];
-    }
-
-    renewWord(word) {
-        if (this.state.currentWord !== word) {
-            return;
-        }
-
-        const currentWord = this.nextWord(this.state.toGuess);
-
-        setTimeout(() => {
-            this.renewWord(currentWord);
-        }, 5000);
-
-        this.setState({currentWord})
-    }
-
-    pick(key, guess) {
-        if (this.state.currentWord !== key) {
-            return;
-        }
-
-        guess();
-
-        const toGuess = this.state.toGuess.filter(value => value !== key);
-        const guessed = this.state.guessed.concat(key);
-        const nextWord = this.nextWord(toGuess);
-        const state = {
-            toGuess: toGuess,
-            guessed: guessed,
-            currentWord: nextWord,
-        }
-
-        setTimeout(() => {
-            this.renewWord(nextWord);
-        }, 5000);
-
-        setLessonState(Reading.course, FerrisWheel.lesson, {toGuess: toGuess, guessed: guessed});
-
-        this.setState(state);
-    }
 
     reset() {
         resetLessonState(Reading.course, FerrisWheel.lesson);
@@ -85,14 +20,17 @@ export default class FerrisWheel extends Component {
     }
 
     async componentDidMount() {
-        return this.initItems(
+        this.state.ferrisWheel.onInit(() => this.setState({initialized: true}));
+        this.state.ferrisWheel.onWordChanged((currentWord) => this.setState({currentWord: currentWord}));
+
+        return this.state.ferrisWheel.initItems(
             await getDataset(FerrisWheel.lesson),
             await getLessonState(Reading.course, FerrisWheel.lesson)
         );
     }
 
     render() {
-        if (this.state.items === undefined || this.state.items.length === 0) {
+        if (!this.state.initialized) {
             return <div />
         }
 
@@ -109,7 +47,7 @@ export default class FerrisWheel extends Component {
 
                 <div className="card-body">
                     <svg viewBox="0 0 512 512" width={600} height={600}>
-                        <Wheel items={this.state.items} guessed={this.state.guessed} onClick={this.pick.bind(this)}/>
+                        <Wheel ferrisWheel={this.state.ferrisWheel} />
                     </svg>
                 </div>
 

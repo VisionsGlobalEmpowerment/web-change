@@ -3,18 +3,20 @@ import FerrisWheel from "../../../components/reading/lessons/FerrisWheel";
 import axios from "axios";
 
 function currentWordIs(component, word) {
-    component.setState({currentWord: word});
+    component.state('ferrisWheel').setCurrentWord(word);
     component.update();
 }
 
 function wordIsGuessed(component, word) {
-    expect(component.state('guessed')).toContain(word);
-    expect(component.state('toGuess')).not.toContain(word);
+    expect(component.state('ferrisWheel').isGuessed(word)).toBe(true);
+}
+
+function wordIsFailed(component, word) {
+    expect(component.state('ferrisWheel').isFailed(word)).toBe(true);
 }
 
 function wordIsNotGuessed(component, word) {
-    expect(component.state('guessed')).not.toContain(word);
-    expect(component.state('toGuess')).toContain(word);
+    expect(component.state('ferrisWheel').isGuessed(word)).toBe(false);
 }
 
 const items = [{
@@ -73,7 +75,7 @@ test('Correct word can be picked', (done) => {
     });
 });
 
-test('Incorrect word cannot be picked', (done) => {
+test('Incorrect word becomes failed', (done) => {
     mockLessonData(items);
 
     const component = mount(<FerrisWheel />);
@@ -84,7 +86,7 @@ test('Incorrect word cannot be picked', (done) => {
 
         const incorrectWord = 'cocodrilo';
         component.find('.word-' + incorrectWord).simulate('click');
-        wordIsNotGuessed(component, currentWord);
+        wordIsFailed(component, currentWord);
         wordIsNotGuessed(component, incorrectWord);
         done();
     });

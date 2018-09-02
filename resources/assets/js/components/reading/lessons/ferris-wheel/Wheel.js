@@ -37,21 +37,53 @@ function getCoordinates(index, length) {
 
 class Element extends Component {
     state = {
-        guessed: false
+        guessed: false,
+        failed: false
     };
 
     guess() {
         this.setState({guessed: true});
     }
 
+    fail() {
+        this.setState({failed: true})
+    }
+
+    getVisualState(data, markedAsGuessed, markedAsFailed) {
+        if (markedAsFailed) {
+            return '#600000';
+        } else if (markedAsGuessed) {
+            return '#606060';
+        } else {
+            return data.color;
+        }
+    }
+
+    componentDidMount() {
+        this.props.ferrisWheel.onFail((key) => {
+            if (this.props.data.key === key) {
+                this.forceUpdate();
+            }
+        });
+
+        this.props.ferrisWheel.onSuccess((key) => {
+            if (this.props.data.key === key) {
+                this.forceUpdate();
+            }
+        })
+    }
+
     render() {
-        const {x, y, rotation, data, isGuessed, onClick} = this.props;
-        const disabled = isGuessed || this.state.guessed;
+        const {x, y, rotation, data, ferrisWheel} = this.props;
+        const markedAsGuessed = ferrisWheel.isGuessed(data.key);
+        const markedAsFailed = ferrisWheel.isFailed(data.key);
+
+        const visualState = this.getVisualState(data, markedAsGuessed, markedAsFailed);
 
         return <g transform={'translate(' + x + ' ' + y + ')'} className={'word-' + data.key}
-                  onClick={() => onClick(data.key, this.guess.bind(this))}>
+                  onClick={() => ferrisWheel.pick(data.key)}>
             <animated.g transform={rotation.interpolate(r => `rotate(-${r}) translate(-25 0)`)}>
-                <rect width={50} height={50} rx={5} fill={disabled ? '#606060' : data.color}/>
+                <rect width={50} height={50} rx={5} fill={visualState}/>
                 <text x={0} y={-5}>{data.name}</text>
             </animated.g>
 
@@ -65,7 +97,9 @@ export default class Wheel extends Component {
     }
 
     render() {
-        const { items, guessed, onClick } = this.props;
+        const { ferrisWheel } = this.props;
+
+        const items = ferrisWheel.getItems();
 
         const Wheel = ({ rotation }) => {
             return <g>
@@ -76,7 +110,7 @@ export default class Wheel extends Component {
                     {items.map((item, index) => {
                         const coordinates = getCoordinates(index, items.length);
                         return <Element x={coordinates.x} y={coordinates.y} rotation={rotation}
-                                        data={item} key={item.key} isGuessed={guessed.includes(item.key)} onClick={onClick}/>
+                                        data={item} key={item.key} ferrisWheel={ferrisWheel} />
                     })}
 
                 </animated.g>
