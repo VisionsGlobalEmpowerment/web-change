@@ -3,6 +3,8 @@ import FerrisWheel from "../../../components/reading/lessons/FerrisWheel";
 import axios from "axios";
 
 function currentWordIs(component, word) {
+    component.instance().start();
+
     component.state('ferrisWheel').setCurrentWord(word);
     component.update();
 }
@@ -51,6 +53,7 @@ test('Words can be rendered', (done) => {
     const component = mount(<FerrisWheel />);
 
     setImmediate(() => {
+        component.instance().start();
         component.update();
 
         expect(component.find('.word-tornado')).toHaveLength(1);

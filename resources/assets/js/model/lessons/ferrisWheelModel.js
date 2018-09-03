@@ -13,10 +13,7 @@ export default class FerrisWheelModel {
     onSuccessHandlers = [];
     onFailHandlers = [];
     onWordChangedHandlers = [];
-
-    constructor() {
-
-    }
+    onFinishHandlers = [];
 
     initItems(items, lessonState) {
         this.items = items;
@@ -30,13 +27,6 @@ export default class FerrisWheelModel {
         this.guessed = guessed;
         this.failed = failed;
         this.toGuess = toGuess;
-
-        this.renewWord();
-
-        const currentWord = this.currentWord;
-        setTimeout(() => {
-            this.compareAndFail(currentWord);
-        }, 5000);
 
         this.onInitHandlers.forEach(fn => fn());
     }
@@ -54,7 +44,6 @@ export default class FerrisWheelModel {
             return;
         }
 
-        console.log(word);
         this.fail(this.currentWord);
     }
 
@@ -65,6 +54,10 @@ export default class FerrisWheelModel {
     setCurrentWord(word) {
         this.currentWord = word;
         this.onWordChangedHandlers.forEach(fn => fn(this.currentWord));
+
+        if (word === null) {
+            this.onFinishHandlers.forEach(fn => fn());
+        }
     }
 
     success(key) {
@@ -73,12 +66,16 @@ export default class FerrisWheelModel {
 
         this.renewWord();
 
+        this.updateLessonState();
+
         const currentWord = this.currentWord;
+        if (currentWord === null) {
+            return;
+        }
+
         setTimeout(() => {
             this.compareAndFail(currentWord);
         }, 5000);
-
-        this.updateLessonState();
 
         this.onSuccessHandlers.forEach(fn => fn(key));
     }
@@ -89,13 +86,17 @@ export default class FerrisWheelModel {
 
         this.renewWord();
 
+        this.updateLessonState();
+
         const currentWord = this.currentWord;
+        if (currentWord === null) {
+            return;
+        }
+
         setTimeout(() => {
             this.compareAndFail(currentWord);
         }, 5000);
-
-        this.updateLessonState();
-
+        
         this.onFailHandlers.forEach(fn => fn(key));
     }
 
@@ -127,6 +128,10 @@ export default class FerrisWheelModel {
         this.onSuccessHandlers.push(handler);
     }
 
+    onFinish(handler) {
+        this.onFinishHandlers.push(handler);
+    }
+
     isGuessed(key) {
         return this.guessed.includes(key);
     }
@@ -137,5 +142,23 @@ export default class FerrisWheelModel {
 
     getItems() {
         return this.items;
+    }
+
+    start() {
+        this.renewWord();
+
+        const currentWord = this.currentWord;
+        setTimeout(() => {
+            this.compareAndFail(currentWord);
+        }, 5000);
+    }
+
+    getStats() {
+        return {
+            total: this.toGuess.length + this.guessed.length + this.failed.length,
+            toGuess: this.toGuess.length,
+            guessed: this.guessed.length,
+            failed: this.failed.length,
+        };
     }
 }
