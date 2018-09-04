@@ -97,33 +97,85 @@ test('Incorrect word becomes failed', (done) => {
 
 test('Saved lesson state can be restored', (done) => {
     mockLessonDataWithState(items, {
-        toGuess: ['cocodrilo', 'corona'],
-        guessed: ['tornado']
+        completed: true
     });
 
     const component = mount(<FerrisWheel />);
 
     setImmediate(() => {
-        wordIsGuessed(component, 'tornado');
+        expect(component.state('ferrisWheel').isCompleted()).toBe(true);
         done();
     });
 });
 
-test('Lesson state is saved on pick', (done) => {
+test('Lesson state is saved on finish', (done) => {
     mockLessonData(items);
     axios.post = jest.fn();
 
     const component = mount(<FerrisWheel />);
 
     setImmediate(() => {
-        const currentWord = 'tornado';
-        currentWordIs(component, currentWord);
+        currentWordIs(component, 'tornado');
+        component.find('.word-' + 'tornado').simulate('click');
 
-        component.find('.word-' + currentWord).simulate('click');
+        currentWordIs(component, 'cocodrilo');
+        component.find('.word-' + 'cocodrilo').simulate('click');
+
+        currentWordIs(component, 'corona');
+        component.find('.word-' + 'corona').simulate('click');
 
         expect(axios.post.mock.calls.length).toBe(1);
         expect(axios.post.mock.calls[0][1]).toMatchObject({
-            guessed: [currentWord]
+            completed: true
+        });
+
+        done();
+    });
+});
+
+test('Lesson state is not saved for completed lesson', (done) => {
+    mockLessonDataWithState(items, {
+        completed: true
+    });
+    axios.post = jest.fn();
+
+    const component = mount(<FerrisWheel />);
+
+    setImmediate(() => {
+        currentWordIs(component, 'tornado');
+        component.find('.word-' + 'tornado').simulate('click');
+
+        currentWordIs(component, 'cocodrilo');
+        component.find('.word-' + 'cocodrilo').simulate('click');
+
+        currentWordIs(component, 'corona');
+        component.find('.word-' + 'corona').simulate('click');
+
+        expect(axios.post.mock.calls.length).toBe(0);
+
+        done();
+    });
+});
+
+test('Lesson is not completed if only one word is guessed', (done) => {
+    mockLessonData(items);
+    axios.post = jest.fn();
+
+    const component = mount(<FerrisWheel />);
+
+    setImmediate(() => {
+        currentWordIs(component, 'tornado');
+        component.find('.word-' + 'corona').simulate('click');
+
+        currentWordIs(component, 'cocodrilo');
+        component.find('.word-' + 'corona').simulate('click');
+
+        currentWordIs(component, 'corona');
+        component.find('.word-' + 'corona').simulate('click');
+
+        expect(axios.post.mock.calls.length).toBe(1);
+        expect(axios.post.mock.calls[0][1]).toMatchObject({
+            completed: false
         });
 
         done();

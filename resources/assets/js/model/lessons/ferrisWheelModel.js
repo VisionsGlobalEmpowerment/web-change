@@ -1,4 +1,4 @@
-import {setLessonState} from "../lessons";
+import {isLessonCompleted, normalizePoints, setLessonState} from "../lessons";
 import Reading from "../../components/reading/Reading";
 import FerrisWheel from "../../components/reading/lessons/FerrisWheel";
 
@@ -8,6 +8,7 @@ export default class FerrisWheelModel {
     failed = [];
     toGuess = [];
     currentWord = null;
+    completed = false;
 
     onInitHandlers = [];
     onSuccessHandlers = [];
@@ -15,18 +16,11 @@ export default class FerrisWheelModel {
     onWordChangedHandlers = [];
     onFinishHandlers = [];
 
-    initItems(items, lessonState) {
+    initItems(items, completed) {
         this.items = items;
+        this.completed = completed;
 
-        const {
-            toGuess = items.map(item => item.key),
-            guessed = [],
-            failed = [],
-        } = lessonState;
-
-        this.guessed = guessed;
-        this.failed = failed;
-        this.toGuess = toGuess;
+        this.toGuess = items.map(item => item.key);
 
         this.onInitHandlers.forEach(fn => fn());
     }
@@ -56,7 +50,7 @@ export default class FerrisWheelModel {
         this.onWordChangedHandlers.forEach(fn => fn(this.currentWord));
 
         if (word === null) {
-            this.onFinishHandlers.forEach(fn => fn());
+            this.finished();
         }
     }
 
@@ -65,8 +59,6 @@ export default class FerrisWheelModel {
         this.guessed = this.guessed.concat(key);
 
         this.renewWord();
-
-        this.updateLessonState();
 
         const currentWord = this.currentWord;
         if (currentWord === null) {
@@ -86,8 +78,6 @@ export default class FerrisWheelModel {
 
         this.renewWord();
 
-        this.updateLessonState();
-
         const currentWord = this.currentWord;
         if (currentWord === null) {
             return;
@@ -96,7 +86,7 @@ export default class FerrisWheelModel {
         setTimeout(() => {
             this.compareAndFail(currentWord);
         }, 5000);
-        
+
         this.onFailHandlers.forEach(fn => fn(key));
     }
 
@@ -109,7 +99,15 @@ export default class FerrisWheelModel {
     }
 
     updateLessonState() {
-        setLessonState(Reading.course, FerrisWheel.lesson, {toGuess: this.toGuess, guessed: this.guessed, failed: this.failed});
+        if (this.completed) {
+            return;
+        }
+
+        const stats = this.getStats();
+        const points = this.getPoints();
+        const completed = isLessonCompleted(points);
+
+        setLessonState(Reading.course, FerrisWheel.lesson, {stats: stats, points: points, completed: completed});
     }
 
     onInit(handler) {
@@ -160,5 +158,20 @@ export default class FerrisWheelModel {
             guessed: this.guessed.length,
             failed: this.failed.length,
         };
+    }
+
+    getPoints() {
+        const stats = this.getStats();
+
+        return normalizePoints(stats.guessed, stats.total);
+    }
+
+    finished() {
+        this.updateLessonState();
+        this.onFinishHandlers.forEach(fn => fn());
+    }
+
+    isCompleted() {
+        return this.completed;
     }
 }

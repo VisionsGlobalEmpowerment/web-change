@@ -1,5 +1,8 @@
 import axios from "axios";
 
+const MAX_POINTS = 10;
+const COMPLETION_THRESHOLD = 7;
+
 export function getDataset(lesson) {
     return axios.get('/datasets/' + lesson)
         .then(res => res.data);
@@ -22,4 +25,15 @@ export function setLessonState(course, lesson, state) {
 
 export function resetLessonState(course, lesson) {
     return axios.post('/courses/' + course + '/lessons/' + lesson + '/state', []);
+}
+
+export function normalizePoints(score, max) {
+    return {
+        score: Math.ceil(score * MAX_POINTS / max),
+        max: MAX_POINTS,
+    }
+}
+
+export function isLessonCompleted(points) {
+    return points.score >= COMPLETION_THRESHOLD;
 }

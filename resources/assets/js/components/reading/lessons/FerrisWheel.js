@@ -39,6 +39,7 @@ export default class FerrisWheel extends Component {
         return this.state.ferrisWheel.initItems(
             await getDataset(FerrisWheel.lesson),
             await getLessonState(Reading.course, FerrisWheel.lesson)
+                .then(state => state.hasOwnProperty('completed') ? state.completed : false)
         );
     }
 
@@ -60,7 +61,7 @@ export default class FerrisWheel extends Component {
                 </div>
             );
         } else if (this.state.status === FerrisWheel.status.finished) {
-            const stats = this.state.ferrisWheel.getStats();
+            const points = this.state.ferrisWheel.getPoints();
             return (
                 <div className="card">
                     <div className="card-header">
@@ -73,7 +74,7 @@ export default class FerrisWheel extends Component {
                     </div>
                     <div className="card-body">
                         Game stats:
-                        {stats.guessed} / {stats.total}
+                        {points.score} / {points.max}
                     </div>
                 </div>
             )
