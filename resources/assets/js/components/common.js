@@ -20,6 +20,14 @@ export function LocationEntrance(props) {
     </g>;
 }
 
+export function LessonEntrance(props) {
+    return <g transform={'translate(' + props.x + ',' + props.y + ')'} onClick={() => props.onClick()}>
+        <rect x={0} y={0} width={50} height={50} rx={5} fill={"#00bcd4"}
+              className={'location-entrance-' + props.locationKey} />
+        <text x={5} y={25} >{props.name} {props.completed && "(c)"}</text>
+    </g>;
+}
+
 export function Character(props) {
     const {
         isMoving,

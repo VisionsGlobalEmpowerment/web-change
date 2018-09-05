@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {LocationEntrance} from "../../common";
+import {LessonEntrance, LocationEntrance} from "../../common";
+import {isProgressLessonCompleted} from "../../../model/lessons";
 
 export default class Fair extends Component {
 
@@ -8,7 +9,9 @@ export default class Fair extends Component {
         key: 'map',
         x: 50,
         y: 50
-    }, {
+    }];
+
+    lessons = [{
         name: 'Ferris Wheel',
         key: 'ferris-wheel',
         x: 250,
@@ -35,7 +38,6 @@ export default class Fair extends Component {
                         <rect width={width} height={height} rx={14} fill={"#2196f3"} />
 
                         {this.locations
-                            .filter(location => location.hasOwnProperty('x'))
                             .map(location =>
                                 <LocationEntrance
                                     key={location.key}
@@ -43,6 +45,18 @@ export default class Fair extends Component {
                                     locationKey={location.key}
                                     name={location.name}
                                     onClick={() => this.props.handleMove(location.key)} />
+                            )
+                        }
+
+                        {this.lessons
+                            .map(lesson =>
+                                <LessonEntrance
+                                    key={lesson.key}
+                                    x={lesson.x} y={lesson.y}
+                                    locationKey={lesson.key}
+                                    name={lesson.name}
+                                    completed={isProgressLessonCompleted(this.props.progress, lesson.key)}
+                                    onClick={() => this.props.handleMove(lesson.key)} />
                             )
                         }
                     </svg>

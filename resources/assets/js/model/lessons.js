@@ -37,3 +37,13 @@ export function normalizePoints(score, max) {
 export function isLessonCompleted(points) {
     return points.score >= COMPLETION_THRESHOLD;
 }
+
+export function isProgressLessonCompleted(progress, lesson) {
+    const {lessonStates = {}} = progress;
+
+    if (!lessonStates.hasOwnProperty(lesson)) {
+        return false;
+    }
+
+    return lessonStates[lesson].completed;
+}
