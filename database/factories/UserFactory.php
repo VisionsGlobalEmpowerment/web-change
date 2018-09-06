@@ -21,3 +21,8 @@ $factory->define(WebChange\User::class, function (Faker $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->afterMakingState(WebChange\User::class, 'teacher', function ($user, $faker) {
+    /** @var \WebChange\User $user */
+    $user->makeTeacher();
+});

@@ -4,6 +4,7 @@ namespace WebChange\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use WebChange\User;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('teachers-dashboard.view', function (User $user) {
+            return $user->isTeacher();
+        });
     }
 }

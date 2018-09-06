@@ -28,3 +28,5 @@ Route::post('/courses/{courseId}/lessons/{lessonName}/state', 'CourseProgressCon
 
 Route::get('/datasets/ferris-wheel', 'DataSetController@getFerrisWheelData');
 Route::get('/datasets/chapas', 'DataSetController@getChapasData');
+
+Route::get('/teacher/dashboard', 'Teacher\DashboardController')->name('teachers-dashboard');
