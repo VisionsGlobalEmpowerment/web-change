@@ -12,6 +12,10 @@ node {
                 sh 'cp .env.jenkins .env'
                 sh 'composer install'
             }
+            docker.image('node:10').inside('-e "HOME=."') {
+                sh 'npm install'
+                sh 'npm run dev'
+            }
         }
         stage('Test') {
             def appImage = docker.build("app-image")
@@ -20,7 +24,6 @@ node {
                 sh 'php ./vendor/bin/phpunit'
             }
             docker.image('node:10').inside('-e "HOME=."') {
-                sh 'npm install'
                 sh 'npm run test'
             }
         }
@@ -41,6 +44,7 @@ node {
             sh "ln -s /srv/www/web-change/shared/.env /srv/www/web-change/releases/${currentBuild.id}/.env"
             sh "ln -s /srv/www/web-change/shared/storage /srv/www/web-change/releases/${currentBuild.id}/storage"
             sh "ln -s /srv/www/web-change/shared/bootstrap/cache /srv/www/web-change/releases/${currentBuild.id}/bootstrap/cache"
+            sh "php /srv/www/web-change/releases/${currentBuild.id}/artisan migrate --force"
             sh "ln -nsf /srv/www/web-change/releases/${currentBuild.id} /srv/www/web-change/current"
             sh 'sudo service php7.2-fpm reload'
         }

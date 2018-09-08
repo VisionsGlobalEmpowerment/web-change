@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Inspiring;
+use WebChange\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,10 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('webchange:make-teacher {email}', function ($email) {
+    $user = User::where('email', $email)->first();
+
+    $user->makeTeacher();
+    $user->save();
+})->describe('Give user a teacher role');

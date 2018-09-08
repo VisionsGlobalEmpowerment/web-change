@@ -62,6 +62,13 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
+
+                                    @can('teachers-dashboard.view')
+                                        <a class="dropdown-item" href="{{ route('teachers-dashboard') }}">
+                                            Dashboard
+                                        </a>
+                                    @endcan
+
                                 </div>
                             </li>
                         @endguest
