@@ -6,6 +6,7 @@ import Fair from "./locations/Fair";
 import Home from "./locations/Home";
 import FerrisWheel from "./lessons/FerrisWheel";
 import Chapas from "./lessons/Chapas";
+import {withBackgroundAudio} from "../common/Location";
 
 export default class Reading extends Component {
     static course = 'reading';
@@ -16,7 +17,7 @@ export default class Reading extends Component {
     }
 
     locations = {
-        'home': Home,
+        'home': withBackgroundAudio(Home, '/raw/audio/jungle.mp3'),
         'fair': Fair,
         'map': Map,
         'ferris-wheel': FerrisWheel,

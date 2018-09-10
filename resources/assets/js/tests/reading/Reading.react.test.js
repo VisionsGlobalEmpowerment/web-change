@@ -9,6 +9,8 @@ jest.mock('../../components/animations', () => ({
     movementSpeed: 0,
 }));
 
+window.HTMLMediaElement.prototype.play = () => { /* do nothing */ };
+
 test('Reading can be rendered', () => {
     const resp = {data:{availableLocations: ['home', 'map']}};
     axios.get.mockResolvedValue(resp);
