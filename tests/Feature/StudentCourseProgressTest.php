@@ -67,9 +67,9 @@ class StudentCourseProgressTest extends TestCase
     public function testLessonStateCanBeSaved()
     {
         $progress = factory(StudentCourseProgress::class)->create();
-        $lesson = 'test-lesson';
+        $lesson = 'ferris-wheel';
         $state = [
-            'test-key' => 'test-value',
+            'completed' => true,
         ];
 
         $response = $this->actingAs($progress->user)
@@ -82,12 +82,56 @@ class StudentCourseProgressTest extends TestCase
             ]);
     }
 
+    public function testLessonStateCanBeFiltered()
+    {
+        $progress = factory(StudentCourseProgress::class)->create();
+        $lesson = 'ferris-wheel';
+        $originalState = [
+            'unknown-field' => 'unknown-value',
+            'completed' => true,
+        ];
+        $filteredState = [
+            'completed' => true,
+        ];
+
+        $response = $this->actingAs($progress->user)
+            ->json("POST", "/courses/{$progress->course_id}/lessons/{$lesson}/state", $originalState);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'lessonStates' => [$lesson => $filteredState]
+            ]);
+    }
+
+    public function testLessonStateCanBeValidated()
+    {
+        $progress = factory(StudentCourseProgress::class)->create();
+        $lesson = 'ferris-wheel';
+        $state = [
+            'completed' => 'invalid-type-value',
+        ];
+
+        $response = $this->actingAs($progress->user)
+            ->json("POST", "/courses/{$progress->course_id}/lessons/{$lesson}/state", $state);
+
+        $response
+            ->assertStatus(422)
+            ->assertJson([
+                "errors" => [
+                    "completed" => [
+                        "The completed field must be true or false."
+                    ]
+                ]
+            ]);
+    }
+
     public function testLessonStateCanBeRetrieved()
     {
         $progress = factory(StudentCourseProgress::class)->create();
-        $lesson = 'test-lesson';
+        $lesson = 'ferris-wheel';
         $state = [
-            'test-key' => 'test-value',
+            'completed' => true,
         ];
 
         $this->actingAs($progress->user)
@@ -105,7 +149,7 @@ class StudentCourseProgressTest extends TestCase
     public function testEmptyLessonStateReturns404()
     {
         $progress = factory(StudentCourseProgress::class)->create();
-        $lesson = 'test-lesson';
+        $lesson = 'ferris-wheel';
         $response = $this->actingAs($progress->user)
             ->get("/courses/{$progress->course_id}/lessons/{$lesson}/state");
 

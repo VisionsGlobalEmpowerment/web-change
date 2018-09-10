@@ -2,6 +2,7 @@
 
 namespace WebChange\Http\Controllers;
 
+use Illuminate\Validation\ValidationException;
 use WebChange\Courses\Reading;
 use WebChange\StudentCourseProgress;
 use Auth;
@@ -53,11 +54,15 @@ class CourseProgressController extends Controller
             ->where('user_id', Auth::id())
             ->firstOrFail();
 
-        $course->saveLessonState($progress, $lessonName, $request->json()->all());
+        try {
+            $course->saveLessonState($progress, $lessonName, $request->json()->all());
 
-        $progress->save();
+            $progress->save();
 
-        return response($progress->data);
+            return response($progress->data);
+        } catch (\InvalidArgumentException $e) {
+            abort(400, $e->getMessage());
+        }
     }
 
     public function getLessonState($courseId, $lessonName)
