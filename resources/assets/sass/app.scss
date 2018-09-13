@@ -16,3 +16,23 @@
 .modal-static .modal {
   display: block;
 }
+
+.location-map .location-background {
+  fill: url(#background);
+}
+
+.location-map .location-entrance-home {
+  fill: url(#le-home);
+}
+
+.location-map .location-entrance-home:hover {
+  fill: url(#le-home-highlight);
+}
+
+.location-map .location-entrance-fair {
+  fill: url(#le-fair);
+}
+
+.location-map .location-entrance-fair:hover {
+  fill: url(#le-fair-highlight);
+}
