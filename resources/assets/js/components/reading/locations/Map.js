@@ -40,12 +40,12 @@ export default class Map extends Component {
         return this.locations.find(location => location.key === key);
     }
 
-    isAvailable = (location) => {
+    isLocationLocked = (key) => {
         if (this.props.progress.availableLocations == null) {
-            return "n/a";
+            return true;
         }
 
-        return this.props.progress.availableLocations.includes(location) ? "available" : "n/a";
+        return !this.props.progress.availableLocations.includes(key);
     }
 
     moveTo = (locationKey) => {
@@ -98,6 +98,10 @@ export default class Map extends Component {
                             <pattern id="le-fair-highlight" x={0} y={0} width={50} height={50} patternUnits="userSpaceOnUse">
                                 <rect width={50} height={50} fill={"#f0bcd4"} />
                             </pattern>
+
+                            <pattern id="le-fair-locked" x={0} y={0} width={50} height={50} patternUnits="userSpaceOnUse">
+                                <rect width={50} height={50} fill={"#ababab"} />
+                            </pattern>
                         </defs>
 
                         <rect width={width} height={height} rx={14} className={"location-background"}/>
@@ -110,6 +114,7 @@ export default class Map extends Component {
                                     x={location.x} y={location.y}
                                     locationKey={location.key}
                                     name={location.name}
+                                    locked={this.isLocationLocked(location.key)}
                                     onClick={() => this.moveTo(location.key)} />
                             )
                         }

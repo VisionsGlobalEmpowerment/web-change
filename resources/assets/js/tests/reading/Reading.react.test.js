@@ -33,6 +33,7 @@ test('Student can navigate to home', (done) => {
     const component = mount(<Reading />);
 
     setImmediate(() => {
+        component.update();
         expect(component.state().currentLocation).toEqual('map');
         component.find('.location-entrance-home').simulate('click');
         expect(component.state().currentLocation).toEqual('home');
@@ -49,6 +50,7 @@ test('Student can open the Ferris Wheel', () => {
     return Promise
         .resolve(component)
         .then(() => {
+            component.update();
             component.find('.location-entrance-fair').simulate('click');
             component.find('.location-entrance-ferris-wheel').simulate('click');
 
@@ -81,6 +83,7 @@ test('Student can open Chapas', () => {
     return Promise
         .resolve(component)
         .then(() => {
+            component.update();
             component.find('.location-entrance-fair').simulate('click');
             component.find('.location-entrance-chapas').simulate('click');
 

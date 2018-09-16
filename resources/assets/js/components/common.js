@@ -14,8 +14,8 @@ function getDuration(to, from) {
 
 export function LocationEntrance(props) {
     return <g transform={'translate(' + props.x + ',' + props.y + ')'}
-              onClick={() => props.onClick()}
-              className={'location-entrance-' + props.locationKey}
+              onClick={() => props.locked ? false : props.onClick()}
+              className={'location-entrance-' + props.locationKey + (props.locked ? '-locked' : '')}
               fill={"#00bcd4"}>
         <rect x={0} y={0} width={50} height={50} rx={5} />
         <text x={5} y={25} fill={"black"}>{props.name}</text>

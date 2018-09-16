@@ -112,6 +112,20 @@ exports[`Reading can be rendered 1`] = `
                     width={50}
                   />
                 </pattern>
+                <pattern
+                  height={50}
+                  id="le-fair-locked"
+                  patternUnits="userSpaceOnUse"
+                  width={50}
+                  x={0}
+                  y={0}
+                >
+                  <rect
+                    fill="#ababab"
+                    height={50}
+                    width={50}
+                  />
+                </pattern>
               </defs>
               <rect
                 className="location-background"
@@ -141,7 +155,7 @@ exports[`Reading can be rendered 1`] = `
                 </text>
               </g>
               <g
-                className="location-entrance-fair"
+                className="location-entrance-fair-locked"
                 fill="#00bcd4"
                 onClick={[Function]}
                 transform="translate(50,450)"
