@@ -40,3 +40,27 @@
 .location-map .location-entrance-fair-locked {
   fill: url(#le-fair-locked);
 }
+
+.location-home .location-background {
+  fill: url(#background);
+}
+
+.location-home .location-entrance-map {
+  fill: url(#door);
+}
+
+.location-home .location-entrance-map:hover {
+  fill: url(#door-highlight);
+}
+
+.location-home .activity-lesson-one-instructions {
+  fill: url(#teacher);
+}
+
+.location-home .activity-lesson-one-instructions:hover {
+  fill: url(#teacher-highlight);
+}
+
+.location-home .vera {
+  fill: url(#vera);
+}

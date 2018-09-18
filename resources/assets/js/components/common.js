@@ -42,38 +42,16 @@ export function Character(props) {
     }
 
     const duration = getDuration(to, from);
+    const onRest = props.onMovementFinish ? () => props.onMovementFinish(to.key) : false;
 
     return <Spring native
                    impl={TimingAnimation}
                    config={{ duration: duration, easing: Easing.linear }}
                    from={{ radius: 10, x: from.x, y: from.y }}
                    to={{ radius: 20, x: to.x, y: to.y }}
-                   onRest={() => props.onMovementFinish(to.key)}>
+                   onRest={onRest}>
         {({ radius, x, y }) => (
             <animated.circle cx={x} cy={y} r={radius} fill={"#383ce5e"} />
         )}
     </Spring>;
-}
-
-export function ModalText(props) {
-    return <div className="modal-static">
-        <div className="modal" tabIndex="-1" role="dialog">
-            <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title">{props.name}</h5>
-                        <button type="button" className="close" aria-label="Close" onClick={props.onHide}>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div className="modal-body">
-                        <p>{props.text}</p>
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" onClick={props.onHide}>Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 }
