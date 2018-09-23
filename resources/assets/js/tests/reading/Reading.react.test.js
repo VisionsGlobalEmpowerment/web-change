@@ -6,10 +6,16 @@ import Home from "../../components/reading/locations/Home";
 
 jest.mock('axios');
 jest.mock('../../components/animations', () => ({
-    movementSpeed: 0,
+    disabled: true,
 }));
 
 window.HTMLMediaElement.prototype.play = () => { /* do nothing */ };
+
+function wait(time) {
+    return new Promise((fulfilled) => {
+        setTimeout (() => fulfilled(), time)
+    });
+}
 
 test('Reading can be rendered', () => {
     const resp = {data:{availableLocations: ['home', 'map']}};
@@ -32,18 +38,23 @@ test('Student can navigate to home', (done) => {
 
     const component = mount(<Reading />);
 
-    setImmediate(() => {
-        component.update();
-        expect(component.state().currentLocation).toEqual('map');
-        component.find('.location-entrance-home').simulate('click');
-        expect(component.state().currentLocation).toEqual('home');
-        done();
-    });
+    return Promise
+        .resolve(component)
+        .then(() => {
+            component.update();
+            expect(component.state().currentLocation).toEqual('map');
+            component.find('.location-entrance-home').simulate('click');
+            return wait(100);
+        }).then(() => {
+            expect(component.state().currentLocation).toEqual('home');
+            done();
+        });
 });
 
-test('Student can open the Ferris Wheel', () => {
-    const resp = {data:{availableLocations: ['home', 'map', 'fair', 'ferris-wheel']}};
-    axios.get.mockResolvedValue(resp);
+test('Student can open the Ferris Wheel', (done) => {
+    axios.get.mockResolvedValueOnce({data:{availableLocations: ['home', 'map', 'fair', 'ferris-wheel']}});
+    axios.get.mockResolvedValueOnce({data: []});
+    axios.get.mockResolvedValueOnce({data: {}});
 
     const component = mount(<Reading />);
 
@@ -52,9 +63,15 @@ test('Student can open the Ferris Wheel', () => {
         .then(() => {
             component.update();
             component.find('.location-entrance-fair').simulate('click');
+            return wait(100);
+        }).then(() => {
+            component.update();
             component.find('.location-entrance-ferris-wheel').simulate('click');
-
+            return wait(100);
+        }).then(() => {
             expect(component.state().currentLocation).toEqual('ferris-wheel');
+        }).then(() => {
+            done();
         });
 });
 
@@ -74,9 +91,10 @@ test('Lesson one instruction activity can be finished', () => {
     });
 });
 
-test('Student can open Chapas', () => {
-    const resp = {data:{availableLocations: ['home', 'map', 'fair', 'chapas']}};
-    axios.get.mockResolvedValue(resp);
+test('Student can open Chapas', (done) => {
+    axios.get.mockResolvedValueOnce({data:{availableLocations: ['home', 'map', 'fair', 'chapas']}});
+    axios.get.mockResolvedValueOnce({data: []});
+    axios.get.mockResolvedValueOnce({data: {}});
 
     const component = mount(<Reading />);
 
@@ -85,8 +103,16 @@ test('Student can open Chapas', () => {
         .then(() => {
             component.update();
             component.find('.location-entrance-fair').simulate('click');
+
+            return wait(100);
+        }).then(() => {
+            component.update();
             component.find('.location-entrance-chapas').simulate('click');
 
+            return wait(100);
+        }).then(() => {
             expect(component.state().currentLocation).toEqual('chapas');
+        }).then(() => {
+            done();
         });
 });

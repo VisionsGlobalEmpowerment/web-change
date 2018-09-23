@@ -1,15 +1,35 @@
-import {animated, Spring} from "react-spring";
+import {animated, interpolate, Keyframes} from "react-spring";
 import { TimingAnimation, Easing } from 'react-spring/dist/addons.cjs'
 import React from "react";
-import {movementSpeed} from "./animations";
+import {movementSpeed, disabled} from "./animations";
 
-function getDuration(to, from) {
-    const duration = Math.sqrt(Math.pow((to.x - from.x), 2) + Math.pow((to.y - from.y), 2));
-    if (duration < 10) {
+function toSegments(path) {
+    let currentX = undefined, currentY = undefined;
+    let result = [];
+
+    for (const {x, y} of path) {
+        if (currentX !== undefined) {
+            result.push({start: {x: currentX, y: currentY}, end: {x: x, y: y}})
+        }
+        currentX = x;
+        currentY = y;
+    }
+
+    return result;
+}
+
+function withLength(segment) {
+    const {start: {x: startX, y: startY}, end: {x: endX, y: endY}} = segment;
+    const length = Math.sqrt(Math.pow((endX - startX), 2) + Math.pow((endY - startY), 2));
+    return Object.assign(segment, {length: length});
+}
+
+function durationFromLength(length) {
+    if (length < 10) {
         return 10 * movementSpeed;
     }
 
-    return duration * movementSpeed;
+    return length * movementSpeed;
 }
 
 export function LocationEntrance(props) {
@@ -31,27 +51,41 @@ export function LessonEntrance(props) {
 }
 
 export function Character(props) {
-    const {
-        isMoving,
-        from = {},
-        to = {}
-    } = props.movement;
+    return <circle cx={0} cy={0} r={10} fill={"#383ce5e"} />
+}
 
-    if (!isMoving) {
-        return <circle cx={props.currentPosition.x} cy={props.currentPosition.y} r={10} fill={"#383ce5e"} />;
-    }
+export function withMovement(WrappedComponent) {
+    return class extends React.Component {
+        keyframesFor(path) {
+            const configured = toSegments(path)
+                .map(s => withLength(s))
+                .map(s => Object.assign(s, {config: {duration: durationFromLength(s.length), easing: Easing.linear}}));
 
-    const duration = getDuration(to, from);
-    const onRest = props.onMovementFinish ? () => props.onMovementFinish(to.key) : false;
+            const [{start: from, end: to, config}, ...segments] = configured;
 
-    return <Spring native
-                   impl={TimingAnimation}
-                   config={{ duration: duration, easing: Easing.linear }}
-                   from={{ radius: 10, x: from.x, y: from.y }}
-                   to={{ radius: 20, x: to.x, y: to.y }}
-                   onRest={onRest}>
-        {({ radius, x, y }) => (
-            <animated.circle cx={x} cy={y} r={radius} fill={"#383ce5e"} />
-        )}
-    </Spring>;
+            return [{from: from, to: to, config: config}]
+                .concat(segments.map(segment => ({to: segment.end, config: segment.config})));
+        }
+
+        isDestination(args, path) {
+            const destination = path[path.length - 1];
+
+            return args.x === destination.x && args.y === destination.y;
+        }
+
+        render() {
+            const { path, onMovementFinish, ...props } = this.props;
+            const Container = Keyframes.Spring(this.keyframesFor(path));
+
+            return <Container native impl={TimingAnimation} config={{easing: Easing.linear}}
+                              immediate={disabled}
+                           onRest={(args) => {this.isDestination(args, path) ? onMovementFinish() : false}}>
+                {({ x, y }) => (
+                    <animated.g transform={interpolate([x, y], (x, y) => `translate(${x}, ${y})`)}>
+                        <WrappedComponent {...props} />
+                    </animated.g>
+                )}
+            </Container>;
+        }
+    };
 }
