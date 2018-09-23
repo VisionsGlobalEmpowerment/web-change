@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { LocationEntrance, Character } from "../../common";
+import {LocationEntrance, Character, withMovement} from "../../common";
+
+
+const MovingCharacter = withMovement(Character);
 
 export default class Map extends Component {
     state = {
@@ -36,6 +39,24 @@ export default class Map extends Component {
         'key': 'Park'
     }];
 
+    paths = {
+        home: [
+            {x: 250, y: 250},
+            {x: 250, y: 250},
+        ],
+        fair: [
+            {x: 250, y: 250},
+            {x: 200, y: 250},
+            {x: 200, y: 300},
+            {x: 150, y: 300},
+            {x: 150, y: 350},
+            {x: 100, y: 350},
+            {x: 100, y: 400},
+            {x: 50, y: 400},
+            {x: 50, y: 450},
+        ]
+    }
+
     getLocation = (key) => {
         return this.locations.find(location => location.key === key);
     }
@@ -51,8 +72,8 @@ export default class Map extends Component {
     moveTo = (locationKey) => {
         const movement = {
             isMoving: true,
-            from: this.getLocation('home'),
-            to: this.getLocation(locationKey),
+            path: this.paths[locationKey],
+            destination: locationKey,
         }
         this.setState({movement})
     }
@@ -119,10 +140,14 @@ export default class Map extends Component {
                             )
                         }
 
-                        <Character
-                            movement={this.state.movement}
-                            currentPosition={ {x: home.x, y: home.y} }
-                            onMovementFinish={this.onMovementFinish} />
+                        {this.state.movement.isMoving ?
+                            <MovingCharacter
+                                path={this.state.movement.path}
+                                onMovementFinish={() => this.onMovementFinish(this.state.movement.destination)}/>
+                            :
+                            <circle cx={home.x} cy={home.y} r={10} fill={"#383ce5e"} />
+                        }
+
                     </svg>
                 </div>
             </div>
