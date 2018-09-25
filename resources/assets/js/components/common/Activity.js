@@ -45,30 +45,22 @@ export default class Activity extends Component {
         this.setState({activated: false, currentTextIndex: 0})
     }
 
-    textX(text) {
-        return -(text.length * 4 / 2);
-    }
-
     render() {
         const {
             x,
             y,
             activityKey,
-            name,
             text
         } = this.props;
 
-        const label = name + (this.state.activated ? ' (activated)' : '');
-
         return <g transform={'translate(' + x + ',' + y + ')'} onClick={() => this.activate()}>
-            <rect x={0} y={0} width={40} height={60} rx={4} fill={"#bdbdbd"}
+            <rect x={0} y={0} width={426} height={794}
                   className={'activity-' + activityKey} />
-            <text x={this.textX(label)} y={-15} >{label}</text>
             {this.state.activated &&
-            (<g transform={'translate(-100, -200)'}>
-                <rect width={250} height={150} fill={"#5d8d9d"}/>
-                <foreignObject width={250} height={150} requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                    <p style={{textAlign: "center", verticalAlign: "middle"}} xmlns="http://www.w3.org/1999/xhtml">{text[this.state.currentTextIndex]}</p>
+            (<g transform={'translate(450, -150)'}>
+                <image href={"/raw/img/chat_bubble_big.png"} x={0} y={0} width={577} height={474} />
+                <foreignObject x={100} y={100} width={400} height={350} requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                    <p style={{textAlign: "center", verticalAlign: "middle", fontSize: "24px"}} xmlns="http://www.w3.org/1999/xhtml">{text[this.state.currentTextIndex]}</p>
                 </foreignObject>
             </g>) }
         </g>;

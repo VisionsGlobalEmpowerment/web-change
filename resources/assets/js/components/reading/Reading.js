@@ -13,14 +13,14 @@ export default class Reading extends Component {
 
     state = {
         progress: {},
-        currentLocation: 'map',
+        currentLocation: 'home',
     }
 
     locations = {
-        'home': withBackgroundAudio(Home, '/raw/audio/jungle.mp3'),
-        'fair': Fair,
-        'map': Map,
-        'ferris-wheel': FerrisWheel,
+        'home': withBackgroundAudio(Home, '/raw/audio/background/POL-daily-special-short.wav'),
+        'fair': withBackgroundAudio(Fair,'/raw/audio/background/POL-daily-special-short.wav'),
+        'map': withBackgroundAudio(Map,'/raw/audio/background/POL-daily-special-short.wav'),
+        'ferris-wheel': withBackgroundAudio(FerrisWheel,'/raw/audio/background/POL-daily-special-short.wav'),
         'chapas': Chapas,
     };
 
@@ -57,22 +57,7 @@ export default class Reading extends Component {
         const LocationComponent = this.locations[this.state.currentLocation];
         return (
             <div>
-                <div className="container">
-                    <div className="row justify-content-center">
-                        <div className="col-md-8">
-                            <div className="card">
-                                <div className="card-header">Reading course</div>
-
-                                <div className="card-body">
-                                    Current location: {this.state.currentLocation}
-                                </div>
-                            </div>
-
-
-                            <LocationComponent progress={this.state.progress} handleMove={this.handleMove} handleProgress={this.handleProgress}/>
-                        </div>
-                    </div>
-                </div>
+                <LocationComponent progress={this.state.progress} handleMove={this.handleMove} handleProgress={this.handleProgress}/>
             </div>
         )
     }

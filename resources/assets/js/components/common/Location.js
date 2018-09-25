@@ -6,7 +6,7 @@ export function withBackgroundAudio(WrappedComponent, audioFilepath) {
 
         componentDidMount() {
             this.audio.addEventListener('timeupdate', function() {
-                const buffer = .44
+                const buffer = .24;
                 if (this.currentTime > this.duration - buffer) {
                     this.currentTime = 0;
                     this.play()

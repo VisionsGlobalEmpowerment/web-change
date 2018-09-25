@@ -9,8 +9,6 @@ jest.mock('../../components/animations', () => ({
     disabled: true,
 }));
 
-window.HTMLMediaElement.prototype.play = () => { /* do nothing */ };
-
 function wait(time) {
     return new Promise((fulfilled) => {
         setTimeout (() => fulfilled(), time)
@@ -32,7 +30,7 @@ test('Reading can be rendered', () => {
         });
 });
 
-test('Student can navigate to home', (done) => {
+test('Student can navigate to map', (done) => {
     const resp = {data:{availableLocations: ['home', 'map']}};
     axios.get.mockResolvedValue(resp);
 
@@ -42,11 +40,11 @@ test('Student can navigate to home', (done) => {
         .resolve(component)
         .then(() => {
             component.update();
-            expect(component.state().currentLocation).toEqual('map');
-            component.find('.location-entrance-home').simulate('click');
+            expect(component.state().currentLocation).toEqual('home');
+            component.find('.location-entrance-map').simulate('click');
             return wait(100);
         }).then(() => {
-            expect(component.state().currentLocation).toEqual('home');
+            expect(component.state().currentLocation).toEqual('map');
             done();
         });
 });
@@ -61,6 +59,10 @@ test('Student can open the Ferris Wheel', (done) => {
     return Promise
         .resolve(component)
         .then(() => {
+            component.update();
+            component.find('.location-entrance-map').simulate('click');
+            return wait(100);
+        }).then(() => {
             component.update();
             component.find('.location-entrance-fair').simulate('click');
             return wait(100);
@@ -101,6 +103,11 @@ test('Student can open Chapas', (done) => {
     return Promise
         .resolve(component)
         .then(() => {
+            component.update();
+            component.find('.location-entrance-map').simulate('click');
+            
+            return wait(100);
+        }).then(() => {
             component.update();
             component.find('.location-entrance-fair').simulate('click');
 
