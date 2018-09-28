@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import {LocationEntrance, Character, withMovement} from "../../common";
+import {LocationEntrance, Character, withMovement, withEffect, pipe} from "../../common";
 
-
-const MovingCharacter = withMovement(Character);
+const EnhancedCharacter = pipe(
+    withMovement,
+    withEffect("entrance", 'onMovementFinish'),
+)(Character);
 
 export default class Map extends Component {
     state = {
@@ -141,7 +143,7 @@ export default class Map extends Component {
                         }
 
                         {this.state.movement.isMoving ?
-                            <MovingCharacter
+                            <EnhancedCharacter
                                 path={this.state.movement.path}
                                 onMovementFinish={() => this.onMovementFinish(this.state.movement.destination)}/>
                             :

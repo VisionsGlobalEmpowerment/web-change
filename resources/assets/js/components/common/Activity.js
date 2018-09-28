@@ -8,6 +8,10 @@ export default class Activity extends Component {
     };
 
     activate() {
+        if (this.props.onClick) {
+            this.props.onClick();
+        }
+
         if (!this.state.activated) {
             this.props.onFinish();
             this.setState({activated: true});

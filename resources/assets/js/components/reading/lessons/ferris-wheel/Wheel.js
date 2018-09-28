@@ -1,9 +1,8 @@
-import {Component, PureComponent} from "react";
+import {Component} from "react";
 import React from "react";
 
 import { animated, Keyframes, config } from 'react-spring'
 import { TimingAnimation, Easing } from 'react-spring/dist/addons.cjs'
-import * as PropTypes from "prop-types";
 
 const radius = 200;
 
@@ -41,14 +40,6 @@ class Element extends Component {
         failed: false
     };
 
-    guess() {
-        this.setState({guessed: true});
-    }
-
-    fail() {
-        this.setState({failed: true})
-    }
-
     getVisualState(data, markedAsGuessed, markedAsFailed) {
         if (markedAsFailed) {
             return '#600000';
@@ -60,13 +51,13 @@ class Element extends Component {
     }
 
     componentDidMount() {
-        this.props.ferrisWheel.onFail((key) => {
+        this.props.ferrisWheel.register('onFail', (key) => {
             if (this.props.data.key === key) {
                 this.forceUpdate();
             }
         });
 
-        this.props.ferrisWheel.onSuccess((key) => {
+        this.props.ferrisWheel.register('onSuccess', (key) => {
             if (this.props.data.key === key) {
                 this.forceUpdate();
             }

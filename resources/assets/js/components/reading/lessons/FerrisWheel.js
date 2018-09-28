@@ -4,6 +4,7 @@ import Wheel from "./ferris-wheel/Wheel";
 import {getDataset, getLessonState, resetLessonState} from "../../../model/lessons";
 import Reading from "../Reading";
 import FerrisWheelModel from "../../../model/lessons/ferrisWheelModel";
+import {play} from "../../sounds";
 
 
 export default class FerrisWheel extends Component {
@@ -30,11 +31,16 @@ export default class FerrisWheel extends Component {
     }
 
     async componentDidMount() {
-        this.state.ferrisWheel.onInit(() => this.setState({status: FerrisWheel.status.initialized}));
-        this.state.ferrisWheel.onWordChanged((currentWord) => this.setState({currentWord: currentWord}));
-        this.state.ferrisWheel.onFinish(() => {
+        this.state.ferrisWheel.register('onInit', () => this.setState({status: FerrisWheel.status.initialized}));
+        this.state.ferrisWheel.register('onWordChanged', (currentWord) => this.setState({currentWord: currentWord}));
+        this.state.ferrisWheel.register('onFinish',() => {
             this.setState({status: FerrisWheel.status.finished})
         });
+
+        this.state.ferrisWheel.register('onFail', () => play("fail"));
+        this.state.ferrisWheel.register('onSuccess', () => play("success"));
+        this.state.ferrisWheel.register('onStart', () => play("start"));
+        this.state.ferrisWheel.register('onFinish', () => play("finish"));
 
         return this.state.ferrisWheel.initItems(
             await getDataset(FerrisWheel.lesson),

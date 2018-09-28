@@ -1,14 +1,23 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import Activity from "../../common/Activity";
+import {pipe, withEffect} from "../../common";
 
-const Door = (props) => {
+const DoorComponent = (props) => {
     return <g transform={'translate(' + props.x + ',' + props.y + ')'}
               onClick={() => props.onClick()}
               className={'location-entrance-' + props.locationKey}>
         <rect x={0} y={0} width={732} height={810} fillOpacity={1}/>
     </g>;
 };
+
+const DoorWithEffect = pipe(
+    withEffect("door"),
+)(DoorComponent);
+
+const ActivityWithEffect = pipe(
+    withEffect("teacher"),
+)(Activity);
 
 const Vera = (props) => {
     return <g transform={'translate(' + props.x + ',' + props.y + ')'}
@@ -83,13 +92,13 @@ export default class Home extends Component {
 
                 <rect width={width} height={height} className={"location-background"} />
 
-                <Door
+                <DoorWithEffect
                     x={1446} y={42}
                     locationKey={"map"}
                     name={"Door"}
                     onClick={() => this.props.handleMove("map")} />
 
-                <Activity
+                <ActivityWithEffect
                     key={activity.key}
                     x={activity.x} y={activity.y}
                     activityKey={activity.key}

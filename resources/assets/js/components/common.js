@@ -2,6 +2,7 @@ import {animated, interpolate, Keyframes} from "react-spring";
 import { TimingAnimation, Easing } from 'react-spring/dist/addons.cjs'
 import React from "react";
 import {movementSpeed, disabled} from "./animations";
+import {play} from "./sounds";
 
 function toSegments(path) {
     let currentX = undefined, currentY = undefined;
@@ -32,7 +33,27 @@ function durationFromLength(length) {
     return length * movementSpeed;
 }
 
-export function LocationEntrance(props) {
+export const withEffect = (soundId, handler = 'onClick') => (WrappedComponent) => {
+    return class extends React.Component {
+        withOnEvent(onEvent) {
+            play(soundId);
+            if (onEvent) {
+                onEvent();
+            }
+        }
+
+        render() {
+            const { [handler]: onEvent, ...props } = this.props;
+
+            props[handler] = () => this.withOnEvent(onEvent);
+            return <WrappedComponent {...props} />;
+        }
+    };
+};
+
+export const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x);
+
+const LocationEntranceComponent = (props) => {
     return <g transform={'translate(' + props.x + ',' + props.y + ')'}
               onClick={() => props.locked ? false : props.onClick()}
               className={'location-entrance-' + props.locationKey + (props.locked ? '-locked' : '')}
@@ -40,15 +61,23 @@ export function LocationEntrance(props) {
         <rect x={0} y={0} width={50} height={50} rx={5} />
         <text x={5} y={25} fill={"black"}>{props.name}</text>
     </g>;
-}
+};
 
-export function LessonEntrance(props) {
+export const LocationEntrance = pipe(
+    withEffect("entrance"),
+) (LocationEntranceComponent);
+
+const LessonEntranceComponent = (props) => {
     return <g transform={'translate(' + props.x + ',' + props.y + ')'} onClick={() => props.onClick()}>
         <rect x={0} y={0} width={50} height={50} rx={5} fill={"#00bcd4"}
               className={'location-entrance-' + props.locationKey} />
         <text x={5} y={25} >{props.name} {props.completed && "(c)"}</text>
     </g>;
-}
+};
+
+export const LessonEntrance = pipe(
+    withEffect("entrance"),
+) (LessonEntranceComponent);
 
 export function Character(props) {
     return <circle cx={0} cy={0} r={10} fill={"#383ce5e"} />

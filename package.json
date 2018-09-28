@@ -45,5 +45,8 @@
         "snapshotSerializers": [
             "enzyme-to-json/serializer"
         ]
+    },
+    "dependencies": {
+        "react-app-polyfill": "0.0.0"
     }
 }
