@@ -64,6 +64,26 @@
   transform: translate(0, -12px);
 }
 
-.location-home .vera {
+.location-fair .location-background {
+  fill: url(#background);
+}
+
+.location-fair .location-entrance-map {
+  fill: url(#exit);
+}
+
+.location-fair .location-entrance-map:hover {
+  fill: url(#exit-highlight);
+}
+
+.location-fair .location-entrance-ferris-wheel {
+  fill: url(#wheel);
+}
+
+.location-fair .location-entrance-ferris-wheel:hover {
+  fill: url(#wheel-highlight);
+}
+
+.vera {
   fill: url(#vera);
 }
