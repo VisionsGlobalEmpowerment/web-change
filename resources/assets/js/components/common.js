@@ -54,12 +54,10 @@ export const withEffect = (soundId, handler = 'onClick') => (WrappedComponent) =
 export const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x);
 
 const LocationEntranceComponent = (props) => {
-    return <g transform={'translate(' + props.x + ',' + props.y + ')'}
+    return <g transform={'translate(' + props.location.x + ',' + props.location.y + ')'}
               onClick={() => props.locked ? false : props.onClick()}
-              className={'location-entrance-' + props.locationKey + (props.locked ? '-locked' : '')}
-              fill={"#00bcd4"}>
-        <rect x={0} y={0} width={50} height={50} rx={5} />
-        <text x={5} y={25} fill={"black"}>{props.name}</text>
+              className={'location-entrance-' + props.location.key + (props.locked ? '-locked' : '')}>
+        <rect x={0} y={0} width={props.location.width} height={props.location.height} fillOpacity={1}/>
     </g>;
 };
 
@@ -67,21 +65,6 @@ export const LocationEntrance = pipe(
     withEffect("entrance"),
 ) (LocationEntranceComponent);
 
-const LessonEntranceComponent = (props) => {
-    return <g transform={'translate(' + props.x + ',' + props.y + ')'} onClick={() => props.onClick()}>
-        <rect x={0} y={0} width={50} height={50} rx={5} fill={"#00bcd4"}
-              className={'location-entrance-' + props.locationKey} />
-        <text x={5} y={25} >{props.name} {props.completed && "(c)"}</text>
-    </g>;
-};
-
-export const LessonEntrance = pipe(
-    withEffect("entrance"),
-) (LessonEntranceComponent);
-
-export function Character(props) {
-    return <circle cx={0} cy={0} r={10} fill={"#383ce5e"} />
-}
 
 export function withMovement(WrappedComponent) {
     return class extends React.Component {
@@ -118,3 +101,21 @@ export function withMovement(WrappedComponent) {
         }
     };
 }
+
+export const Vera = (props) => {
+    const {
+        scale = 1,
+    } = props;
+
+    return (
+    <g>
+        <pattern id="vera" x={0} y={0} width={431} height={626} patternUnits="userSpaceOnUse">
+            <image href={"/raw/img/vera.png"} x={0} y={0} width={431} height={626} />
+        </pattern>
+        <g transform={'translate(' + props.x + ',' + props.y + ') scale(' + scale + ')'}
+              className={'vera'}>
+            <rect x={0} y={0} width={431} height={626} />
+        </g>
+    </g>
+    );
+};

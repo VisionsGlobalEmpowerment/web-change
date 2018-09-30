@@ -92,34 +92,3 @@ test('Lesson one instruction activity can be finished', () => {
         expect(handleProgress.mock.calls[0][0]).toEqual(resp.data);
     });
 });
-
-test('Student can open Chapas', (done) => {
-    axios.get.mockResolvedValueOnce({data:{availableLocations: ['home', 'map', 'fair', 'chapas']}});
-    axios.get.mockResolvedValueOnce({data: []});
-    axios.get.mockResolvedValueOnce({data: {}});
-
-    const component = mount(<Reading />);
-
-    return Promise
-        .resolve(component)
-        .then(() => {
-            component.update();
-            component.find('.location-entrance-map').simulate('click');
-            
-            return wait(100);
-        }).then(() => {
-            component.update();
-            component.find('.location-entrance-fair').simulate('click');
-
-            return wait(100);
-        }).then(() => {
-            component.update();
-            component.find('.location-entrance-chapas').simulate('click');
-
-            return wait(100);
-        }).then(() => {
-            expect(component.state().currentLocation).toEqual('chapas');
-        }).then(() => {
-            done();
-        });
-});

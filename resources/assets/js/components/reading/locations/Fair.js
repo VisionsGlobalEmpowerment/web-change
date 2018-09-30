@@ -1,67 +1,78 @@
 import React, { Component } from 'react';
-import {LessonEntrance, LocationEntrance} from "../../common";
+import {pipe, Vera, withEffect} from "../../common";
 import {isProgressLessonCompleted} from "../../../model/lessons";
 
+const ExitComponent = (props) => {
+    return <g transform={'translate(' + props.x + ',' + props.y + ')'}
+              onClick={() => props.onClick()}
+              className={'location-entrance-' + props.locationKey}>
+        <rect x={0} y={0} width={200} height={200} fillOpacity={1}/>
+    </g>;
+};
+
+const ExitWithEffect = pipe(
+    withEffect("entrance"),
+)(ExitComponent);
+
+const WheelComponent = (props) => {
+    return <g transform={'translate(' + props.x + ',' + props.y + ')'}
+              onClick={() => props.onClick()}
+              className={'location-entrance-' + props.locationKey}>
+        <rect x={0} y={0} width={708} height={778} fillOpacity={1}/>
+    </g>;
+};
+
+const WheelWithEffect = pipe(
+    withEffect("entrance"),
+)(WheelComponent);
+
 export default class Fair extends Component {
-
-    locations = [{
-        name: 'Map',
-        key: 'map',
-        x: 50,
-        y: 50
-    }];
-
-    lessons = [{
-        name: 'Ferris Wheel',
-        key: 'ferris-wheel',
-        x: 250,
-        y: 250
-    }, {
-        name: 'Chapas',
-        key: 'chapas',
-        x: 450,
-        y: 450
-    }];
 
     render() {
         const {
             width,
             height
-        } = {width: 600, height: 600};
+        } = {width: 1920, height: 1080};
 
         return (
-            <div className="card">
-                <div className="card-header">Fair location</div>
+            <svg viewBox={'0 0 ' + width + ' ' + height} className={"location-fair"}>
+                <defs>
+                    <pattern id="background" x="0" y="0" width={width} height={height} patternUnits="userSpaceOnUse">
+                        <image href={"/raw/img/feria/background.png"} x={0} y={0} width={width} height={height} />
+                    </pattern>
 
-                <div className="card-body">
-                    <svg viewBox={'0 0 ' + width + ' ' + height}>
-                        <rect width={width} height={height} rx={14} fill={"#2196f3"} />
+                    <pattern id="exit" x={0} y={0} width={200} height={200} patternUnits="userSpaceOnUse">
+                        <rect width={200} height={200} fillOpacity={0} />
+                    </pattern>
 
-                        {this.locations
-                            .map(location =>
-                                <LocationEntrance
-                                    key={location.key}
-                                    x={location.x} y={location.y}
-                                    locationKey={location.key}
-                                    name={location.name}
-                                    onClick={() => this.props.handleMove(location.key)} />
-                            )
-                        }
+                    <pattern id="exit-highlight" x={0} y={0} width={200} height={200} patternUnits="userSpaceOnUse">
+                        <image href={"/raw/img/feria/exit.png"} x={0} y={0} width={200} height={200} />
+                    </pattern>
 
-                        {this.lessons
-                            .map(lesson =>
-                                <LessonEntrance
-                                    key={lesson.key}
-                                    x={lesson.x} y={lesson.y}
-                                    locationKey={lesson.key}
-                                    name={lesson.name}
-                                    completed={isProgressLessonCompleted(this.props.progress, lesson.key)}
-                                    onClick={() => this.props.handleMove(lesson.key)} />
-                            )
-                        }
-                    </svg>
-                </div>
-            </div>
+                    <pattern id="wheel" x={0} y={0} width={708} height={778} patternUnits="userSpaceOnUse">
+                        <rect width={708} height={778} fillOpacity={0} />
+                    </pattern>
+
+                    <pattern id="wheel-highlight" x={0} y={0} width={708} height={778} patternUnits="userSpaceOnUse">
+                        <image href={"/raw/img/feria/wheel.png"} x={0} y={0} width={708} height={778} />
+                    </pattern>
+                </defs>
+
+                <rect width={width} height={height} className={"location-background"}/>
+
+                <ExitWithEffect
+                    x={1500} y={850}
+                    locationKey={'map'}
+                    onClick={() => this.props.handleMove('map')} />
+
+                <WheelWithEffect
+                    x={467} y={105}
+                    locationKey={'ferris-wheel'}
+                    completed={isProgressLessonCompleted(this.props.progress, 'ferris-wheel')}
+                    onClick={() => this.props.handleMove('ferris-wheel')} />
+
+                <Vera x={1100} y={650} scale={0.55} />
+            </svg>
         )
     }
 }

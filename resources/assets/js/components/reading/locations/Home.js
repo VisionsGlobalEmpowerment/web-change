@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import Activity from "../../common/Activity";
-import {pipe, withEffect} from "../../common";
+import {pipe, Vera, withEffect} from "../../common";
 
 const DoorComponent = (props) => {
     return <g transform={'translate(' + props.x + ',' + props.y + ')'}
@@ -18,13 +18,6 @@ const DoorWithEffect = pipe(
 const ActivityWithEffect = pipe(
     withEffect("teacher"),
 )(Activity);
-
-const Vera = (props) => {
-    return <g transform={'translate(' + props.x + ',' + props.y + ')'}
-              className={'vera'}>
-        <rect x={0} y={0} width={431} height={626} />
-    </g>;
-};
 
 export default class Home extends Component {
     state = {
@@ -83,10 +76,6 @@ export default class Home extends Component {
 
                     <pattern id="teacher-highlight" x={0} y={0} width={434} height={808} patternUnits="userSpaceOnUse">
                         <image href={"/raw/img/teacher_two.png"} x={0} y={0} width={434} height={808} />
-                    </pattern>
-
-                    <pattern id="vera" x={0} y={0} width={431} height={626} patternUnits="userSpaceOnUse">
-                        <image href={"/raw/img/vera.png"} x={0} y={0} width={431} height={626} />
                     </pattern>
                 </defs>
 

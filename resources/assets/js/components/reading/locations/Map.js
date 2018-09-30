@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import {LocationEntrance, Character, withMovement, withEffect, pipe} from "../../common";
+import {LocationEntrance, withMovement, withEffect, pipe, Vera} from "../../common";
 
 const EnhancedCharacter = pipe(
     withMovement,
     withEffect("entrance", 'onMovementFinish'),
-)(Character);
+)(Vera);
 
 export default class Map extends Component {
     state = {
@@ -14,50 +14,34 @@ export default class Map extends Component {
     locations = [{
         name: 'Home',
         key: 'home',
-        x: 250,
-        y: 250
+        x: 766,
+        y: 595,
+        width: 319,
+        height: 300,
     }, {
         name: 'Fair',
         key: 'fair',
-        x: 50,
-        y: 450
-    }, {
-        'name': 'Cafe',
-        'key': 'cafe'
-    }, {
-        'name': 'Concert hall',
-        'key': 'concert-hall'
-    }, {
-        'name': 'Shopping Mall',
-        'key': 'shopping-mall'
-    }, {
-        'name': 'Stadium',
-        'key': 'stadium'
-    }, {
-        'name': 'Movie Theater',
-        'key': 'movie-theater'
-    }, {
-        'name': 'Park',
-        'key': 'Park'
+        x: 178,
+        y: 895,
+        width: 535,
+        height: 465,
     }];
 
     paths = {
         home: [
-            {x: 250, y: 250},
-            {x: 250, y: 250},
+            {x: 1040, y: 780},
+            {x: 1010, y: 750},
         ],
         fair: [
-            {x: 250, y: 250},
-            {x: 200, y: 250},
-            {x: 200, y: 300},
-            {x: 150, y: 300},
-            {x: 150, y: 350},
-            {x: 100, y: 350},
-            {x: 100, y: 400},
-            {x: 50, y: 400},
-            {x: 50, y: 450},
+            {x: 1040, y: 780},
+            {x: 915, y: 850},
+            {x: 950, y: 905},
+            {x: 950, y: 965},
+            {x: 860, y: 1035},
+            {x: 765, y: 1177},
+            {x: 565, y: 1199},
         ]
-    }
+    };
 
     getLocation = (key) => {
         return this.locations.find(location => location.key === key);
@@ -90,68 +74,66 @@ export default class Map extends Component {
     render() {
         const {
             width,
-            height
-        } = {width: 600, height: 600};
+            height,
+            maxHeight = 870,
+        } = {width: 1920, height: 1498};
 
         const home = this.getLocation('home');
 
         return (
-            <div className="card">
-                <div className="card-header">Map location</div>
+            <div style={{margin: "0 auto", width: "60%"}}>
+            <svg viewBox={'0 0 ' + width + ' ' + height} className={"location-map"} height={maxHeight}>
+                <defs>
+                    <pattern id="background" x="0" y="0" width={width} height={height} patternUnits="userSpaceOnUse">
+                        <image href={"/raw/img/map/background.png"} x={0} y={0} width={width} height={height} />
+                    </pattern>
 
-                <div className="card-body">
-                    <svg viewBox={'0 0 ' + width + ' ' + height} className={"location-map"}>
-                        <defs>
-                            <pattern id="background" x="0" y="0" width={width} height={height} patternUnits="userSpaceOnUse">
-                                <rect width={width} height={height} fill={"#2196f3"} />
-                            </pattern>
+                    <pattern id="le-home" x={0} y={0} width={319} height={300} patternUnits="userSpaceOnUse">
+                        <rect width={319} height={300} fillOpacity={0} />
+                    </pattern>
 
-                            <pattern id="le-home" x={0} y={0} width={50} height={50} patternUnits="userSpaceOnUse">
-                                <rect width={50} height={50} fill={"#00bcd4"} />
-                            </pattern>
+                    <pattern id="le-home-highlight" x={0} y={0} width={319} height={300} patternUnits="userSpaceOnUse">
+                        <image href={"/raw/img/map/casa.png"} x={0} y={0} width={319} height={300} />
+                    </pattern>
 
-                            <pattern id="le-home-highlight" x={0} y={0} width={50} height={50} patternUnits="userSpaceOnUse">
-                                <rect width={50} height={50} fill={"#f0bcd4"} />
-                            </pattern>
+                    <pattern id="le-fair" x={0} y={0} width={535} height={465} patternUnits="userSpaceOnUse">
+                        <rect width={535} height={465} fillOpacity={0} />
+                    </pattern>
 
-                            <pattern id="le-fair" x={0} y={0} width={50} height={50} patternUnits="userSpaceOnUse">
-                                <rect width={50} height={50} fill={"#00bcd4"} />
-                            </pattern>
+                    <pattern id="le-fair-highlight" x={0} y={0} width={535} height={465} patternUnits="userSpaceOnUse">
+                        <image href={"/raw/img/map/feria.png"} x={0} y={0} width={535} height={465} />
+                    </pattern>
 
-                            <pattern id="le-fair-highlight" x={0} y={0} width={50} height={50} patternUnits="userSpaceOnUse">
-                                <rect width={50} height={50} fill={"#f0bcd4"} />
-                            </pattern>
+                    <pattern id="le-fair-locked" x={0} y={0} width={535} height={465} patternUnits="userSpaceOnUse">
+                        <image href={"/raw/img/map/feria_locked.png"} x={0} y={0} width={535} height={465} />
+                    </pattern>
+                </defs>
 
-                            <pattern id="le-fair-locked" x={0} y={0} width={50} height={50} patternUnits="userSpaceOnUse">
-                                <rect width={50} height={50} fill={"#ababab"} />
-                            </pattern>
-                        </defs>
+                <rect width={width} height={height} className={"location-background"}/>
 
-                        <rect width={width} height={height} rx={14} className={"location-background"}/>
+                {this.locations
+                    .filter(location => location.hasOwnProperty('x'))
+                    .map(location =>
+                        <LocationEntrance
+                            key={location.key}
+                            location={location}
+                            locked={this.isLocationLocked(location.key)}
+                            onClick={() => this.moveTo(location.key)} />
+                    )
+                }
 
-                        {this.locations
-                            .filter(location => location.hasOwnProperty('x'))
-                            .map(location =>
-                                <LocationEntrance
-                                    key={location.key}
-                                    x={location.x} y={location.y}
-                                    locationKey={location.key}
-                                    name={location.name}
-                                    locked={this.isLocationLocked(location.key)}
-                                    onClick={() => this.moveTo(location.key)} />
-                            )
-                        }
+                {this.state.movement.isMoving ?
+                    <EnhancedCharacter
+                        path={this.state.movement.path}
+                        onMovementFinish={() => this.onMovementFinish(this.state.movement.destination)}
+                        scale={0.2}
+                        x={0} y={0}
+                    />
+                    :
+                    <Vera x={1040} y={780} scale={0.2}/>
+                }
 
-                        {this.state.movement.isMoving ?
-                            <EnhancedCharacter
-                                path={this.state.movement.path}
-                                onMovementFinish={() => this.onMovementFinish(this.state.movement.destination)}/>
-                            :
-                            <circle cx={home.x} cy={home.y} r={10} fill={"#383ce5e"} />
-                        }
-
-                    </svg>
-                </div>
+            </svg>
             </div>
         )
     }

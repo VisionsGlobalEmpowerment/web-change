@@ -85,22 +85,6 @@ exports[`Reading can be rendered 1`] = `
           y={0}
         />
       </pattern>
-      <pattern
-        height={626}
-        id="vera"
-        patternUnits="userSpaceOnUse"
-        width={431}
-        x={0}
-        y={0}
-      >
-        <image
-          height={626}
-          href="/raw/img/vera.png"
-          width={431}
-          x={0}
-          y={0}
-        />
-      </pattern>
     </defs>
     <rect
       className="location-background"
@@ -132,16 +116,34 @@ exports[`Reading can be rendered 1`] = `
         y={0}
       />
     </g>
-    <g
-      className="vera"
-      transform="translate(1300,400)"
-    >
-      <rect
+    <g>
+      <pattern
         height={626}
+        id="vera"
+        patternUnits="userSpaceOnUse"
         width={431}
         x={0}
         y={0}
-      />
+      >
+        <image
+          height={626}
+          href="/raw/img/vera.png"
+          width={431}
+          x={0}
+          y={0}
+        />
+      </pattern>
+      <g
+        className="vera"
+        transform="translate(1300,400) scale(1)"
+      >
+        <rect
+          height={626}
+          width={431}
+          x={0}
+          y={0}
+        />
+      </g>
     </g>
   </svg>
 </div>
