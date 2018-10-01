@@ -24,16 +24,28 @@ class DataSetController extends Controller
     public function getFerrisWheelData()
     {
         $result = [[
-            "key" => 'tornado',
-            "name" => 'Tornado',
+            "key" => 'bat',
+            "name" => 'Bat',
             "color" =>  '#00bcd4',
         ], [
-            "key" => 'cocodrilo',
-            "name" => 'Cocodrilo',
+            "key" => 'broccoli',
+            "name" => 'Broccoli',
             "color" => '#109cf4',
         ], [
-            "key" => 'corona',
-            "name" => 'Corona',
+            "key" => 'crocodile',
+            "name" => 'Crocodile',
+            "color" => '#703cf4',
+        ], [
+            "key" => 'dinosaur',
+            "name" => 'Dinosaur',
+            "color" =>  '#00bcd4',
+        ], [
+            "key" => 'orange',
+            "name" => 'Orange',
+            "color" => '#109cf4',
+        ], [
+            "key" => 'whale',
+            "name" => 'Whale',
             "color" => '#703cf4',
         ]];
 

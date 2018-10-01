@@ -13,8 +13,8 @@ export default class Reading extends Component {
 
     state = {
         progress: {},
-        currentLocation: 'home',
-    }
+        route: history.state ? history.state : {location: 'home'},
+    };
 
     locations = {
         'home': withBackgroundAudio(Home, '/raw/audio/background/POL-daily-special-short.wav'),
@@ -30,7 +30,11 @@ export default class Reading extends Component {
 
     handleMove = (locationName) => {
         if (this.isAvailable(locationName)) {
-            this.setState({ currentLocation: locationName });
+            const route = {location: locationName};
+            history.pushState(route, locationName, "/reading")
+            this.setState({
+                route: route
+            });
             return true;
         }
 
@@ -46,6 +50,16 @@ export default class Reading extends Component {
     }
 
     componentDidMount() {
+        window.onpopstate = (event) => {
+            if (event.state == null) {
+                return;
+            }
+
+            this.setState({
+                route: event.state
+            });
+        };
+
         return axios.get(`/courses/reading/progress`)
             .then(res => {
                 const progress = res.data;
@@ -54,7 +68,11 @@ export default class Reading extends Component {
     }
 
     render() {
-        const LocationComponent = this.locations[this.state.currentLocation];
+        const {
+            location = 'home'
+        } = this.state.route ? this.state.route : {};
+
+        const LocationComponent = this.locations[location];
         return (
             <div>
                 <LocationComponent progress={this.state.progress} handleMove={this.handleMove} handleProgress={this.handleProgress}/>

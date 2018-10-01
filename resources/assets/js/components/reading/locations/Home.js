@@ -50,7 +50,7 @@ export default class Home extends Component {
                     'Sed at ex sit amet magna molestie ultricies. Etiam aliquam ante in sapien pulvinar, rutrum varius mi feugiat.',
                     'Fusce condimentum magna eu leo rhoncus, a consectetur nulla ullamcorper. Praesent auctor eros lectus, non volutpat ipsum elementum at.'
                 ],
-                x: 577,
+                x: 857,
                 y: 177
             }
         } = {width: 2520, height: 1080};
@@ -95,7 +95,7 @@ export default class Home extends Component {
                     text={activity.text}
                     onFinish={() => this.finishActivity(activity.key)}/>
 
-                <Vera x={1300} y={400} />
+                <Vera x={1350} y={400} />
             </svg>
         )
     }

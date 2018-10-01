@@ -6,7 +6,7 @@ const ExitComponent = (props) => {
     return <g transform={'translate(' + props.x + ',' + props.y + ')'}
               onClick={() => props.onClick()}
               className={'location-entrance-' + props.locationKey}>
-        <rect x={0} y={0} width={200} height={200} fillOpacity={1}/>
+        <rect x={0} y={0} width={241} height={231} fillOpacity={1}/>
     </g>;
 };
 
@@ -41,12 +41,12 @@ export default class Fair extends Component {
                         <image href={"/raw/img/feria/background.png"} x={0} y={0} width={width} height={height} />
                     </pattern>
 
-                    <pattern id="exit" x={0} y={0} width={200} height={200} patternUnits="userSpaceOnUse">
-                        <rect width={200} height={200} fillOpacity={0} />
+                    <pattern id="exit" x={0} y={0} width={241} height={231} patternUnits="userSpaceOnUse">
+                        <image href={"/raw/img/feria/back.png"} x={0} y={0} width={241} height={231} />
                     </pattern>
 
-                    <pattern id="exit-highlight" x={0} y={0} width={200} height={200} patternUnits="userSpaceOnUse">
-                        <image href={"/raw/img/feria/exit.png"} x={0} y={0} width={200} height={200} />
+                    <pattern id="exit-highlight" x={0} y={0} width={241} height={231} patternUnits="userSpaceOnUse">
+                        <image href={"/raw/img/feria/back_active.png"} x={0} y={0} width={241} height={231} />
                     </pattern>
 
                     <pattern id="wheel" x={0} y={0} width={708} height={778} patternUnits="userSpaceOnUse">
@@ -61,7 +61,7 @@ export default class Fair extends Component {
                 <rect width={width} height={height} className={"location-background"}/>
 
                 <ExitWithEffect
-                    x={1500} y={850}
+                    x={1600} y={800}
                     locationKey={'map'}
                     onClick={() => this.props.handleMove('map')} />
 

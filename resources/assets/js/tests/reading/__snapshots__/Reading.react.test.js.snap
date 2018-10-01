@@ -106,7 +106,7 @@ exports[`Reading can be rendered 1`] = `
     </g>
     <g
       onClick={[Function]}
-      transform="translate(577,177)"
+      transform="translate(857,177)"
     >
       <rect
         className="activity-lesson-one-instructions"
@@ -135,7 +135,7 @@ exports[`Reading can be rendered 1`] = `
       </pattern>
       <g
         className="vera"
-        transform="translate(1300,400) scale(1)"
+        transform="translate(1350,400) scale(1)"
       >
         <rect
           height={626}

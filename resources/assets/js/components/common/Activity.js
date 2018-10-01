@@ -61,7 +61,7 @@ export default class Activity extends Component {
             <rect x={0} y={0} width={426} height={794}
                   className={'activity-' + activityKey} />
             {this.state.activated &&
-            (<g transform={'translate(450, -150)'}>
+            (<g transform={'translate(400, -150)'}>
                 <image href={"/raw/img/chat_bubble_big.png"} x={0} y={0} width={577} height={474} />
                 <foreignObject x={100} y={100} width={400} height={350} requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                     <p style={{textAlign: "center", verticalAlign: "middle", fontSize: "24px"}} xmlns="http://www.w3.org/1999/xhtml">{text[this.state.currentTextIndex]}</p>

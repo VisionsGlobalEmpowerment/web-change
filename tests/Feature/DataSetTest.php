@@ -18,17 +18,11 @@ class DataSetTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson([[
-                "key" => 'tornado',
-                "name" => 'Tornado',
-                "color" =>  '#00bcd4',
+                "key" => 'bat',
             ], [
-                "key" => 'cocodrilo',
-                "name" => 'Cocodrilo',
-                "color" => '#109cf4',
+                "key" => 'broccoli',
             ], [
-                "key" => 'corona',
-                "name" => 'Corona',
-                "color" => '#703cf4',
+                "key" => 'crocodile',
             ]]);
     }
 

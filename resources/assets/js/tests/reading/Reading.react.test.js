@@ -15,6 +15,10 @@ function wait(time) {
     });
 }
 
+beforeEach(() => {
+    history.pushState(null, '');
+});
+
 test('Reading can be rendered', () => {
     const resp = {data:{availableLocations: ['home', 'map']}};
     axios.get.mockResolvedValue(resp);
@@ -40,11 +44,11 @@ test('Student can navigate to map', (done) => {
         .resolve(component)
         .then(() => {
             component.update();
-            expect(component.state().currentLocation).toEqual('home');
+            expect(component.state().route).toEqual({location: 'home'});
             component.find('.location-entrance-map').simulate('click');
             return wait(100);
         }).then(() => {
-            expect(component.state().currentLocation).toEqual('map');
+            expect(component.state().route).toEqual({location: 'map'});
             done();
         });
 });
@@ -71,7 +75,7 @@ test('Student can open the Ferris Wheel', (done) => {
             component.find('.location-entrance-ferris-wheel').simulate('click');
             return wait(100);
         }).then(() => {
-            expect(component.state().currentLocation).toEqual('ferris-wheel');
+            expect(component.state().route).toEqual({location: 'ferris-wheel'});
         }).then(() => {
             done();
         });
