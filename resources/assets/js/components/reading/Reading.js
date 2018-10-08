@@ -7,6 +7,7 @@ import Home from "./locations/Home";
 import FerrisWheel from "./lessons/FerrisWheel";
 import Chapas from "./lessons/Chapas";
 import {withBackgroundAudio} from "../common/Location";
+import Preloader from "../common/Preloader";
 
 export default class Reading extends Component {
     static course = 'reading';
@@ -81,6 +82,32 @@ export default class Reading extends Component {
     }
 }
 
+const files = [
+    {url: '/raw/audio/background/POL-daily-special-short.wav', size: 10, type: "audio"},
+    {url: '/raw/audio/effects/NFF-fruit-collected.wav', size: 1, type: "audio"},
+    {url: '/raw/audio/effects/NFF-glitter.wav', size: 1, type: "audio"},
+    {url: '/raw/audio/effects/NFF-robo-elastic.wav', size: 1, type: "audio"},
+    {url: '/raw/audio/effects/NFF-rusted-thing.wav', size: 1, type: "audio"},
+    {url: '/raw/audio/effects/NFF-zing.wav', size: 1, type: "audio"},
+
+    {url: '/raw/img/map/background.png', size: 10, type: "image"},
+    {url: '/raw/img/map/casa.png', size: 1, type: "image"},
+    {url: '/raw/img/map/feria.png', size: 1, type: "image"},
+    {url: '/raw/img/map/feria_locked.png', size: 1, type: "image"},
+
+    {url: '/raw/img/casa_background.png', size: 10, type: "image"},
+    {url: '/raw/img/casa_door.png', size: 1, type: "image"},
+    {url: '/raw/img/chat_bubble_big.png', size: 1, type: "image"},
+    {url: '/raw/img/teacher.png', size: 1, type: "image"},
+    {url: '/raw/img/teacher_two.png', size: 1, type: "image"},
+    {url: '/raw/img/vera.png', size: 1, type: "image"},
+
+    {url: '/raw/img/feria/background.png', size: 10, type: "image"},
+    {url: '/raw/img/feria/back.png', size: 1, type: "image"},
+    {url: '/raw/img/feria/back_active.png', size: 1, type: "image"},
+    {url: '/raw/img/feria/wheel.png', size: 2, type: "image"},
+];
+
 if (document.getElementById('reading-course')) {
-    ReactDOM.render(<Reading />, document.getElementById('reading-course'));
+    ReactDOM.render(<Preloader files={files} component={Reading} />, document.getElementById('reading-course'));
 }
