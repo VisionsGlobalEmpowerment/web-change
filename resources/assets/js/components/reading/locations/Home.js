@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import Activity from "../../common/Activity";
 import {pipe, Vera, withEffect} from "../../common";
+import {getData} from "../../../model/cache";
 
 const DoorComponent = (props) => {
     return <g transform={'translate(' + props.x + ',' + props.y + ')'}
@@ -59,7 +60,7 @@ export default class Home extends Component {
             <svg viewBox={'0 0 ' + width + ' ' + height} className={"location-home"}>
                 <defs>
                     <pattern id="background" x="0" y="0" width={width} height={height} patternUnits="userSpaceOnUse">
-                        <image href={"/raw/img/casa_background.png"} x={0} y={0} width={width} height={height} />
+                        <image xlinkHref={getData("/raw/img/casa_background.png")} x={0} y={0} width={width} height={height} />
                     </pattern>
 
                     <pattern id="door" x={0} y={0} width={732} height={810} patternUnits="userSpaceOnUse">
@@ -67,15 +68,15 @@ export default class Home extends Component {
                     </pattern>
 
                     <pattern id="door-highlight" x={0} y={0} width={732} height={810} patternUnits="userSpaceOnUse">
-                        <image href={"/raw/img/casa_door.png"} x={0} y={0} width={732} height={810} />
+                        <image xlinkHref={getData("/raw/img/casa_door.png")} x={0} y={0} width={732} height={810} />
                     </pattern>
 
                     <pattern id="teacher" x={0} y={0} width={426} height={795} patternUnits="userSpaceOnUse">
-                        <image href={"/raw/img/teacher.png"} x={0} y={0} width={426} height={795} />
+                        <image xlinkHref={getData("/raw/img/teacher.png")} x={0} y={0} width={426} height={795} />
                     </pattern>
 
                     <pattern id="teacher-highlight" x={0} y={0} width={434} height={808} patternUnits="userSpaceOnUse">
-                        <image href={"/raw/img/teacher_two.png"} x={0} y={0} width={434} height={808} />
+                        <image xlinkHref={getData("/raw/img/teacher_two.png")} x={0} y={0} width={434} height={808} />
                     </pattern>
                 </defs>
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {pipe, Vera, withEffect} from "../../common";
 import {isProgressLessonCompleted} from "../../../model/lessons";
+import {getData} from "../../../model/cache";
 
 const ExitComponent = (props) => {
     return <g transform={'translate(' + props.x + ',' + props.y + ')'}
@@ -38,15 +39,15 @@ export default class Fair extends Component {
             <svg viewBox={'0 0 ' + width + ' ' + height} className={"location-fair"}>
                 <defs>
                     <pattern id="background" x="0" y="0" width={width} height={height} patternUnits="userSpaceOnUse">
-                        <image href={"/raw/img/feria/background.png"} x={0} y={0} width={width} height={height} />
+                        <image xlinkHref={getData("/raw/img/feria/background.png")} x={0} y={0} width={width} height={height} />
                     </pattern>
 
                     <pattern id="exit" x={0} y={0} width={241} height={231} patternUnits="userSpaceOnUse">
-                        <image href={"/raw/img/feria/back.png"} x={0} y={0} width={241} height={231} />
+                        <image xlinkHref={getData("/raw/img/feria/back.png")} x={0} y={0} width={241} height={231} />
                     </pattern>
 
                     <pattern id="exit-highlight" x={0} y={0} width={241} height={231} patternUnits="userSpaceOnUse">
-                        <image href={"/raw/img/feria/back_active.png"} x={0} y={0} width={241} height={231} />
+                        <image xlinkHref={getData("/raw/img/feria/back_active.png")} x={0} y={0} width={241} height={231} />
                     </pattern>
 
                     <pattern id="wheel" x={0} y={0} width={708} height={778} patternUnits="userSpaceOnUse">
@@ -54,7 +55,7 @@ export default class Fair extends Component {
                     </pattern>
 
                     <pattern id="wheel-highlight" x={0} y={0} width={708} height={778} patternUnits="userSpaceOnUse">
-                        <image href={"/raw/img/feria/wheel.png"} x={0} y={0} width={708} height={778} />
+                        <image xlinkHref={getData("/raw/img/feria/wheel.png")} x={0} y={0} width={708} height={778} />
                     </pattern>
                 </defs>
 

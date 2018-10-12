@@ -18,10 +18,10 @@ export default class Reading extends Component {
     };
 
     locations = {
-        'home': withBackgroundAudio(Home, '/raw/audio/background/POL-daily-special-short.wav'),
-        'fair': withBackgroundAudio(Fair,'/raw/audio/background/POL-daily-special-short.wav'),
-        'map': withBackgroundAudio(Map,'/raw/audio/background/POL-daily-special-short.wav'),
-        'ferris-wheel': withBackgroundAudio(FerrisWheel,'/raw/audio/background/POL-daily-special-short.wav'),
+        'home': withBackgroundAudio(Home, '/raw/audio/background/POL-daily-special-short.mp3'),
+        'fair': withBackgroundAudio(Fair,'/raw/audio/background/POL-daily-special-short.mp3'),
+        'map': withBackgroundAudio(Map,'/raw/audio/background/POL-daily-special-short.mp3'),
+        'ferris-wheel': withBackgroundAudio(FerrisWheel,'/raw/audio/background/POL-daily-special-short.mp3'),
         'chapas': Chapas,
     };
 
@@ -83,12 +83,12 @@ export default class Reading extends Component {
 }
 
 const files = [
-    {url: '/raw/audio/background/POL-daily-special-short.wav', size: 10, type: "audio"},
-    {url: '/raw/audio/effects/NFF-fruit-collected.wav', size: 1, type: "audio"},
-    {url: '/raw/audio/effects/NFF-glitter.wav', size: 1, type: "audio"},
-    {url: '/raw/audio/effects/NFF-robo-elastic.wav', size: 1, type: "audio"},
-    {url: '/raw/audio/effects/NFF-rusted-thing.wav', size: 1, type: "audio"},
-    {url: '/raw/audio/effects/NFF-zing.wav', size: 1, type: "audio"},
+    {url: '/raw/audio/background/POL-daily-special-short.mp3', size: 10, type: "audio"},
+    {url: '/raw/audio/effects/NFF-fruit-collected.mp3', size: 1, type: "audio"},
+    {url: '/raw/audio/effects/NFF-glitter.mp3', size: 1, type: "audio"},
+    {url: '/raw/audio/effects/NFF-robo-elastic.mp3', size: 1, type: "audio"},
+    {url: '/raw/audio/effects/NFF-rusted-thing.mp3', size: 1, type: "audio"},
+    {url: '/raw/audio/effects/NFF-zing.mp3', size: 1, type: "audio"},
 
     {url: '/raw/img/map/background.png', size: 10, type: "image"},
     {url: '/raw/img/map/casa.png', size: 1, type: "image"},

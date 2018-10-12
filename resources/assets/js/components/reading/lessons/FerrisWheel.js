@@ -87,9 +87,6 @@ export default class FerrisWheel extends Component {
             )
         }
 
-        //const width = 1728;
-        //const height = 972;
-
         const width = 1920;
         const height = 1080;
 
@@ -106,19 +103,19 @@ export default class FerrisWheel extends Component {
                     <svg viewBox={'0 0 ' + width + ' ' + height} width={width} height={height} className={"location-ferris-wheel"}>
                         <defs>
                             <pattern id="background" x="0" y="0" width={width} height={height} patternUnits="userSpaceOnUse">
-                                <image href={"/raw/img/ferris-wheel/background.png"} x={0} y={0} width={width} height={height} />
+                                <image xlinkHref={"/raw/img/ferris-wheel/background.png"} x={0} y={0} width={width} height={height} />
                             </pattern>
 
                             <pattern id="center" x={0} y={0} width={260} height={260} patternUnits="userSpaceOnUse">
-                                <image href={"/raw/img/ferris-wheel/ferris_wheel_03.png"} x={0} y={0} width={250} height={250} />
+                                <image xlinkHref={"/raw/img/ferris-wheel/ferris_wheel_03.png"} x={0} y={0} width={250} height={250} />
                             </pattern>
 
                             <pattern id="stand" x={0} y={0} width={359} height={527} patternUnits="userSpaceOnUse">
-                                <image href={"/raw/img/ferris-wheel/ferris_wheel_02.png"} x={0} y={0} width={359} height={527} />
+                                <image xlinkHref={"/raw/img/ferris-wheel/ferris_wheel_02.png"} x={0} y={0} width={359} height={527} />
                             </pattern>
 
                             <pattern id="wheel" x={0} y={0} width={772} height={772} patternUnits="userSpaceOnUse">
-                                <image href={"/raw/img/ferris-wheel/ferris_wheel_01.png"} x={0} y={0} width={772} height={772} />
+                                <image xlinkHref={"/raw/img/ferris-wheel/ferris_wheel_01.png"} x={0} y={0} width={772} height={772} />
                             </pattern>
                         </defs>
 

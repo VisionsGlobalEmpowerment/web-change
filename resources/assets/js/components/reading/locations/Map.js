@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {LocationEntrance, withMovement, withEffect, pipe, Vera} from "../../common";
+import {getData} from "../../../model/cache";
 
 const EnhancedCharacter = pipe(
     withMovement,
@@ -85,7 +86,7 @@ export default class Map extends Component {
             <svg viewBox={'0 0 ' + width + ' ' + height} className={"location-map"} height={maxHeight}>
                 <defs>
                     <pattern id="background" x="0" y="0" width={width} height={height} patternUnits="userSpaceOnUse">
-                        <image href={"/raw/img/map/background.png"} x={0} y={0} width={width} height={height} />
+                        <image xlinkHref={getData("/raw/img/map/background.png")} x={0} y={0} width={width} height={height} />
                     </pattern>
 
                     <pattern id="le-home" x={0} y={0} width={319} height={300} patternUnits="userSpaceOnUse">
@@ -93,7 +94,7 @@ export default class Map extends Component {
                     </pattern>
 
                     <pattern id="le-home-highlight" x={0} y={0} width={319} height={300} patternUnits="userSpaceOnUse">
-                        <image href={"/raw/img/map/casa.png"} x={0} y={0} width={319} height={300} />
+                        <image xlinkHref={getData("/raw/img/map/casa.png")} x={0} y={0} width={319} height={300} />
                     </pattern>
 
                     <pattern id="le-fair" x={0} y={0} width={535} height={465} patternUnits="userSpaceOnUse">
@@ -101,11 +102,11 @@ export default class Map extends Component {
                     </pattern>
 
                     <pattern id="le-fair-highlight" x={0} y={0} width={535} height={465} patternUnits="userSpaceOnUse">
-                        <image href={"/raw/img/map/feria.png"} x={0} y={0} width={535} height={465} />
+                        <image xlinkHref={getData("/raw/img/map/feria.png")} x={0} y={0} width={535} height={465} />
                     </pattern>
 
                     <pattern id="le-fair-locked" x={0} y={0} width={535} height={465} patternUnits="userSpaceOnUse">
-                        <image href={"/raw/img/map/feria_locked.png"} x={0} y={0} width={535} height={465} />
+                        <image xlinkHref={getData("/raw/img/map/feria_locked.png")} x={0} y={0} width={535} height={465} />
                     </pattern>
                 </defs>
 

@@ -3,6 +3,7 @@ import { TimingAnimation, Easing } from 'react-spring/dist/addons.cjs'
 import React from "react";
 import {movementSpeed, disabled} from "./animations";
 import {play} from "./sounds";
+import {getData} from "../model/cache";
 
 function toSegments(path) {
     let currentX = undefined, currentY = undefined;
@@ -110,7 +111,7 @@ export const Vera = (props) => {
     return (
     <g>
         <pattern id="vera" x={0} y={0} width={431} height={626} patternUnits="userSpaceOnUse">
-            <image href={"/raw/img/vera.png"} x={0} y={0} width={431} height={626} />
+            <image xlinkHref={getData("/raw/img/vera.png")} x={0} y={0} width={431} height={626} />
         </pattern>
         <g transform={'translate(' + props.x + ',' + props.y + ') scale(' + scale + ')'}
               className={'vera'}>

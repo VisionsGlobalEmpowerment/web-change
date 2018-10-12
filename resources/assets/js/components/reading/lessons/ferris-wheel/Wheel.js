@@ -77,19 +77,19 @@ class Element extends Component {
         return <g>
             <defs>
                 <pattern id={"default_" + key} x="0" y="0" width={205} height={209} patternUnits="userSpaceOnUse">
-                    <image href={"/raw/img/ferris-wheel/words/" + key + "_default.png"} x={0} y={0} width={205} height={209} />
+                    <image xlinkHref={"/raw/img/ferris-wheel/words/" + key + "_default.png"} x={0} y={0} width={205} height={209} />
                 </pattern>
 
                 <pattern id={"alert_" + key} x="0" y="0" width={205} height={209} patternUnits="userSpaceOnUse">
-                    <image href={"/raw/img/ferris-wheel/words/" + key + "_alert.png"} x={0} y={0} width={205} height={209} />
+                    <image xlinkHref={"/raw/img/ferris-wheel/words/" + key + "_alert.png"} x={0} y={0} width={205} height={209} />
                 </pattern>
 
                 <pattern id={"done_" + key} x="0" y="0" width={205} height={209} patternUnits="userSpaceOnUse">
-                    <image href={"/raw/img/ferris-wheel/words/" + key + "_done.png"} x={0} y={0} width={205} height={209} />
+                    <image xlinkHref={"/raw/img/ferris-wheel/words/" + key + "_done.png"} x={0} y={0} width={205} height={209} />
                 </pattern>
 
                 <pattern id={"active_" + key} x="0" y="0" width={253} height={254} patternUnits="userSpaceOnUse">
-                    <image href={"/raw/img/ferris-wheel/words/" + key + "_active.png"} x={0} y={0} width={253} height={254} />
+                    <image xlinkHref={"/raw/img/ferris-wheel/words/" + key + "_active.png"} x={0} y={0} width={253} height={254} />
                 </pattern>
             </defs>
 

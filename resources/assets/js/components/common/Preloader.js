@@ -1,12 +1,20 @@
 import {Component} from "react";
 import React from "react";
+import axios from "axios";
+import {putData} from "../../model/cache";
+
+const statuses = {
+    created: 0,
+    in_progress: 1,
+    initialized: 2,
+    finished: 3
+};
 
 export default class Preloader extends Component {
     state = {
-        finished: false,
+        status: statuses.created,
         progress: 0,
-        total: 0,
-        resources: []
+        total: 0
     };
 
     calculateTotalSize(files) {
@@ -15,58 +23,41 @@ export default class Preloader extends Component {
     }
 
     preload(file) {
-        if (file.type === "image") {
-            return this.preloadImage(file);
-        } else if (file.type === "audio") {
-            return this.preloadAudio(file);
-        }
+        axios.get(file.url, { responseType: "blob" })
+            .then((response) => {
+                return new Promise(resolve => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        resolve(reader.result);
+                    }
+                    reader.readAsDataURL(response.data);
+                });
+            })
+            .then((data) => {
+                putData(file.url, data);
+                this.setState(state => {
+                    return {progress: state.progress + file.size}
+                });
+            })
+            .then(() => {
+                if (this.state.progress === this.state.total) {
+                    this.initialized();
+                }
+            })
     }
 
-    cache(resource) {
-        this.setState(state => {
-            const resources = state.resources;
-            resources.push(resource);
-            return {resources: resources}
-        })
-    }
-
-    preloadImage(file) {
-        const image = new Image();
-        image.onload = () => {
-            this.setState(state => {
-                return {progress: state.progress + file.size};
-            });
-            if (this.state.progress === this.state.total) {
-                this.finish();
-            }
-        };
-        image.src = file.url;
-        return image;
-    }
-
-    preloadAudio(file) {
-        const audio = new Audio(file.url);
-        audio.addEventListener('canplaythrough', () => {
-            this.setState(state => {
-                return {progress: state.progress + file.size};
-            });
-            if (this.state.progress === this.state.total) {
-                this.finish();
-            }
-        }, false);
-        audio.preload = "auto";
-        return audio;
+    initialized() {
+        this.setState({status: statuses.initialized})
     }
 
     finish() {
-        this.setState({finished: true})
+        this.setState({status: statuses.finished})
     }
 
     componentDidMount() {
+        this.setState({status: statuses.in_progress});
         this.calculateTotalSize(this.props.files);
-        this.props.files
-            .map(f => this.preload(f))
-            .forEach(r => this.cache(r));
+        this.props.files.forEach(f => this.preload(f));
     }
 
     getProgressPercentage() {
@@ -74,9 +65,20 @@ export default class Preloader extends Component {
     }
 
     render() {
-        if (this.state.finished) {
+        if (this.state.status === statuses.finished) {
             const WrappedComponent = this.props.component;
             return <WrappedComponent />
+        } else if (this.state.status === statuses.initialized) {
+            return (
+                <div className="card">
+                    <div className="card-header">
+                        Reading
+                    </div>
+                    <div className="card-body">
+                        <button type="button" className="btn btn-primary" onClick={this.finish.bind(this)}>Start</button>
+                    </div>
+                </div>
+            );
         }
         return <div className="progress">
             <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
