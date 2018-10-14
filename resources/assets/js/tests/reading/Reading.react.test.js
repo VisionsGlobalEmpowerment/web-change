@@ -3,6 +3,7 @@ import React from "react";
 import axios from "axios";
 import Reading from "../../components/reading/Reading";
 import Home from "../../components/reading/locations/Home";
+import {withSvgViewport} from "../../components/common/Location";
 
 jest.mock('axios');
 jest.mock('../../components/animations', () => ({
@@ -88,7 +89,9 @@ test('Lesson one instruction activity can be finished', () => {
 
     const handleProgress = jest.fn();
     const currentProgress = {availableLocations: ['home', 'map']};
-    const component = mount(<Home progress={currentProgress} handleProgress={handleProgress}/>);
+
+    const HomeWithSvg = withSvgViewport({})(Home);
+    const component = mount(<HomeWithSvg progress={currentProgress} handleProgress={handleProgress}/>);
     component.find('.activity-lesson-one-instructions').simulate('click');
 
     setImmediate(() => {

@@ -23,7 +23,7 @@ export default class Preloader extends Component {
     }
 
     preload(file) {
-        axios.get(file.url, { responseType: "blob" })
+        axios.get(file.url + '?t=1', { responseType: "blob" })
             .then((response) => {
                 return new Promise(resolve => {
                     const reader = new FileReader();

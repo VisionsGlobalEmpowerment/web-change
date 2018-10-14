@@ -3,141 +3,144 @@
 exports[`Reading can be rendered 1`] = `
 <div>
   <svg
-    className="location-home"
-    viewBox="0 0 2520 1080"
+    viewBox="540 0 1440 1080"
   >
-    <defs>
-      <pattern
-        height={1080}
-        id="background"
-        patternUnits="userSpaceOnUse"
-        width={2520}
-        x="0"
-        y="0"
-      >
-        <image
+    <g
+      className="location-home"
+    >
+      <defs>
+        <pattern
           height={1080}
+          id="background"
+          patternUnits="userSpaceOnUse"
           width={2520}
+          x="0"
+          y="0"
+        >
+          <image
+            height={1080}
+            width={2520}
+            x={0}
+            y={0}
+          />
+        </pattern>
+        <pattern
+          height={810}
+          id="door"
+          patternUnits="userSpaceOnUse"
+          width={732}
           x={0}
           y={0}
-        />
-      </pattern>
-      <pattern
-        height={810}
-        id="door"
-        patternUnits="userSpaceOnUse"
-        width={732}
-        x={0}
-        y={0}
+        >
+          <rect
+            fillOpacity={0}
+            height={810}
+            width={732}
+          />
+        </pattern>
+        <pattern
+          height={810}
+          id="door-highlight"
+          patternUnits="userSpaceOnUse"
+          width={732}
+          x={0}
+          y={0}
+        >
+          <image
+            height={810}
+            width={732}
+            x={0}
+            y={0}
+          />
+        </pattern>
+        <pattern
+          height={795}
+          id="teacher"
+          patternUnits="userSpaceOnUse"
+          width={426}
+          x={0}
+          y={0}
+        >
+          <image
+            height={795}
+            width={426}
+            x={0}
+            y={0}
+          />
+        </pattern>
+        <pattern
+          height={808}
+          id="teacher-highlight"
+          patternUnits="userSpaceOnUse"
+          width={434}
+          x={0}
+          y={0}
+        >
+          <image
+            height={808}
+            width={434}
+            x={0}
+            y={0}
+          />
+        </pattern>
+      </defs>
+      <rect
+        className="location-background"
+        height={1080}
+        width={2520}
+      />
+      <g
+        className="location-entrance-map"
+        onClick={[Function]}
+        transform="translate(1446,42)"
       >
         <rect
-          fillOpacity={0}
-          height={810}
-          width={732}
-        />
-      </pattern>
-      <pattern
-        height={810}
-        id="door-highlight"
-        patternUnits="userSpaceOnUse"
-        width={732}
-        x={0}
-        y={0}
-      >
-        <image
+          fillOpacity={1}
           height={810}
           width={732}
           x={0}
           y={0}
         />
-      </pattern>
-      <pattern
-        height={795}
-        id="teacher"
-        patternUnits="userSpaceOnUse"
-        width={426}
-        x={0}
-        y={0}
+      </g>
+      <g
+        onClick={[Function]}
+        transform="translate(857,177)"
       >
-        <image
-          height={795}
+        <rect
+          className="activity-lesson-one-instructions"
+          height={794}
           width={426}
           x={0}
           y={0}
         />
-      </pattern>
-      <pattern
-        height={808}
-        id="teacher-highlight"
-        patternUnits="userSpaceOnUse"
-        width={434}
-        x={0}
-        y={0}
-      >
-        <image
-          height={808}
-          width={434}
-          x={0}
-          y={0}
-        />
-      </pattern>
-    </defs>
-    <rect
-      className="location-background"
-      height={1080}
-      width={2520}
-    />
-    <g
-      className="location-entrance-map"
-      onClick={[Function]}
-      transform="translate(1446,42)"
-    >
-      <rect
-        fillOpacity={1}
-        height={810}
-        width={732}
-        x={0}
-        y={0}
-      />
-    </g>
-    <g
-      onClick={[Function]}
-      transform="translate(857,177)"
-    >
-      <rect
-        className="activity-lesson-one-instructions"
-        height={794}
-        width={426}
-        x={0}
-        y={0}
-      />
-    </g>
-    <g>
-      <pattern
-        height={626}
-        id="vera"
-        patternUnits="userSpaceOnUse"
-        width={431}
-        x={0}
-        y={0}
-      >
-        <image
+      </g>
+      <g>
+        <pattern
           height={626}
+          id="vera"
+          patternUnits="userSpaceOnUse"
           width={431}
           x={0}
           y={0}
-        />
-      </pattern>
-      <g
-        className="vera"
-        transform="translate(1350,400) scale(1)"
-      >
-        <rect
-          height={626}
-          width={431}
-          x={0}
-          y={0}
-        />
+        >
+          <image
+            height={626}
+            width={431}
+            x={0}
+            y={0}
+          />
+        </pattern>
+        <g
+          className="vera"
+          transform="translate(1350,400) scale(1)"
+        >
+          <rect
+            height={626}
+            width={431}
+            x={0}
+            y={0}
+          />
+        </g>
       </g>
     </g>
   </svg>

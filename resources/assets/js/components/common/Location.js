@@ -1,7 +1,7 @@
 import React from "react";
-import {getBackgroundAudio, getData} from "../../model/cache";
+import {getBackgroundAudio} from "../../model/cache";
 
-export function withBackgroundAudio(WrappedComponent, audioFilepath) {
+export const withBackgroundAudio = (audioFilepath) => (WrappedComponent) => {
     return class extends React.Component {
 
         componentDidMount() {
@@ -16,6 +16,95 @@ export function withBackgroundAudio(WrappedComponent, audioFilepath) {
 
         render() {
             return <WrappedComponent {...this.props} />;
+        }
+    };
+}
+
+export const backgroundAlign = Object.freeze({
+    bottomLeft: "bottom-left",
+    bottomCenter: "bottom-center",
+    bottomRight: "bottom-right",
+    center: "bottom-center",
+});
+
+export const withSvgViewport = (config) => (WrappedComponent) => {
+    return class extends React.Component {
+        state = { width: 0, height: 0, viewBoxWidth: 0, viewBoxHeight: 0 };
+
+        componentDidMount() {
+            this.updateWindowDimensions();
+            window.addEventListener('resize', this.updateWindowDimensions.bind(this));
+        }
+
+        componentWillUnmount() {
+            window.removeEventListener('resize', this.updateWindowDimensions.bind(this));
+        }
+
+        updateWindowDimensions() {
+            const {
+                width = 1920,
+                height = 1080
+            } = config;
+
+            const originalRatio = width / height;
+            const windowRatio = window.innerWidth / window.innerHeight;
+            if (originalRatio < windowRatio) {
+                this.setState({
+                    width: window.innerWidth, height: window.innerHeight,
+                    viewBoxWidth: width, viewBoxHeight: height * originalRatio / windowRatio
+                });
+            } else {
+                this.setState({
+                    width: window.innerWidth, height: window.innerHeight,
+                    viewBoxWidth: width * windowRatio / originalRatio, viewBoxHeight: height
+                });
+            }
+        }
+
+        computeX() {
+            const {
+                width = 1920,
+                align = backgroundAlign.bottomCenter
+            } = config;
+
+            switch (align) {
+                case backgroundAlign.bottomCenter:
+                case backgroundAlign.center:
+                    return (width - this.state.viewBoxWidth) / 2;
+                case backgroundAlign.bottomRight:
+                    return width - this.state.viewBoxWidth;
+                case backgroundAlign.bottomLeft:
+                default:
+                    return 0;
+            }
+        }
+
+        computeY() {
+            const {
+                height = 1080,
+                align = backgroundAlign.bottomCenter
+            } = config;
+
+            switch (align) {
+                case backgroundAlign.center:
+                    return (height - this.state.viewBoxHeight) / 2;
+                case backgroundAlign.bottomRight:
+                case backgroundAlign.bottomCenter:
+                case backgroundAlign.bottomLeft:
+                default:
+                    return height - this.state.viewBoxHeight;
+            }
+        }
+
+        render() {
+            const x = this.computeX();
+            const y = this.computeY();
+
+            return (
+                <svg  viewBox={`${x} ${y} ${this.state.viewBoxWidth} ${this.state.viewBoxHeight}`}>
+                    <WrappedComponent {...this.props} />
+                </svg>
+            );
         }
     };
 }

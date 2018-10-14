@@ -6,8 +6,9 @@ import Fair from "./locations/Fair";
 import Home from "./locations/Home";
 import FerrisWheel from "./lessons/FerrisWheel";
 import Chapas from "./lessons/Chapas";
-import {withBackgroundAudio} from "../common/Location";
+import {backgroundAlign, withBackgroundAudio, withSvgViewport} from "../common/Location";
 import Preloader from "../common/Preloader";
+import {pipe} from "../common";
 
 export default class Reading extends Component {
     static course = 'reading';
@@ -18,10 +19,21 @@ export default class Reading extends Component {
     };
 
     locations = {
-        'home': withBackgroundAudio(Home, '/raw/audio/background/POL-daily-special-short.mp3'),
-        'fair': withBackgroundAudio(Fair,'/raw/audio/background/POL-daily-special-short.mp3'),
-        'map': withBackgroundAudio(Map,'/raw/audio/background/POL-daily-special-short.mp3'),
-        'ferris-wheel': withBackgroundAudio(FerrisWheel,'/raw/audio/background/POL-daily-special-short.mp3'),
+        'home': pipe(
+            withBackgroundAudio('/raw/audio/background/POL-daily-special-short.mp3'),
+            withSvgViewport({width: 2520, height: 1080}),
+        )(Home),
+        'fair': pipe(
+            withBackgroundAudio('/raw/audio/background/POL-daily-special-short.mp3'),
+            withSvgViewport({align: backgroundAlign.bottomRight}),
+        )(Fair),
+        'map': pipe(
+            withBackgroundAudio('/raw/audio/background/POL-daily-special-short.mp3'),
+            withSvgViewport({align: backgroundAlign.center}),
+        )(Map),
+        'ferris-wheel': pipe(
+            withBackgroundAudio('/raw/audio/background/POL-daily-special-short.mp3'),
+        )(FerrisWheel),
         'chapas': Chapas,
     };
 
@@ -91,8 +103,10 @@ const files = [
     {url: '/raw/audio/effects/NFF-zing.mp3', size: 1, type: "audio"},
 
     {url: '/raw/img/map/background.png', size: 10, type: "image"},
-    {url: '/raw/img/map/casa.png', size: 1, type: "image"},
-    {url: '/raw/img/map/feria.png', size: 1, type: "image"},
+    {url: '/raw/img/map/casa_01.png', size: 1, type: "image"},
+    {url: '/raw/img/map/casa_02.png', size: 1, type: "image"},
+    {url: '/raw/img/map/feria_01.png', size: 1, type: "image"},
+    {url: '/raw/img/map/feria_02.png', size: 1, type: "image"},
     {url: '/raw/img/map/feria_locked.png', size: 1, type: "image"},
 
     {url: '/raw/img/casa_background.png', size: 10, type: "image"},

@@ -57,7 +57,7 @@ export default class Home extends Component {
         } = {width: 2520, height: 1080};
 
         return (
-            <svg viewBox={'0 0 ' + width + ' ' + height} className={"location-home"}>
+            <g className={"location-home"}>
                 <defs>
                     <pattern id="background" x="0" y="0" width={width} height={height} patternUnits="userSpaceOnUse">
                         <image xlinkHref={getData("/raw/img/casa_background.png")} x={0} y={0} width={width} height={height} />
@@ -97,7 +97,7 @@ export default class Home extends Component {
                     onFinish={() => this.finishActivity(activity.key)}/>
 
                 <Vera x={1350} y={400} />
-            </svg>
+            </g>
         )
     }
 }

@@ -15,32 +15,31 @@ export default class Map extends Component {
     locations = [{
         name: 'Home',
         key: 'home',
-        x: 766,
-        y: 595,
-        width: 319,
-        height: 300,
+        x: 731,
+        y: 340,
+        width: 433,
+        height: 380,
     }, {
         name: 'Fair',
         key: 'fair',
-        x: 178,
-        y: 895,
-        width: 535,
-        height: 465,
+        x: 183,
+        y: 638,
+        width: 433,
+        height: 380,
     }];
 
     paths = {
         home: [
-            {x: 1040, y: 780},
-            {x: 1010, y: 750},
+            {x: 1045, y: 540},
+            {x: 975, y: 495},
         ],
         fair: [
-            {x: 1040, y: 780},
-            {x: 915, y: 850},
-            {x: 950, y: 905},
-            {x: 950, y: 965},
-            {x: 860, y: 1035},
-            {x: 765, y: 1177},
-            {x: 565, y: 1199},
+            {x: 1045, y: 540},
+            {x: 915, y: 601},
+            {x: 950, y: 646},
+            {x: 870, y: 726},
+            {x: 850, y: 813},
+            {x: 565, y: 835},
         ]
     };
 
@@ -76,33 +75,29 @@ export default class Map extends Component {
         const {
             width,
             height,
-            maxHeight = 870,
-        } = {width: 1920, height: 1498};
-
-        const home = this.getLocation('home');
+        } = {width: 1920, height: 1080};
 
         return (
-            <div style={{margin: "0 auto", width: "60%"}}>
-            <svg viewBox={'0 0 ' + width + ' ' + height} className={"location-map"} height={maxHeight}>
+            <g className={"location-map"}>
                 <defs>
                     <pattern id="background" x="0" y="0" width={width} height={height} patternUnits="userSpaceOnUse">
                         <image xlinkHref={getData("/raw/img/map/background.png")} x={0} y={0} width={width} height={height} />
                     </pattern>
 
-                    <pattern id="le-home" x={0} y={0} width={319} height={300} patternUnits="userSpaceOnUse">
-                        <rect width={319} height={300} fillOpacity={0} />
+                    <pattern id="le-home" x={0} y={0} width={433} height={380} patternUnits="userSpaceOnUse">
+                        <image xlinkHref={getData("/raw/img/map/casa_01.png")} x={0} y={0} width={433} height={380} />
                     </pattern>
 
-                    <pattern id="le-home-highlight" x={0} y={0} width={319} height={300} patternUnits="userSpaceOnUse">
-                        <image xlinkHref={getData("/raw/img/map/casa.png")} x={0} y={0} width={319} height={300} />
+                    <pattern id="le-home-highlight" x={0} y={0} width={433} height={380} patternUnits="userSpaceOnUse">
+                        <image xlinkHref={getData("/raw/img/map/casa_02.png")} x={0} y={0} width={433} height={380} />
                     </pattern>
 
-                    <pattern id="le-fair" x={0} y={0} width={535} height={465} patternUnits="userSpaceOnUse">
-                        <rect width={535} height={465} fillOpacity={0} />
+                    <pattern id="le-fair" x={0} y={0} width={433} height={380} patternUnits="userSpaceOnUse">
+                        <image xlinkHref={getData("/raw/img/map/feria_01.png")} x={0} y={0} width={433} height={380} />
                     </pattern>
 
-                    <pattern id="le-fair-highlight" x={0} y={0} width={535} height={465} patternUnits="userSpaceOnUse">
-                        <image xlinkHref={getData("/raw/img/map/feria.png")} x={0} y={0} width={535} height={465} />
+                    <pattern id="le-fair-highlight" x={0} y={0} width={433} height={380} patternUnits="userSpaceOnUse">
+                        <image xlinkHref={getData("/raw/img/map/feria_02.png")} x={0} y={0} width={433} height={380} />
                     </pattern>
 
                     <pattern id="le-fair-locked" x={0} y={0} width={535} height={465} patternUnits="userSpaceOnUse">
@@ -131,11 +126,10 @@ export default class Map extends Component {
                         x={0} y={0}
                     />
                     :
-                    <Vera x={1040} y={780} scale={0.2}/>
+                    <Vera x={1045} y={540} scale={0.2}/>
                 }
 
-            </svg>
-            </div>
+            </g>
         )
     }
 }
