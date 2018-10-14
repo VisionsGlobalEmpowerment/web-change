@@ -17,7 +17,6 @@ exports[`Reading can be rendered 1`] = `
       >
         <image
           height={1080}
-          href="/raw/img/casa_background.png"
           width={2520}
           x={0}
           y={0}
@@ -47,7 +46,6 @@ exports[`Reading can be rendered 1`] = `
       >
         <image
           height={810}
-          href="/raw/img/casa_door.png"
           width={732}
           x={0}
           y={0}
@@ -63,7 +61,6 @@ exports[`Reading can be rendered 1`] = `
       >
         <image
           height={795}
-          href="/raw/img/teacher.png"
           width={426}
           x={0}
           y={0}
@@ -79,7 +76,6 @@ exports[`Reading can be rendered 1`] = `
       >
         <image
           height={808}
-          href="/raw/img/teacher_two.png"
           width={434}
           x={0}
           y={0}
@@ -127,7 +123,6 @@ exports[`Reading can be rendered 1`] = `
       >
         <image
           height={626}
-          href="/raw/img/vera.png"
           width={431}
           x={0}
           y={0}
