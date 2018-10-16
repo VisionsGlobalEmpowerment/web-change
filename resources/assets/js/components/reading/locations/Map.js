@@ -22,10 +22,10 @@ export default class Map extends Component {
     }, {
         name: 'Fair',
         key: 'fair',
-        x: 183,
-        y: 638,
-        width: 433,
-        height: 380,
+        x: 235,
+        y: 683,
+        width: 319,
+        height: 280,
     }];
 
     paths = {
@@ -72,13 +72,13 @@ export default class Map extends Component {
     }
 
     render() {
-        const {
-            width,
-            height,
-        } = {width: 1920, height: 1080};
+        const viewBox = this.props.viewBox;
+
+        const width = 1920;
+        const height = 1080;
 
         return (
-            <g className={"location-map"}>
+            <svg viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`} className={"location-map"}>
                 <defs>
                     <pattern id="background" x="0" y="0" width={width} height={height} patternUnits="userSpaceOnUse">
                         <image xlinkHref={getData("/raw/img/map/background.png")} x={0} y={0} width={width} height={height} />
@@ -92,16 +92,16 @@ export default class Map extends Component {
                         <image xlinkHref={getData("/raw/img/map/casa_02.png")} x={0} y={0} width={433} height={380} />
                     </pattern>
 
-                    <pattern id="le-fair" x={0} y={0} width={433} height={380} patternUnits="userSpaceOnUse">
-                        <image xlinkHref={getData("/raw/img/map/feria_01.png")} x={0} y={0} width={433} height={380} />
+                    <pattern id="le-fair" x={0} y={0} width={319} height={280} patternUnits="userSpaceOnUse">
+                        <image xlinkHref={getData("/raw/img/map/feria_01.png")} x={0} y={0} width={319} height={280} />
                     </pattern>
 
-                    <pattern id="le-fair-highlight" x={0} y={0} width={433} height={380} patternUnits="userSpaceOnUse">
-                        <image xlinkHref={getData("/raw/img/map/feria_02.png")} x={0} y={0} width={433} height={380} />
+                    <pattern id="le-fair-highlight" x={0} y={0} width={319} height={280} patternUnits="userSpaceOnUse">
+                        <image xlinkHref={getData("/raw/img/map/feria_02.png")} x={0} y={0} width={319} height={280} />
                     </pattern>
 
-                    <pattern id="le-fair-locked" x={0} y={0} width={535} height={465} patternUnits="userSpaceOnUse">
-                        <image xlinkHref={getData("/raw/img/map/feria_locked.png")} x={0} y={0} width={535} height={465} />
+                    <pattern id="le-fair-locked" x={0} y={0} width={319} height={280} patternUnits="userSpaceOnUse">
+                        <image xlinkHref={getData("/raw/img/map/feria_locked.png")} x={0} y={0} width={319} height={280} />
                     </pattern>
                 </defs>
 
@@ -129,7 +129,7 @@ export default class Map extends Component {
                     <Vera x={1045} y={540} scale={0.2}/>
                 }
 
-            </g>
+            </svg>
         )
     }
 }

@@ -3,8 +3,6 @@ import FerrisWheel from "../../../components/reading/lessons/FerrisWheel";
 import axios from "axios";
 
 function currentWordIs(component, word) {
-    component.instance().start();
-
     component.state('ferrisWheel').setCurrentWord(word);
     component.update();
 }
@@ -35,6 +33,13 @@ const items = [{
     color: '#703cf4',
 }];
 
+const viewBox = {
+    x: 0,
+    y: 0,
+    width: 1920,
+    height: 1080,
+};
+
 jest.mock('axios');
 
 function mockLessonData(items) {
@@ -50,10 +55,9 @@ function mockLessonDataWithState(items, state) {
 test('Words can be rendered', (done) => {
     mockLessonData(items);
 
-    const component = mount(<FerrisWheel />);
+    const component = mount(<FerrisWheel viewBox={viewBox}/>);
 
     setImmediate(() => {
-        component.instance().start();
         component.update();
 
         expect(component.find('.word-tornado')).toHaveLength(1);
@@ -66,7 +70,7 @@ test('Words can be rendered', (done) => {
 test('Correct word can be picked', (done) => {
     mockLessonData(items);
 
-    const component = mount(<FerrisWheel />);
+    const component = mount(<FerrisWheel viewBox={viewBox}/>);
 
     setImmediate(() => {
         const currentWord = 'tornado';
@@ -81,7 +85,7 @@ test('Correct word can be picked', (done) => {
 test('Incorrect word becomes failed', (done) => {
     mockLessonData(items);
 
-    const component = mount(<FerrisWheel />);
+    const component = mount(<FerrisWheel viewBox={viewBox}/>);
 
     setImmediate(() => {
         const currentWord = 'tornado';
@@ -100,7 +104,7 @@ test('Saved lesson state can be restored', (done) => {
         completed: true
     });
 
-    const component = mount(<FerrisWheel />);
+    const component = mount(<FerrisWheel viewBox={viewBox}/>);
 
     setImmediate(() => {
         expect(component.state('ferrisWheel').isCompleted()).toBe(true);
@@ -112,7 +116,7 @@ test('Lesson state is saved on finish', (done) => {
     mockLessonData(items);
     axios.post = jest.fn();
 
-    const component = mount(<FerrisWheel />);
+    const component = mount(<FerrisWheel viewBox={viewBox}/>);
 
     setImmediate(() => {
         currentWordIs(component, 'tornado');
@@ -139,7 +143,7 @@ test('Lesson state is not saved for completed lesson', (done) => {
     });
     axios.post = jest.fn();
 
-    const component = mount(<FerrisWheel />);
+    const component = mount(<FerrisWheel viewBox={viewBox}/>);
 
     setImmediate(() => {
         currentWordIs(component, 'tornado');
@@ -161,7 +165,7 @@ test('Lesson is not completed if only one word is guessed', (done) => {
     mockLessonData(items);
     axios.post = jest.fn();
 
-    const component = mount(<FerrisWheel />);
+    const component = mount(<FerrisWheel viewBox={viewBox}/>);
 
     setImmediate(() => {
         currentWordIs(component, 'tornado');

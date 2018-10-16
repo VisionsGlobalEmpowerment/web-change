@@ -35,8 +35,9 @@ export default class Fair extends Component {
             height
         } = {width: 1920, height: 1080};
 
+        const viewBox = this.props.viewBox;
         return (
-            <g className={"location-fair"}>
+            <svg viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`} className={"location-fair"}>
                 <defs>
                     <pattern id="background" x="0" y="0" width={width} height={height} patternUnits="userSpaceOnUse">
                         <image xlinkHref={getData("/raw/img/feria/background.png")} x={0} y={0} width={width} height={height} />
@@ -73,7 +74,7 @@ export default class Fair extends Component {
                     onClick={() => this.props.handleMove('ferris-wheel')} />
 
                 <Vera x={1100} y={650} scale={0.55} />
-            </g>
+            </svg>
         )
     }
 }

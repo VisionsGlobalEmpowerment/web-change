@@ -10,6 +10,7 @@ export default class FerrisWheelModel {
     toGuess = [];
     currentWord = null;
     completed = false;
+    aborted = false;
 
     handlers = {};
 
@@ -31,6 +32,10 @@ export default class FerrisWheelModel {
     }
 
     compareAndFail(word) {
+        if (this.aborted) {
+            return;
+        }
+
         if (this.currentWord !== word || word === null) {
             return;
         }
@@ -128,6 +133,10 @@ export default class FerrisWheelModel {
         }, 5000);
 
         this.dispatch('onStart', fn => fn());
+    }
+
+    abort() {
+        this.aborted = true;
     }
 
     getStats() {

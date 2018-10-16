@@ -97,14 +97,14 @@ export const withSvgViewport = (config) => (WrappedComponent) => {
         }
 
         render() {
-            const x = this.computeX();
-            const y = this.computeY();
+            const viewBox = {
+                x: this.computeX(),
+                y: this.computeY(),
+                width: this.state.viewBoxWidth,
+                height: this.state.viewBoxHeight,
+            };
 
-            return (
-                <svg  viewBox={`${x} ${y} ${this.state.viewBoxWidth} ${this.state.viewBoxHeight}`}>
-                    <WrappedComponent {...this.props} />
-                </svg>
-            );
+            return <WrappedComponent viewBox={viewBox} {...this.props} />;
         }
     };
 }

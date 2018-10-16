@@ -10,6 +10,10 @@ jest.mock('../../components/animations', () => ({
     disabled: true,
 }));
 
+jest.mock('../../components/common/Preloader', () => ({
+    withPreloader: (files) => (WrappedComponent) => (props) => <WrappedComponent {...props}/>,
+}));
+
 function wait(time) {
     return new Promise((fulfilled) => {
         setTimeout (() => fulfilled(), time)

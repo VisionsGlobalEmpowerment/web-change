@@ -1,13 +1,23 @@
 import {Component} from "react";
 import React from "react";
 import axios from "axios";
-import {putData} from "../../model/cache";
+import {getAudio, putData} from "../../model/cache";
 
 const statuses = {
     created: 0,
     in_progress: 1,
     initialized: 2,
     finished: 3
+};
+
+export const withPreloader = (files) => (WrappedComponent) => {
+    return class extends React.Component {
+        render() {
+            return <Preloader files={files}>
+                <WrappedComponent {...this.props}/>
+            </Preloader>;
+        }
+    };
 };
 
 export default class Preloader extends Component {
@@ -23,7 +33,7 @@ export default class Preloader extends Component {
     }
 
     preload(file) {
-        axios.get(file.url + '?t=1', { responseType: "blob" })
+        axios.get(file.url + '?t=2', { responseType: "blob" })
             .then((response) => {
                 return new Promise(resolve => {
                     const reader = new FileReader();
@@ -51,7 +61,20 @@ export default class Preloader extends Component {
     }
 
     finish() {
+        this.initAudio();
         this.setState({status: statuses.finished})
+    }
+
+    initAudio() {
+        this.props.files
+            .filter(f => f.type === "audio")
+            .map(f => getAudio(f.url))
+            .forEach(a => {
+                a.volume = 0;
+                a.play();
+                a.pause();
+                a.volume = 1;
+            });
     }
 
     componentDidMount() {
@@ -66,8 +89,7 @@ export default class Preloader extends Component {
 
     render() {
         if (this.state.status === statuses.finished) {
-            const WrappedComponent = this.props.component;
-            return <WrappedComponent />
+            return this.props.children;
         } else if (this.state.status === statuses.initialized) {
             return (
                 <div className="card">

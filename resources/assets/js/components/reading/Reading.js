@@ -4,10 +4,10 @@ import ReactDOM from "react-dom";
 import Map from "./locations/Map";
 import Fair from "./locations/Fair";
 import Home from "./locations/Home";
-import FerrisWheel from "./lessons/FerrisWheel";
+import FerrisWheel, {assets} from "./lessons/FerrisWheel";
 import Chapas from "./lessons/Chapas";
 import {backgroundAlign, withBackgroundAudio, withSvgViewport} from "../common/Location";
-import Preloader from "../common/Preloader";
+import Preloader, {withPreloader} from "../common/Preloader";
 import {pipe} from "../common";
 
 export default class Reading extends Component {
@@ -33,6 +33,8 @@ export default class Reading extends Component {
         )(Map),
         'ferris-wheel': pipe(
             withBackgroundAudio('/raw/audio/background/POL-daily-special-short.mp3'),
+            withSvgViewport({}),
+            withPreloader(assets),
         )(FerrisWheel),
         'chapas': Chapas,
     };
@@ -107,6 +109,7 @@ const files = [
     {url: '/raw/img/map/casa_02.png', size: 1, type: "image"},
     {url: '/raw/img/map/feria_01.png', size: 1, type: "image"},
     {url: '/raw/img/map/feria_02.png', size: 1, type: "image"},
+    {url: '/raw/img/map/feria_03.png', size: 1, type: "image"},
     {url: '/raw/img/map/feria_locked.png', size: 1, type: "image"},
 
     {url: '/raw/img/casa_background.png', size: 10, type: "image"},
@@ -123,5 +126,5 @@ const files = [
 ];
 
 if (document.getElementById('reading-course')) {
-    ReactDOM.render(<Preloader files={files} component={Reading} />, document.getElementById('reading-course'));
+    ReactDOM.render(<Preloader files={files}><Reading/></Preloader>, document.getElementById('reading-course'));
 }
