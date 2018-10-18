@@ -1,6 +1,7 @@
 import React from "react";
 import FerrisWheel from "../../../components/reading/lessons/FerrisWheel";
 import axios from "axios";
+import Wheel from "../../../components/reading/lessons/ferris-wheel/Wheel";
 
 function currentWordIs(component, word) {
     component.state('ferrisWheel').setCurrentWord(word);
@@ -40,6 +41,11 @@ const viewBox = {
     height: 1080,
 };
 
+const viewPort = {
+    width: 1920,
+    height: 1080,
+};
+
 jest.mock('axios');
 
 function mockLessonData(items) {
@@ -52,17 +58,33 @@ function mockLessonDataWithState(items, state) {
     axios.get.mockResolvedValueOnce({data: state});
 }
 
+function shallowToElements(component) {
+    const wheel = component.find(Wheel).shallow();
+
+    return wheel.at(0).shallow() //Container
+        .at(0).shallow() //Keyframes
+        .at(0).shallow(); //Spring
+}
+
+function clickOn(component, word) {
+    const container = shallowToElements(component);
+
+    const element = container
+        .findWhere(e => e.name() === 'Element' && e.prop('data').key === word)
+        .shallow();
+
+    element.simulate('click');
+}
+
 test('Words can be rendered', (done) => {
     mockLessonData(items);
 
-    const component = mount(<FerrisWheel viewBox={viewBox}/>);
+    const component = shallow(<FerrisWheel viewBox={viewBox} viewPort={viewPort}/>);
 
     setImmediate(() => {
-        component.update();
+        const container = shallowToElements(component);
 
-        expect(component.find('.word-tornado')).toHaveLength(1);
-        expect(component.find('.word-cocodrilo')).toHaveLength(1);
-        expect(component.find('.word-corona')).toHaveLength(1);
+        expect(container.find('Element')).toHaveLength(3);
         done();
     })
 });
@@ -70,13 +92,14 @@ test('Words can be rendered', (done) => {
 test('Correct word can be picked', (done) => {
     mockLessonData(items);
 
-    const component = mount(<FerrisWheel viewBox={viewBox}/>);
+    const component = shallow(<FerrisWheel viewBox={viewBox} viewPort={viewPort}/>);
 
     setImmediate(() => {
         const currentWord = 'tornado';
         currentWordIs(component, currentWord);
 
-        component.find('.word-' + currentWord).simulate('click');
+        clickOn(component, currentWord);
+
         wordIsGuessed(component, currentWord);
         done();
     });
@@ -85,14 +108,15 @@ test('Correct word can be picked', (done) => {
 test('Incorrect word becomes failed', (done) => {
     mockLessonData(items);
 
-    const component = mount(<FerrisWheel viewBox={viewBox}/>);
+    const component = shallow(<FerrisWheel viewBox={viewBox} viewPort={viewPort}/>);
 
     setImmediate(() => {
         const currentWord = 'tornado';
         currentWordIs(component, currentWord);
 
         const incorrectWord = 'cocodrilo';
-        component.find('.word-' + incorrectWord).simulate('click');
+        clickOn(component, incorrectWord);
+
         wordIsFailed(component, currentWord);
         wordIsNotGuessed(component, incorrectWord);
         done();
@@ -104,7 +128,7 @@ test('Saved lesson state can be restored', (done) => {
         completed: true
     });
 
-    const component = mount(<FerrisWheel viewBox={viewBox}/>);
+    const component = shallow(<FerrisWheel viewBox={viewBox} viewPort={viewPort}/>);
 
     setImmediate(() => {
         expect(component.state('ferrisWheel').isCompleted()).toBe(true);
@@ -116,17 +140,17 @@ test('Lesson state is saved on finish', (done) => {
     mockLessonData(items);
     axios.post = jest.fn();
 
-    const component = mount(<FerrisWheel viewBox={viewBox}/>);
+    const component = shallow(<FerrisWheel viewBox={viewBox} viewPort={viewPort}/>);
 
     setImmediate(() => {
         currentWordIs(component, 'tornado');
-        component.find('.word-' + 'tornado').simulate('click');
+        clickOn(component, 'tornado');
 
         currentWordIs(component, 'cocodrilo');
-        component.find('.word-' + 'cocodrilo').simulate('click');
+        clickOn(component, 'cocodrilo');
 
         currentWordIs(component, 'corona');
-        component.find('.word-' + 'corona').simulate('click');
+        clickOn(component, 'corona');
 
         expect(axios.post.mock.calls.length).toBe(1);
         expect(axios.post.mock.calls[0][1]).toMatchObject({
@@ -143,17 +167,17 @@ test('Lesson state is not saved for completed lesson', (done) => {
     });
     axios.post = jest.fn();
 
-    const component = mount(<FerrisWheel viewBox={viewBox}/>);
+    const component = shallow(<FerrisWheel viewBox={viewBox} viewPort={viewPort}/>);
 
     setImmediate(() => {
         currentWordIs(component, 'tornado');
-        component.find('.word-' + 'tornado').simulate('click');
+        clickOn(component, 'tornado');
 
         currentWordIs(component, 'cocodrilo');
-        component.find('.word-' + 'cocodrilo').simulate('click');
+        clickOn(component, 'cocodrilo');
 
         currentWordIs(component, 'corona');
-        component.find('.word-' + 'corona').simulate('click');
+        clickOn(component, 'corona');
 
         expect(axios.post.mock.calls.length).toBe(0);
 
@@ -165,17 +189,17 @@ test('Lesson is not completed if only one word is guessed', (done) => {
     mockLessonData(items);
     axios.post = jest.fn();
 
-    const component = mount(<FerrisWheel viewBox={viewBox}/>);
+    const component = shallow(<FerrisWheel viewBox={viewBox} viewPort={viewPort}/>);
 
     setImmediate(() => {
         currentWordIs(component, 'tornado');
-        component.find('.word-' + 'corona').simulate('click');
+        clickOn(component, 'corona');
 
         currentWordIs(component, 'cocodrilo');
-        component.find('.word-' + 'corona').simulate('click');
+        clickOn(component, 'corona');
 
         currentWordIs(component, 'corona');
-        component.find('.word-' + 'corona').simulate('click');
+        clickOn(component, 'corona');
 
         expect(axios.post.mock.calls.length).toBe(1);
         expect(axios.post.mock.calls[0][1]).toMatchObject({

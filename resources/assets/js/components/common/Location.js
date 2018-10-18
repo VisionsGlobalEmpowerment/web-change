@@ -104,7 +104,12 @@ export const withSvgViewport = (config) => (WrappedComponent) => {
                 height: this.state.viewBoxHeight,
             };
 
-            return <WrappedComponent viewBox={viewBox} {...this.props} />;
+            const viewPort = {
+                width: this.state.width,
+                height: this.state.height,
+            };
+
+            return <WrappedComponent viewBox={viewBox} viewPort={viewPort} {...this.props} />;
         }
     };
 }

@@ -24,6 +24,7 @@
         "enzyme-adapter-react-16": "^1.5.0",
         "enzyme-to-json": "^3.3.4",
         "jest": "^23.6.0",
+        "jest-canvas-mock": "^1.1.0",
         "jquery": "^3.2",
         "laravel-mix": "^2.1.14",
         "lodash": "^4.17.11",
@@ -41,12 +42,15 @@
         "collectCoverageFrom": [
             "<rootDir>/resources/assets/js/components/**"
         ],
+        "setupFiles": ["jest-canvas-mock"],
         "setupTestFrameworkScriptFile": "<rootDir>/resources/assets/js/tests/setup.js",
         "snapshotSerializers": [
             "enzyme-to-json/serializer"
         ]
     },
     "dependencies": {
-        "react-app-polyfill": "0.0.0"
+        "konva": "^2.4.2",
+        "react-app-polyfill": "0.0.0",
+        "react-konva": "^16.5.2"
     }
 }
