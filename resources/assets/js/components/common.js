@@ -4,6 +4,7 @@ import React from "react";
 import {movementSpeed, disabled} from "./animations";
 import {play} from "./sounds";
 import {getData} from "../model/cache";
+import {Image} from "react-konva";
 
 function toSegments(path) {
     let currentX = undefined, currentY = undefined;
@@ -120,3 +121,36 @@ export const Vera = (props) => {
     </g>
     );
 };
+
+export class KImage extends React.Component {
+    state = {
+        path: null,
+        image: null,
+    };
+
+    componentDidMount() {
+        this.updateImage();
+    }
+
+    updateImage() {
+        const image = new window.Image();
+        image.src = getData(this.props.image);
+        image.onload = () => {
+            this.setState({
+                image: image,
+                path: this.props.image,
+            });
+        };
+    }
+
+    imageChanged() {
+        return this.props.image !== this.state.path;
+    }
+
+    render() {
+        if (this.imageChanged()) {
+            this.updateImage();
+        }
+        return <Image image={this.state.image} />;
+    }
+}

@@ -6,6 +6,8 @@ import Reading from "../Reading";
 import FerrisWheelModel from "../../../model/lessons/ferrisWheelModel";
 import {play} from "../../sounds";
 import {getAudio, getData} from "../../../model/cache";
+import {Stage, Layer, Image, Group,Circle, Path} from 'react-konva';
+import {KImage} from "../../common";
 
 export const assets = [
     {url: '/raw/audio/ferris-wheel/bat.mp3', size: 1, type: "audio"},
@@ -130,37 +132,24 @@ export default class FerrisWheel extends Component {
 
         const width = 1920;
         const height = 1080;
-        const viewBox = this.props.viewBox;
+        const {viewBox, viewPort} = this.props;
 
         return (
-            <svg viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`} className={"location-ferris-wheel"}>
-                <defs>
-                    <pattern id="background" x="0" y="0" width={width} height={height} patternUnits="userSpaceOnUse">
-                        <image xlinkHref={getData("/raw/img/ferris-wheel/background.png")} x={0} y={0} width={width} height={height} />
-                    </pattern>
+            <Stage x={-viewBox.x} y={-viewBox.y} width={viewPort.width} height={viewPort.height}
+                scaleX={viewPort.width / viewBox.width} scaleY={viewPort.height / viewBox.height}>
+                <Layer>
+                    <KImage image={"/raw/img/ferris-wheel/background.png"}/>
+                    <Group x={viewBox.width - 120} y={viewBox.y + 20}
+                           onClick={() => this.props.handleMove('fair')}
+                           onTap={() => this.props.handleMove('fair')}
+                    >
+                        <Circle x={24} y={24} radius={30} fill={'#ffffff'}/>
+                        <Path data={"M40 22H15.66l11.17-11.17L24 8 8 24l16 16 2.83-2.83L15.66 26H40v-4z"} fill={"#1b1b1b"}/>
+                    </Group>
 
-                    <pattern id="center" x={0} y={0} width={260} height={260} patternUnits="userSpaceOnUse">
-                        <image xlinkHref={getData("/raw/img/ferris-wheel/ferris_wheel_03.png")} x={0} y={0} width={250} height={250} />
-                    </pattern>
-
-                    <pattern id="stand" x={0} y={0} width={359} height={527} patternUnits="userSpaceOnUse">
-                        <image xlinkHref={getData("/raw/img/ferris-wheel/ferris_wheel_02.png")} x={0} y={0} width={359} height={527} />
-                    </pattern>
-
-                    <pattern id="wheel" x={0} y={0} width={772} height={772} patternUnits="userSpaceOnUse">
-                        <image xlinkHref={getData("/raw/img/ferris-wheel/ferris_wheel_01.png")} x={0} y={0} width={772} height={772} />
-                    </pattern>
-                </defs>
-
-                <rect width={width} height={height} className={"location-background"}/>
-
-                <g transform={`translate(${viewBox.width - 120} ${viewBox.y + 20})`} onClick={() => this.props.handleMove('fair')}>
-                    <circle cx={24} cy={24} r={30} fill={'#ffffff'}/>
-                    <path d="M40 22H15.66l11.17-11.17L24 8 8 24l16 16 2.83-2.83L15.66 26H40v-4z"/>
-                </g>
-
-                <Wheel ferrisWheel={this.state.ferrisWheel} />
-            </svg>
+                    <Wheel ferrisWheel={this.state.ferrisWheel} />
+                </Layer>
+            </Stage>
         );
     }
 }
