@@ -8,6 +8,7 @@ import {play} from "../../sounds";
 import {getAudio, getData} from "../../../model/cache";
 import {Stage, Layer, Image, Group,Circle, Path} from 'react-konva';
 import {KImage} from "../../common";
+import {Back, Menu} from "../../common/MenuCanvas";
 
 export const assets = [
     {url: '/raw/audio/ferris-wheel/bat.mp3', size: 1, type: "audio"},
@@ -130,8 +131,6 @@ export default class FerrisWheel extends Component {
             )
         }
 
-        const width = 1920;
-        const height = 1080;
         const {viewBox, viewPort} = this.props;
 
         return (
@@ -139,15 +138,11 @@ export default class FerrisWheel extends Component {
                 scaleX={viewPort.width / viewBox.width} scaleY={viewPort.height / viewBox.height}>
                 <Layer>
                     <KImage image={"/raw/img/ferris-wheel/background.png"}/>
-                    <Group x={viewBox.width - 120} y={viewBox.y + 20}
-                           onClick={() => this.props.handleMove('fair')}
-                           onTap={() => this.props.handleMove('fair')}
-                    >
-                        <Circle x={24} y={24} radius={30} fill={'#ffffff'}/>
-                        <Path data={"M40 22H15.66l11.17-11.17L24 8 8 24l16 16 2.83-2.83L15.66 26H40v-4z"} fill={"#1b1b1b"}/>
-                    </Group>
 
                     <Wheel ferrisWheel={this.state.ferrisWheel} />
+
+                    <Back viewBox={viewBox} viewPort={viewPort} onClick={() => this.props.handleMove('fair')} />
+                    <Menu viewBox={viewBox} viewPort={viewPort} />
                 </Layer>
             </Stage>
         );

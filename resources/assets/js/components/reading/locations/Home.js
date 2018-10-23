@@ -3,6 +3,7 @@ import axios from 'axios';
 import Activity from "../../common/Activity";
 import {pipe, Vera, withEffect} from "../../common";
 import {getData} from "../../../model/cache";
+import {Menu} from "../../common/MenuSvg";
 
 const DoorComponent = (props) => {
     return <g transform={'translate(' + props.x + ',' + props.y + ')'}
@@ -99,6 +100,8 @@ export default class Home extends Component {
                     onFinish={() => this.finishActivity(activity.key)}/>
 
                 <Vera x={1350} y={400} />
+
+                <Menu viewBox={viewBox} viewPort={this.props.viewPort}/>
             </svg>
         )
     }

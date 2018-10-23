@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {pipe, Vera, withEffect} from "../../common";
 import {isProgressLessonCompleted} from "../../../model/lessons";
 import {getData} from "../../../model/cache";
+import {Menu} from "../../common/MenuSvg";
 
 const ExitComponent = (props) => {
     return <g transform={'translate(' + props.x + ',' + props.y + ')'}
@@ -74,6 +75,8 @@ export default class Fair extends Component {
                     onClick={() => this.props.handleMove('ferris-wheel')} />
 
                 <Vera x={1100} y={650} scale={0.55} />
+
+                <Menu viewBox={viewBox} viewPort={this.props.viewPort}/>
             </svg>
         )
     }

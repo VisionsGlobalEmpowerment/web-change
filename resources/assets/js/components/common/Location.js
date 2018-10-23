@@ -51,12 +51,12 @@ export const withSvgViewport = (config) => (WrappedComponent) => {
             if (originalRatio < windowRatio) {
                 this.setState({
                     width: window.innerWidth, height: window.innerHeight,
-                    viewBoxWidth: width, viewBoxHeight: height * originalRatio / windowRatio
+                    viewBoxWidth: width, viewBoxHeight: Math.round(height * originalRatio / windowRatio)
                 });
             } else {
                 this.setState({
                     width: window.innerWidth, height: window.innerHeight,
-                    viewBoxWidth: width * windowRatio / originalRatio, viewBoxHeight: height
+                    viewBoxWidth: Math.round(width * windowRatio / originalRatio), viewBoxHeight: height
                 });
             }
         }

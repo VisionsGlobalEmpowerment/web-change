@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {LocationEntrance, withMovement, withEffect, pipe, Vera} from "../../common";
 import {getData} from "../../../model/cache";
+import {Menu} from "../../common/MenuSvg";
 
 const EnhancedCharacter = pipe(
     withMovement,
@@ -128,6 +129,8 @@ export default class Map extends Component {
                     :
                     <Vera x={1045} y={540} scale={0.2}/>
                 }
+
+                <Menu viewBox={viewBox} viewPort={this.props.viewPort}/>
 
             </svg>
         )
