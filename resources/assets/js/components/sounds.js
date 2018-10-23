@@ -10,7 +10,8 @@ const sounds = {
     "finish": '/raw/audio/effects/NFF-fruit-collected.mp3',
 };
 
-export function play(soundId) {
+export function play(soundId, volume = 1) {
     const audio = getAudio(sounds[soundId]);
+    audio.volume = volume;
     return audio.play();
 }

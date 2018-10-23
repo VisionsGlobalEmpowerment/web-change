@@ -90,10 +90,10 @@ export default class FerrisWheel extends Component {
             this.setState({status: FerrisWheel.status.finished})
         });
 
-        this.state.ferrisWheel.register('onFail', () => play("fail"));
-        this.state.ferrisWheel.register('onSuccess', () => play("success"));
-        this.state.ferrisWheel.register('onStart', () => play("start"));
-        this.state.ferrisWheel.register('onFinish', () => play("finish"));
+        this.state.ferrisWheel.register('onFail', () => play("fail", 0.3));
+        this.state.ferrisWheel.register('onSuccess', () => play("success", 0.3));
+        this.state.ferrisWheel.register('onStart', () => play("start", 0.3));
+        this.state.ferrisWheel.register('onFinish', () => play("finish", 0.3));
 
         this.state.ferrisWheel.register('onWordChanged', (currentWord) => this.playAWord(currentWord));
 
