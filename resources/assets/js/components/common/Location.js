@@ -1,11 +1,12 @@
 import React from "react";
 import {getBackgroundAudio} from "../../model/cache";
 
-export const withBackgroundAudio = (audioFilepath) => (WrappedComponent) => {
+export const withBackgroundAudio = (audioFilepath, volume = 0.5) => (WrappedComponent) => {
     return class extends React.Component {
 
         componentDidMount() {
             const audio = getBackgroundAudio(audioFilepath);
+            audio.volume = volume;
             return audio.play();
         }
 

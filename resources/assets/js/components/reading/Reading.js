@@ -32,7 +32,7 @@ export default class Reading extends Component {
             withSvgViewport({align: backgroundAlign.center}),
         )(Map),
         'ferris-wheel': pipe(
-            withBackgroundAudio('/raw/audio/background/POL-daily-special-short.mp3'),
+            withBackgroundAudio('/raw/audio/background/POL-daily-special-short.mp3', 0.1),
             withSvgViewport({align: backgroundAlign.center}),
             withPreloader(assets),
         )(FerrisWheel),

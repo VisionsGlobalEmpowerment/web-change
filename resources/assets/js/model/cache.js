@@ -33,7 +33,6 @@ export const getBackgroundAudio = (key) => {
                 audio.currentTime = 0;
                 audio.play();
             }}, false);
-        audio.volume = 0.5;
         cachedBackgroundAudio[key] = audio;
     }
 
