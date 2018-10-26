@@ -1,4 +1,4 @@
-import {getAudio} from "../model/cache";
+import {playSound} from "../model/audio";
 
 const sounds = {
     "door": '/raw/audio/effects/NFF-fruit-collected.mp3',
@@ -11,7 +11,5 @@ const sounds = {
 };
 
 export function play(soundId, volume = 1) {
-    const audio = getAudio(sounds[soundId]);
-    audio.volume = volume;
-    return audio.play();
+    playSound(sounds[soundId], volume);
 }

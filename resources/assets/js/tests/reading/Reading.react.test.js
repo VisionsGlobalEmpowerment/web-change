@@ -14,6 +14,8 @@ jest.mock('../../components/common/Preloader', () => ({
     withPreloader: (files) => (WrappedComponent) => (props) => <WrappedComponent {...props}/>,
 }));
 
+jest.mock('../../model/audio');
+
 function wait(time) {
     return new Promise((fulfilled) => {
         setTimeout (() => fulfilled(), time)

@@ -1,18 +1,15 @@
 import React from "react";
-import {getBackgroundAudio} from "../../model/cache";
+import {pauseBackground, startBackground} from "../../model/audio";
 
 export const withBackgroundAudio = (audioFilepath, volume = 0.5) => (WrappedComponent) => {
     return class extends React.Component {
 
         componentDidMount() {
-            const audio = getBackgroundAudio(audioFilepath);
-            audio.volume = volume;
-            return audio.play();
+            startBackground(audioFilepath, volume);
         }
 
         componentWillUnmount() {
-            const audio = getBackgroundAudio(audioFilepath);
-            return audio.pause();
+            pauseBackground(audioFilepath);
         }
 
         render() {

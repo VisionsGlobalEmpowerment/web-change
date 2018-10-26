@@ -1,7 +1,8 @@
 import {Component} from "react";
 import React from "react";
 import axios from "axios";
-import {getAudio, putData} from "../../model/cache";
+import {putData} from "../../model/cache";
+import {initSound} from "../../model/audio";
 
 const statuses = {
     created: 0,
@@ -68,13 +69,7 @@ export default class Preloader extends Component {
     initAudio() {
         this.props.files
             .filter(f => f.type === "audio")
-            .map(f => getAudio(f.url))
-            .forEach(a => {
-                a.volume = 0;
-                a.play();
-                a.pause();
-                a.volume = 1;
-            });
+            .forEach(f => initSound(f.url));
     }
 
     componentDidMount() {

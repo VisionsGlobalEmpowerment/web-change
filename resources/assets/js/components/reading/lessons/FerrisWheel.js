@@ -5,10 +5,10 @@ import {getDataset, getLessonState, resetLessonState} from "../../../model/lesso
 import Reading from "../Reading";
 import FerrisWheelModel from "../../../model/lessons/ferrisWheelModel";
 import {play} from "../../sounds";
-import {getAudio, getData} from "../../../model/cache";
-import {Stage, Layer, Image, Group,Circle, Path} from 'react-konva';
+import {Stage, Layer} from 'react-konva';
 import {KImage} from "../../common";
 import {Back, Menu} from "../../common/MenuCanvas";
+import {playSound} from "../../../model/audio";
 
 export const assets = [
     {url: '/raw/audio/ferris-wheel/bat.mp3', size: 1, type: "audio"},
@@ -71,8 +71,7 @@ export default class FerrisWheel extends Component {
 
     playAWord(word) {
         setTimeout(() => {
-            const audio = getAudio(`/raw/audio/ferris-wheel/${word}.mp3`);
-            return audio.play();
+            playSound(`/raw/audio/ferris-wheel/${word}.mp3`);
         }, 300);
     }
 
