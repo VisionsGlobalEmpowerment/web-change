@@ -47,6 +47,7 @@ const viewPort = {
 };
 
 jest.mock('axios');
+jest.mock('../../../model/audio');
 
 function mockLessonData(items) {
     axios.get.mockResolvedValueOnce({data: items});

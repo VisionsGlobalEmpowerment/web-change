@@ -20,8 +20,8 @@
         "babel-preset-stage-0": "^6.24.1",
         "bootstrap": "^4.0.0",
         "cross-env": "^5.1",
-        "enzyme": "^3.6.0",
-        "enzyme-adapter-react-16": "^1.5.0",
+        "enzyme": "^3.7.0",
+        "enzyme-adapter-react-16": "^1.6.0",
         "enzyme-to-json": "^3.3.4",
         "jest": "^23.6.0",
         "jest-canvas-mock": "^1.1.0",
@@ -29,10 +29,11 @@
         "laravel-mix": "^2.1.14",
         "lodash": "^4.17.11",
         "popper.js": "^1.14.4",
-        "react": "^16.5.2",
-        "react-dom": "^16.5.2",
+        "rc-slider": "^8.6.3",
+        "react": "^16.6.0",
+        "react-dom": "^16.6.0",
         "react-spring": "^5.8.0",
-        "react-test-renderer": "^16.5.2",
+        "react-test-renderer": "^16.6.0",
         "regenerator-runtime": "^0.12.1"
     },
     "jest": {
@@ -42,15 +43,21 @@
         "collectCoverageFrom": [
             "<rootDir>/resources/assets/js/components/**"
         ],
-        "setupFiles": ["jest-canvas-mock"],
+        "setupFiles": [
+            "jest-canvas-mock"
+        ],
         "setupTestFrameworkScriptFile": "<rootDir>/resources/assets/js/tests/setup.js",
         "snapshotSerializers": [
             "enzyme-to-json/serializer"
+        ],
+        "transformIgnorePatterns": [
+            "node_modules/(?!(rc-slider|rc-util)/)"
         ]
     },
     "dependencies": {
         "konva": "^2.4.2",
         "react-app-polyfill": "0.0.0",
-        "react-konva": "^16.5.2"
+        "react-konva": "^16.6.0",
+        "reactstrap": "^6.5.0"
     }
 }

@@ -4,13 +4,17 @@ import {createTaggedKey, getData, hasData, putData} from "./cache";
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 
 let audioCtx;
-let gainNode;
+let musicGain;
+let effectsGain;
 
 function init() {
     if (audioCtx === undefined) {
         audioCtx = new AudioContext();
-        gainNode = audioCtx.createGain();
-        gainNode.connect(audioCtx.destination);
+        musicGain = audioCtx.createGain();
+        musicGain.connect(audioCtx.destination);
+
+        effectsGain = audioCtx.createGain();
+        effectsGain.connect(audioCtx.destination);
     }
 }
 
@@ -25,17 +29,25 @@ function dataToArrayBuffer(data) {
 }
 
 const getAudio = (key) => {
-    const audioKey = createTaggedKey('audio', key);
-    if (!hasData(audioKey)) {
+    init();
+    const bufferKey = createTaggedKey('audioBuffer', key);
+    if (!hasData(bufferKey)) {
         const data = getData(key);
-        if (data === undefined) {
-            return new Audio();
-        }
-
-        putData(audioKey, new Audio(data));
+        const result = new Promise(resolve => {
+            audioCtx.decodeAudioData(dataToArrayBuffer(data), (soundBuffer) => {
+                resolve(soundBuffer);
+            });
+        });
+        putData(bufferKey, result);
     }
 
-    return getData(audioKey);
+    return getData(bufferKey)
+        .then(buffer => {
+            const soundSource = audioCtx.createBufferSource();
+            soundSource.buffer = buffer;
+            soundSource.connect(effectsGain);
+            return soundSource;
+        });
 };
 
 const getBackgroundAudio = (key) => {
@@ -63,38 +75,54 @@ const getBackgroundAudio = (key) => {
     return getData(audioKey);
 };
 
-const setBackgroundVolume = (value) => {
-    gainNode.gain.value = value;
+export const setBackgroundVolume = (value) => {
+    if (musicGain) {
+        musicGain.gain.value = value;
+    }
 };
 
-const getBackgroundVolume = () => {
-    return gainNode.gain.value;
+export const getBackgroundVolume = () => {
+    if (!musicGain) {
+        return 0;
+    }
+    return musicGain.gain.value;
 };
 
-export const startBackground = (key, volume) => {
+export const setEffectsVolume = (value) => {
+    if (effectsGain) {
+        effectsGain.gain.value = value;
+    }
+};
+
+export const getEffectsVolume = () => {
+    if (!effectsGain) {
+        return 0;
+    }
+    return effectsGain.gain.value;
+};
+
+export const startBackground = (key) => {
     const audio = getBackgroundAudio(key);
     audio.then(a => {
-        setBackgroundVolume(volume);
-        a.connect(gainNode)
+        a.connect(musicGain)
     });
 };
 
 export const pauseBackground = (key) => {
     const audio = getBackgroundAudio(key);
-    audio.then(a => a.disconnect(gainNode));
+    audio.then(a => a.disconnect(musicGain));
 };
 
-export const playSound = (key, volume = 1) => {
+export const playSound = (key) => {
     const audio = getAudio(key);
-    audio.volume = volume;
-    audio.play();
+    audio.then(a => a.start());
 };
 
 export const initSound = (key) => {
-    const audio = getAudio(key);
+    /*const audio = getAudio(key);
 
     audio.volume = 0;
     audio.play();
     audio.pause();
-    audio.volume = 1;
+    audio.volume = 1;*/
 };

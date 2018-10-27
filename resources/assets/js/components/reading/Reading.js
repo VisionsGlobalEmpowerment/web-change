@@ -9,6 +9,7 @@ import Chapas from "./lessons/Chapas";
 import {backgroundAlign, withBackgroundAudio, withSvgViewport} from "../common/Location";
 import Preloader, {withPreloader} from "../common/Preloader";
 import {pipe} from "../common";
+import Settings from "../common/Settings";
 
 export default class Reading extends Component {
     static course = 'reading';
@@ -32,7 +33,7 @@ export default class Reading extends Component {
             withSvgViewport({align: backgroundAlign.center}),
         )(Map),
         'ferris-wheel': pipe(
-            withBackgroundAudio('/raw/audio/background/POL-daily-special-short.mp3', 0.1),
+            withBackgroundAudio('/raw/audio/background/POL-daily-special-short.mp3'),
             withSvgViewport({align: backgroundAlign.center}),
             withPreloader(assets),
         )(FerrisWheel),
@@ -91,6 +92,7 @@ export default class Reading extends Component {
         return (
             <div>
                 <LocationComponent progress={this.state.progress} handleMove={this.handleMove} handleProgress={this.handleProgress}/>
+                <Settings/>
             </div>
         )
     }
