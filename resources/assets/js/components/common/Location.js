@@ -1,11 +1,11 @@
 import React from "react";
 import {pauseBackground, startBackground} from "../../model/audio";
 
-export const withBackgroundAudio = (audioFilepath, volume = 0.5) => (WrappedComponent) => {
+export const withBackgroundAudio = (audioFilepath) => (WrappedComponent) => {
     return class extends React.Component {
 
         componentDidMount() {
-            startBackground(audioFilepath, volume);
+            startBackground(audioFilepath);
         }
 
         componentWillUnmount() {

@@ -7,11 +7,6 @@ export const Menu = ({viewBox, viewPort}) => {
     const x = viewBox.x  * scale + viewBox.width - 68;
     const y = viewBox.y + 20 ;
 
-    console.log("menu");
-    console.log(viewBox);
-    console.log(viewPort);
-    console.log(" " + x + " " + y + " " + scale);
-
     return <Group x={x} y={y}
                   onClick={() => exit()}
                   onTap={() => exit()}
@@ -25,11 +20,6 @@ export const Back = ({viewBox, viewPort, onClick}) => {
     const scale = viewBox.width / viewPort.width;
     const x = viewBox.x  * scale + viewBox.width - 136 ;
     const y = viewBox.y + 20;
-
-    console.log("back");
-    console.log(viewBox);
-    console.log(viewPort);
-    console.log(" " + x + " " + y + " " + scale);
 
     return  <Group x={x} y={y}
                    onClick={onClick}
