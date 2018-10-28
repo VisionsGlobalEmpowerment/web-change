@@ -15,10 +15,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-.modal-static .modal {
-  display: block;
-}
-
 .location-map .location-background {
   fill: url(#background);
 }
@@ -92,4 +88,23 @@
 
 .vera {
   fill: url(#vera);
+}
+
+.modal-full {
+  min-width: 100%;
+  margin: 0;
+}
+
+.modal-full .modal-content {
+  min-height: 100vh;
+}
+
+.wc-background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-image: url('/raw/img/bg.jpg');
+  background-size: cover;
+  background-position: center center;
 }

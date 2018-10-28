@@ -11,9 +11,11 @@ function init() {
     if (audioCtx === undefined) {
         audioCtx = new AudioContext();
         musicGain = audioCtx.createGain();
+        musicGain.gain.value = 0.3;
         musicGain.connect(audioCtx.destination);
 
         effectsGain = audioCtx.createGain();
+        effectsGain.gain.value = 0.5;
         effectsGain.connect(audioCtx.destination);
     }
 }
