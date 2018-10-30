@@ -10,6 +10,7 @@ import {backgroundAlign, withBackgroundAudio, withSvgViewport} from "../common/L
 import Preloader, {withPreloader} from "../common/Preloader";
 import {pipe} from "../common";
 import Settings from "../common/Settings";
+import {Score} from "./lessons/ferris-wheel/Score";
 
 export default class Reading extends Component {
     static course = 'reading';
@@ -35,7 +36,7 @@ export default class Reading extends Component {
         'ferris-wheel': pipe(
             withBackgroundAudio('/raw/audio/background/POL-daily-special-short.mp3'),
             withSvgViewport({align: backgroundAlign.center}),
-            withPreloader(assets),
+            withPreloader(assets, '/raw/img/feria/feria.png'),
         )(FerrisWheel),
         'chapas': Chapas,
     };
@@ -125,6 +126,20 @@ const files = [
     {url: '/raw/img/feria/back.png', size: 1, type: "image"},
     {url: '/raw/img/feria/back_active.png', size: 1, type: "image"},
     {url: '/raw/img/feria/wheel.png', size: 2, type: "image"},
+
+    {url: '/raw/img/ui/back_button_01.png', size: 1, type: "image"},
+    {url: '/raw/img/ui/back_button_02.png', size: 1, type: "image"},
+    {url: '/raw/img/ui/close_button_01.png', size: 1, type: "image"},
+    {url: '/raw/img/ui/close_button_02.png', size: 1, type: "image"},
+    {url: '/raw/img/ui/play_button_01.png', size: 1, type: "image"},
+    {url: '/raw/img/ui/play_button_02.png', size: 1, type: "image"},
+    {url: '/raw/img/ui/reload_button_01.png', size: 1, type: "image"},
+    {url: '/raw/img/ui/reload_button_02.png', size: 1, type: "image"},
+    {url: '/raw/img/ui/settings_button_01.png', size: 1, type: "image"},
+    {url: '/raw/img/ui/settings_button_02.png', size: 1, type: "image"},
+    {url: '/raw/img/ui/star_01.png', size: 1, type: "image"},
+    {url: '/raw/img/ui/star_02.png', size: 1, type: "image"},
+    {url: '/raw/img/ui/star_03.png', size: 1, type: "image"},
 ];
 
 if (document.getElementById('reading-course')) {

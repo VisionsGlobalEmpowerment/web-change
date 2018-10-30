@@ -9,6 +9,7 @@ import {Stage, Layer} from 'react-konva';
 import {KImage} from "../../common";
 import {Back, Menu} from "../../common/MenuCanvas";
 import {playSound} from "../../../model/audio";
+import {Score} from "./ferris-wheel/Score";
 
 export const assets = [
     {url: '/raw/audio/ferris-wheel/bat.mp3', size: 1, type: "audio"},
@@ -111,23 +112,10 @@ export default class FerrisWheel extends Component {
         if (this.state.status === FerrisWheel.status.new) {
             return <div />
         } else if (this.state.status === FerrisWheel.status.finished) {
-            const points = this.state.ferrisWheel.getPoints();
-            return (
-                <div className="card">
-                    <div className="card-header">
-                        Ferris wheel
-                        <div className="float-right">
-                            <a onClick={() => this.props.handleMove('fair')} href="#">Back</a>
-                            &nbsp;
-                            <a onClick={() => this.reset()} href="#">Reset</a>
-                        </div>
-                    </div>
-                    <div className="card-body">
-                        Game stats:
-                        {points.score} / {points.max}
-                    </div>
-                </div>
-            )
+            return <Score points={this.state.ferrisWheel.getPoints()}
+                          onNext={() => this.props.handleMove('fair')}
+                          onReload={() => this.props.handleMove('ferris-wheel')}
+            />
         }
 
         const {viewBox, viewPort} = this.props;

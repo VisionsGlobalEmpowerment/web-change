@@ -108,3 +108,19 @@
   background-size: cover;
   background-position: center center;
 }
+
+.full-height {
+  height: 100vh;
+}
+
+.btn-play {
+  background-image: url('/raw/img/ui/play_button_01.png');
+  width: 330px;
+  height: 97px;
+}
+
+.btn-play:hover {
+  background-image: url('/raw/img/ui/play_button_02.png');
+  width: 330px;
+  height: 97px;
+}

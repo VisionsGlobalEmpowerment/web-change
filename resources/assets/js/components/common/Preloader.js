@@ -11,10 +11,10 @@ const statuses = {
     finished: 3
 };
 
-export const withPreloader = (files) => (WrappedComponent) => {
+export const withPreloader = (files, logo) => (WrappedComponent) => {
     return class extends React.Component {
         render() {
-            return <Preloader files={files}>
+            return <Preloader files={files} logo={logo}>
                 <WrappedComponent {...this.props}/>
             </Preloader>;
         }
@@ -85,21 +85,44 @@ export default class Preloader extends Component {
     render() {
         if (this.state.status === statuses.finished) {
             return this.props.children;
-        } else if (this.state.status === statuses.initialized) {
-            return (
-                <div className="card">
-                    <div className="card-header">
-                        Reading
+        }
+
+        const initialized = this.state.status === statuses.initialized;
+
+        const {
+            logo = '/raw/img/ui/logo.png'
+        } = this.props;
+
+        return <div className={"full-height wc-background"}>
+            <div>
+                <img src={"/raw/img/bg.jpg"} style={{display: "none"}}/>
+            </div>
+
+            <div className={"container h-75 d-flex align-items-end justify-content-center"}>
+                <div>
+                    <div className={"row"}>
+                        <div className="col">
+                            <div className={"text-center"}>
+                                <img src={logo} height={"359"}/>
+                            </div>
+                        </div>
+
                     </div>
-                    <div className="card-body">
-                        <button type="button" className="btn btn-primary" onClick={this.finish.bind(this)}>Start</button>
+                    <div className={"row"}>
+                        <div className="col d-flex justify-content-center">
+                            <div className="progress" style={{height: "24px", width: "460px", margin: "100px"}}>
+                                <div className={"progress-bar progress-bar-striped" + (!initialized ? " progress-bar-animated" : "")} role="progressbar"
+                                     aria-valuenow={this.getProgressPercentage()} aria-valuemin="0" aria-valuemax="100" style={{width: this.getProgressPercentage() + "%", backgroundColor: "#2c9600"}}/>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={"row"} style={{height: "97px"}}>
+                        <div className="col d-flex justify-content-center">
+                            {initialized && <div className={"btn-play"} onClick={this.finish.bind(this)}/>}
+                        </div>
                     </div>
                 </div>
-            );
-        }
-        return <div className="progress">
-            <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                 aria-valuenow={this.getProgressPercentage()} aria-valuemin="0" aria-valuemax="100" style={{width: this.getProgressPercentage() + "%"}}/>
+            </div>
         </div>;
     }
 }
