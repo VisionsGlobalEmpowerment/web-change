@@ -47,7 +47,9 @@ const viewPort = {
 };
 
 jest.mock('axios');
-jest.mock('../../../model/audio');
+jest.mock('../../../model/audio', () => ({
+    getAudio: () => Promise.resolve({start: jest.fn()}),
+}));
 
 function mockLessonData(items) {
     axios.get.mockResolvedValueOnce({data: items});
@@ -204,7 +206,7 @@ test('Lesson is not completed if there were too many fails', (done) => {
 
         currentWordIs(component, 'corona');
         clickOn(component, 'corona');
-        
+
         expect(axios.post.mock.calls.length).toBe(1);
         expect(axios.post.mock.calls[0][1]).toMatchObject({
             completed: false

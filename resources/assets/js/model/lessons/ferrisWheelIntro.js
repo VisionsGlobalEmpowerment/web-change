@@ -1,5 +1,5 @@
 import {get} from "../identityMap";
-import {getAudio} from "../audio";
+import Executor from "../executor";
 
 export default class FerrisWheelIntro {
     data = {
@@ -160,7 +160,14 @@ export default class FerrisWheelIntro {
         ],
     };
 
+    audio = {
+        'teacher': '/raw/audio/scripts/intro/teacher.mp3',
+        'vera': '/raw/audio/scripts/intro/vera.mp3',
+        'syllables': '/raw/audio/scripts/intro/syllables.mp3',
+    };
+
     init() {
+        this.executor = new Executor(this.data, this.audio);
         this.vera = get('vera');
         this.senoraVaca = get('senoraVaca');
     }
@@ -178,82 +185,13 @@ export default class FerrisWheelIntro {
         }
     }
 
-    audioUrl(id) {
-        switch (id) {
-            case 'teacher':
-                return '/raw/audio/scripts/intro/teacher.mp3';
-            case 'vera':
-                return '/raw/audio/scripts/intro/vera.mp3';
-            case 'syllables':
-                return '/raw/audio/scripts/intro/syllables.mp3';
-        }
-    }
-
     async play(id, start, duration) {
-        return this.executeAudio({
+        return this.executor.executeAudio({
             id: id,
             start: start,
             duration: duration,
             offset: 0
         });
-    }
-
-    async execute(id) {
-        return Promise.all(this.data[id].map(block => this.executeBlock(block)));
-    }
-
-    async executeBlock(block) {
-        switch (block.type) {
-            case 'sequence':
-                return this.executeSequence(block.data);
-            case 'audio':
-                return this.executeAudio(block);
-            case 'animation':
-                return this.executeAnimation(block);
-            case 'state':
-                return this.executeState(block);
-            case 'empty':
-                return this.executeEmpty(block.duration);
-        }
-    }
-
-    async executeSequence(sequence) {
-        if (sequence.length === 0) {
-            return Promise.resolve();
-        }
-
-        const current = sequence.shift();
-        return this.execute(current).then(() => {
-            return this.executeSequence(sequence)
-        });
-    }
-
-    async executeAudio(data) {
-        return new Promise(resolve => {
-            const audio = getAudio(this.audioUrl(data.id));
-            audio.then( a => {
-                a.onended = () => {
-                    resolve();
-                };
-                a.start(data.offset, data.start, data.duration);
-            });
-        });
-    }
-
-    async executeAnimation(data) {
-        const object = get(data.target);
-        return object.toAnimation(data.id);
-    }
-
-    async executeState(data) {
-        const object = get(data.target);
-        return object.toState(data.id, data.params);
-    }
-
-    async executeEmpty(duration) {
-        return new Promise( resolve => {
-            setTimeout(() => {resolve();}, duration);
-        })
     }
 
     start() {
@@ -300,7 +238,7 @@ export default class FerrisWheelIntro {
                 return this.play('teacher', 23.09, 1.86);
             })
             .then(() => {
-                return this.execute('group-vera');
+                return this.executor.execute('group-vera');
             })
             .then(() => {
                 //this.toggle('vera');
@@ -310,13 +248,13 @@ export default class FerrisWheelIntro {
                 return this.play('teacher', 29.75, 2.2);
             })
             .then(() => {
-                return this.execute('group-uvas');
+                return this.executor.execute('group-uvas');
             })
             .then(() => {
                 return this.play('teacher', 38.102, 4.739);
             })
             .then(() => {
-                return this.execute('group-cuchara');
+                return this.executor.execute('group-cuchara');
             })
             .then(() => {
                 return this.play('vera', 16.267, 3.809);
@@ -327,7 +265,7 @@ export default class FerrisWheelIntro {
             .then(() => {
                 //this.toggle('teacher');
                 this.vera.toAnimation('prepare-clapping');
-                return this.execute('group-tenedor');
+                return this.executor.execute('group-tenedor');
             })
             .then(() => {
                 //this.toggle('vera');
@@ -336,7 +274,5 @@ export default class FerrisWheelIntro {
             .then(() => {
                 this.toggle('default');
             })
-
-
     }
 }

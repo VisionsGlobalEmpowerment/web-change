@@ -14,6 +14,15 @@ jest.mock('../../components/common/Preloader', () => ({
     withPreloader: (files) => (WrappedComponent) => (props) => <WrappedComponent {...props}/>,
 }));
 
+jest.mock('../../model/executor', () => {
+    return function() {
+        return {
+            executeSequence: () => Promise.resolve(),
+            executeAudio: () => Promise.resolve(),
+        };
+    };
+});
+
 jest.mock('../../model/audio');
 
 function wait(time) {

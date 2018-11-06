@@ -4,22 +4,13 @@ import Wheel from "./ferris-wheel/Wheel";
 import {getDataset, getLessonState, resetLessonState} from "../../../model/lessons";
 import Reading from "../Reading";
 import FerrisWheelModel from "../../../model/lessons/ferrisWheelModel";
-import {play} from "../../sounds";
 import {Stage, Layer} from 'react-konva';
 import {KImage} from "../../common";
 import {Back, Menu} from "../../common/MenuCanvas";
-import {playSound} from "../../../model/audio";
 import {Score} from "./ferris-wheel/Score";
 
 export const assets = [
-    {url: '/raw/audio/ferris-wheel/bat.mp3', size: 1, type: "audio"},
-    {url: '/raw/audio/ferris-wheel/broccoli.mp3', size: 1, type: "audio"},
-    {url: '/raw/audio/ferris-wheel/casa.mp3', size: 1, type: "audio"},
-    {url: '/raw/audio/ferris-wheel/crocodile.mp3', size: 1, type: "audio"},
-    {url: '/raw/audio/ferris-wheel/dinosaur.mp3', size: 1, type: "audio"},
-    {url: '/raw/audio/ferris-wheel/feria.mp3', size: 1, type: "audio"},
-    {url: '/raw/audio/ferris-wheel/orange.mp3', size: 1, type: "audio"},
-    {url: '/raw/audio/ferris-wheel/whale.mp3', size: 1, type: "audio"},
+    {url: '/raw/audio/ferris-wheel/instructions.mp3', size: 10, type: "audio"},
 
     {url: '/raw/img/ferris-wheel/background.png', size: 10, type: "image"},
     {url: '/raw/img/ferris-wheel/cloud_01.png', size: 1, type: "image"},
@@ -70,12 +61,6 @@ export default class FerrisWheel extends Component {
         this.props.handleMove('fair');
     }
 
-    playAWord(word) {
-        setTimeout(() => {
-            playSound(`/raw/audio/ferris-wheel/${word}.mp3`);
-        }, 300);
-    }
-
     async componentDidMount() {
         this.state.ferrisWheel.register('onInit', () => {
             this.state.ferrisWheel.start();
@@ -89,13 +74,6 @@ export default class FerrisWheel extends Component {
         this.state.ferrisWheel.register('onFinish',() => {
             this.setState({status: FerrisWheel.status.finished})
         });
-
-        this.state.ferrisWheel.register('onFail', () => play("fail", 0.3));
-        this.state.ferrisWheel.register('onSuccess', () => play("success", 0.3));
-        this.state.ferrisWheel.register('onStart', () => play("start", 0.3));
-        this.state.ferrisWheel.register('onFinish', () => play("finish", 0.3));
-
-        this.state.ferrisWheel.register('onWordChanged', (currentWord) => this.playAWord(currentWord));
 
         return this.state.ferrisWheel.initItems(
             await getDataset(FerrisWheel.lesson),
