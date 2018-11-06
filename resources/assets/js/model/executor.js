@@ -7,6 +7,8 @@ export default class Executor {
         this.audio = audio;
     }
 
+    playing = {};
+
     async execute(id) {
         return Promise.all(this.data[id].map(block => this.executeBlock(block)));
     }
@@ -41,8 +43,10 @@ export default class Executor {
         return new Promise(resolve => {
             const audio = getAudio(this.audioUrl(data.id));
             audio.then( a => {
+                this.registerPlaying(data.id, a);
                 a.onended = () => {
                     resolve();
+                    this.unregisterPlaying(data.id)
                 };
                 a.start(data.offset, data.start, data.duration);
             });
@@ -67,5 +71,20 @@ export default class Executor {
 
     audioUrl(id) {
         return this.audio[id];
+    }
+
+    registerPlaying(key, audio) {
+        this.playing[key] = audio;
+    }
+
+    unregisterPlaying(key) {
+        delete this.playing[key];
+    }
+
+    stopPlaying() {
+        Object.keys(this.playing).forEach((key) => {
+            this.playing[key].stop();
+            this.unregisterPlaying(key);
+        })
     }
 }

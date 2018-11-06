@@ -133,7 +133,6 @@ export default class FerrisWheelModel {
             return;
         }
 
-
         const currentWord = this.currentWord;
         this.setCurrentWord(currentWord);
 
@@ -160,6 +159,7 @@ export default class FerrisWheelModel {
             return;
         }
 
+        this.executor.stopPlaying();
         this.executor.execute(`word-${word}`);
         this.dispatch('onWordChanged', fn => fn(this.currentWord));
     }

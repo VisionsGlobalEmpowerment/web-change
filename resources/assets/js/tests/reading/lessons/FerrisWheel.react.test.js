@@ -48,7 +48,7 @@ const viewPort = {
 
 jest.mock('axios');
 jest.mock('../../../model/audio', () => ({
-    getAudio: () => Promise.resolve({start: jest.fn()}),
+    getAudio: () => Promise.resolve({start: jest.fn(), stop: jest.fn()}),
 }));
 
 function mockLessonData(items) {
