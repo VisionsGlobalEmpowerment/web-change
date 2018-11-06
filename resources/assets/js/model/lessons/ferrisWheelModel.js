@@ -1,7 +1,6 @@
 import {isLessonCompleted, normalizePoints, setLessonState} from "../lessons";
 import Reading from "../../components/reading/Reading";
 import FerrisWheel from "../../components/reading/lessons/FerrisWheel";
-import {play} from "../../components/sounds";
 
 export default class FerrisWheelModel {
     items = [];

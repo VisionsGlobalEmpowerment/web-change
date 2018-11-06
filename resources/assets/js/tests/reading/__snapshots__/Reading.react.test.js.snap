@@ -51,42 +51,42 @@ exports[`Reading can be rendered 1`] = `
           y={0}
         />
       </pattern>
-      <pattern
-        height={795}
-        id="teacher"
-        patternUnits="userSpaceOnUse"
-        width={426}
-        x={0}
-        y={0}
-      >
-        <image
-          height={795}
-          width={426}
-          x={0}
-          y={0}
-        />
-      </pattern>
-      <pattern
-        height={808}
-        id="teacher-highlight"
-        patternUnits="userSpaceOnUse"
-        width={434}
-        x={0}
-        y={0}
-      >
-        <image
-          height={808}
-          width={434}
-          x={0}
-          y={0}
-        />
-      </pattern>
     </defs>
     <rect
       className="location-background"
       height={1080}
       width={2520}
     />
+    <g>
+      <defs>
+        <pattern
+          height={209}
+          id="word"
+          patternUnits="userSpaceOnUse"
+          width={205}
+        >
+          <image
+            xlinkHref=""
+          />
+        </pattern>
+      </defs>
+      <g
+        transform="translate(500,50)"
+      >
+        <rect
+          className="word-image"
+          fill="url(#word)"
+          fillOpacity={0}
+          height={209}
+          width={205}
+        />
+      </g>
+    </g>
+    <g>
+      <g
+        transform="translate(500,260)"
+      />
+    </g>
     <g
       className="location-entrance-map"
       onClick={[Function]}
@@ -100,17 +100,51 @@ exports[`Reading can be rendered 1`] = `
         y={0}
       />
     </g>
-    <g
-      onClick={[Function]}
-      transform="translate(857,177)"
-    >
-      <rect
-        className="activity-lesson-one-instructions"
-        height={794}
-        width={426}
-        x={0}
-        y={0}
-      />
+    <g>
+      <defs>
+        <pattern
+          height={795}
+          id="teacher"
+          patternUnits="userSpaceOnUse"
+          width={426}
+          x={0}
+          y={0}
+        >
+          <image
+            height={795}
+            width={426}
+            x={0}
+            y={0}
+          />
+        </pattern>
+        <pattern
+          height={808}
+          id="teacher-highlight"
+          patternUnits="userSpaceOnUse"
+          width={434}
+          x={0}
+          y={0}
+        >
+          <image
+            height={808}
+            width={434}
+            x={0}
+            y={0}
+          />
+        </pattern>
+      </defs>
+      <g
+        onClick={[Function]}
+        transform="translate(857,177)"
+      >
+        <rect
+          className="senora-vaca"
+          height={794}
+          width={426}
+          x={0}
+          y={0}
+        />
+      </g>
     </g>
     <g>
       <pattern

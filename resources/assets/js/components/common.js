@@ -5,6 +5,7 @@ import {movementSpeed, disabled} from "./animations";
 import {play} from "./sounds";
 import {getData} from "../model/cache";
 import {Image} from "react-konva";
+import {register, unregister} from "../model/identityMap";
 
 function toSegments(path) {
     let currentX = undefined, currentY = undefined;
@@ -104,23 +105,55 @@ export function withMovement(WrappedComponent) {
     };
 }
 
-export const Vera = (props) => {
-    const {
-        scale = 1,
-    } = props;
+export const withRegistration = (key) => (WrappedComponent) => {
+    return class extends React.Component {
+        componentWillUnmount() {
+            unregister(key);
+        }
 
-    return (
-    <g>
-        <pattern id="vera" x={0} y={0} width={431} height={626} patternUnits="userSpaceOnUse">
-            <image xlinkHref={getData("/raw/img/vera.png")} x={0} y={0} width={431} height={626} />
-        </pattern>
-        <g transform={'translate(' + props.x + ',' + props.y + ') scale(' + scale + ')'}
-              className={'vera'}>
-            <rect x={0} y={0} width={431} height={626} />
-        </g>
-    </g>
-    );
+        render() {
+            return <WrappedComponent ref={e => register(key, e)} {...this.props} />;
+        }
+    };
 };
+
+export class Vera extends React.Component {
+    state = {
+        state: 'default',
+    };
+
+    toState (state) {
+        this.setState({state: state})
+    }
+
+    async toAnimation (state) {
+        return Promise.resolve();
+    }
+
+    render() {
+        const {
+            x,
+            y,
+            scale = 1,
+        } = this.props;
+
+        const transform = this.state.state === 'default' ?
+            'translate(' + x + ',' + y + ')' + ' scale(' + scale + ')':
+            'translate(' + x + ',' + y + ')' + ' scale(' + scale + ')' + ' scale(-1, 1) translate(-431, 0)';
+
+        return (
+            <g>
+                <pattern id="vera" x={0} y={0} width={431} height={626} patternUnits="userSpaceOnUse">
+                    <image xlinkHref={getData("/raw/img/vera.png")} x={0} y={0} width={431} height={626}/>
+                </pattern>
+                <g transform={transform}
+                   className={'vera'}>
+                    <rect x={0} y={0} width={431} height={626}/>
+                </g>
+            </g>
+        );
+    };
+}
 
 export class KImage extends React.Component {
     state = {

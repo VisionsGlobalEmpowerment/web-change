@@ -98,7 +98,7 @@ test('Lesson one instruction activity can be finished', () => {
 
     const HomeWithSvg = withSvgViewport({})(Home);
     const component = mount(<HomeWithSvg progress={currentProgress} handleProgress={handleProgress}/>);
-    component.find('.activity-lesson-one-instructions').simulate('click');
+    component.find('.senora-vaca').simulate('click');
 
     setImmediate(() => {
         expect(handleProgress.mock.calls.length).toBe(1);

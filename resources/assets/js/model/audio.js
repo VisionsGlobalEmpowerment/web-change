@@ -30,7 +30,7 @@ function dataToArrayBuffer(data) {
     return bytes.buffer;
 }
 
-const getAudio = (key) => {
+export const getAudio = (key) => {
     init();
     const bufferKey = createTaggedKey('audioBuffer', key);
     if (!hasData(bufferKey)) {

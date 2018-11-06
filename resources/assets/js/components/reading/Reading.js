@@ -107,6 +107,10 @@ const files = [
     {url: '/raw/audio/effects/NFF-rusted-thing.mp3', size: 1, type: "audio"},
     {url: '/raw/audio/effects/NFF-zing.mp3', size: 1, type: "audio"},
 
+    {url: '/raw/audio/scripts/intro/teacher.mp3', size: 5, type: "audio"},
+    {url: '/raw/audio/scripts/intro/vera.mp3', size: 5, type: "audio"},
+    {url: '/raw/audio/scripts/intro/syllables.mp3', size: 2, type: "audio"},
+
     {url: '/raw/img/map/background.png', size: 10, type: "image"},
     {url: '/raw/img/map/casa_01.png', size: 1, type: "image"},
     {url: '/raw/img/map/casa_02.png', size: 1, type: "image"},
@@ -140,6 +144,10 @@ const files = [
     {url: '/raw/img/ui/star_01.png', size: 1, type: "image"},
     {url: '/raw/img/ui/star_02.png', size: 1, type: "image"},
     {url: '/raw/img/ui/star_03.png', size: 1, type: "image"},
+
+    {url: "/raw/img/ferris-wheel/words/broccoli_default.png", size: 1, type: "image"},
+    {url: "/raw/img/ferris-wheel/words/crocodile_default.png", size: 1, type: "image"},
+    {url: "/raw/img/ferris-wheel/words/orange_default.png", size: 1, type: "image"},
 ];
 
 if (document.getElementById('reading-course')) {
