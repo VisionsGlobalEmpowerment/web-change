@@ -118,8 +118,8 @@ test('Incorrect word becomes failed', (done) => {
         const incorrectWord = 'cocodrilo';
         clickOn(component, incorrectWord);
 
-        wordIsFailed(component, currentWord);
-        wordIsNotGuessed(component, incorrectWord);
+        wordIsFailed(component, incorrectWord);
+        wordIsNotGuessed(component, currentWord);
         done();
     });
 });
@@ -186,7 +186,7 @@ test('Lesson state is not saved for completed lesson', (done) => {
     });
 });
 
-test('Lesson is not completed if only one word is guessed', (done) => {
+test('Lesson is not completed if there were too many fails', (done) => {
     mockLessonData(items);
     axios.post = jest.fn();
 
@@ -195,13 +195,16 @@ test('Lesson is not completed if only one word is guessed', (done) => {
     setImmediate(() => {
         currentWordIs(component, 'tornado');
         clickOn(component, 'corona');
+        clickOn(component, 'cocodrilo');
+        clickOn(component, 'tornado');
 
         currentWordIs(component, 'cocodrilo');
         clickOn(component, 'corona');
+        clickOn(component, 'cocodrilo');
 
         currentWordIs(component, 'corona');
         clickOn(component, 'corona');
-
+        
         expect(axios.post.mock.calls.length).toBe(1);
         expect(axios.post.mock.calls[0][1]).toMatchObject({
             completed: false

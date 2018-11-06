@@ -2,6 +2,8 @@ import {isLessonCompleted, normalizePoints, setLessonState} from "../lessons";
 import Reading from "../../components/reading/Reading";
 import FerrisWheel from "../../components/reading/lessons/FerrisWheel";
 
+const repeatTime = 5000;
+
 export default class FerrisWheelModel {
     items = [];
     guessed = [];
@@ -10,6 +12,7 @@ export default class FerrisWheelModel {
     currentWord = null;
     completed = false;
     aborted = false;
+    failedCount = 0;
 
     handlers = {};
 
@@ -30,7 +33,7 @@ export default class FerrisWheelModel {
         return toGuess[Math.floor(Math.random() * toGuess.length)];
     }
 
-    compareAndFail(word) {
+    compareAndRepeat(word) {
         if (this.aborted) {
             return;
         }
@@ -39,11 +42,23 @@ export default class FerrisWheelModel {
             return;
         }
 
-        this.fail(this.currentWord);
+
+        const currentWord = this.currentWord;
+        this.setCurrentWord(currentWord);
+
+        setTimeout(() => {
+            this.compareAndRepeat(currentWord);
+        }, repeatTime);
+
     }
 
     renewWord() {
-        this.setCurrentWord(this.nextWord(this.toGuess));
+        const currentWord = this.nextWord(this.toGuess);
+        this.setCurrentWord(currentWord);
+
+        setTimeout(() => {
+            this.compareAndRepeat(currentWord);
+        }, repeatTime);
     }
 
     setCurrentWord(word) {
@@ -58,44 +73,29 @@ export default class FerrisWheelModel {
     success(key) {
         this.toGuess = this.toGuess.filter(value => value !== key);
         this.guessed = this.guessed.concat(key);
+        this.failed = [];
 
         this.renewWord();
-
-        const currentWord = this.currentWord;
-        if (currentWord === null) {
-            return;
-        }
-
-        setTimeout(() => {
-            this.compareAndFail(currentWord);
-        }, 5000);
 
         this.dispatch('onSuccess', fn => fn(key));
     }
 
     fail(key) {
-        this.toGuess = this.toGuess.filter(value => value !== key);
-        this.failed = this.failed.concat(key);
-
-        this.renewWord();
-
-        const currentWord = this.currentWord;
-        if (currentWord === null) {
+        if (this.isFailed(key) || this.isGuessed(key)) {
             return;
         }
 
-        setTimeout(() => {
-            this.compareAndFail(currentWord);
-        }, 5000);
+        this.failed = this.failed.concat(key);
+        this.failedCount++;
 
         this.dispatch('onFail', fn => fn(key));
     }
 
     pick(key) {
         if (this.currentWord === key) {
-            this.success(this.currentWord);
+            this.success(key);
         } else {
-            this.fail(this.currentWord);
+            this.fail(key);
         }
     }
 
@@ -126,11 +126,6 @@ export default class FerrisWheelModel {
     start() {
         this.renewWord();
 
-        const currentWord = this.currentWord;
-        setTimeout(() => {
-            this.compareAndFail(currentWord);
-        }, 5000);
-
         this.dispatch('onStart', fn => fn());
     }
 
@@ -140,17 +135,18 @@ export default class FerrisWheelModel {
 
     getStats() {
         return {
-            total: this.toGuess.length + this.guessed.length + this.failed.length,
+            total: this.items.length,
             toGuess: this.toGuess.length,
             guessed: this.guessed.length,
-            failed: this.failed.length,
+            failed: this.failedCount,
         };
     }
 
     getPoints() {
         const stats = this.getStats();
+        const score = stats.guessed - stats.failed;
 
-        return normalizePoints(stats.guessed, stats.total);
+        return normalizePoints(score, stats.total);
     }
 
     finished() {

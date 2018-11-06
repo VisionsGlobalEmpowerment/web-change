@@ -40,11 +40,6 @@ function getCoordinates(index, length) {
 }
 
 class Element extends Component {
-    state = {
-        guessed: false,
-        failed: false
-    };
-
     getVisualState(data, markedAsGuessed, markedAsFailed) {
         if (markedAsFailed) {
             return "/raw/img/ferris-wheel/words/" + data.key + "_alert.png";
@@ -56,16 +51,12 @@ class Element extends Component {
     }
 
     componentDidMount() {
-        this.props.ferrisWheel.register('onFail', (key) => {
-            if (this.props.data.key === key) {
-                this.setState({failed: true})
-            }
+        this.props.ferrisWheel.register('onFail', () => {
+            this.forceUpdate();
         });
 
-        this.props.ferrisWheel.register('onSuccess', (key) => {
-            if (this.props.data.key === key) {
-                this.setState({guessed: true})
-            }
+        this.props.ferrisWheel.register('onSuccess', () => {
+            this.forceUpdate();
         })
     }
 

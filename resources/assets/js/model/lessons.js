@@ -28,8 +28,9 @@ export function resetLessonState(course, lesson) {
 }
 
 export function normalizePoints(score, max) {
+    const normalized = score <= 0 ? 0 : Math.ceil(score * MAX_POINTS / max);
     return {
-        score: Math.ceil(score * MAX_POINTS / max),
+        score: normalized,
         max: MAX_POINTS,
     }
 }
