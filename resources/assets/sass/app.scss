@@ -90,6 +90,16 @@
   fill: url(#vera);
 }
 
+@keyframes playX {
+  0% { transform: translateX(0px); }
+  50% { transform: translateX(-15496px); }
+  100% { transform: translateX(0px); }
+}
+
+.test-animation {
+  animation: playX 3.2s steps(26) infinite;
+}
+
 .modal-full {
   min-width: 100%;
   margin: 0;

@@ -125,6 +125,7 @@ const files = [
     {url: '/raw/img/teacher.png', size: 1, type: "image"},
     {url: '/raw/img/teacher_two.png', size: 1, type: "image"},
     {url: '/raw/img/vera.png', size: 1, type: "image"},
+    {url: '/raw/img/vera/10_sprite_test.png', size: 4, type: 'image'},
 
     {url: '/raw/img/feria/background.png', size: 10, type: "image"},
     {url: '/raw/img/feria/back.png', size: 1, type: "image"},

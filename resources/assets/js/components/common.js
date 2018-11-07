@@ -138,17 +138,17 @@ export class Vera extends React.Component {
         } = this.props;
 
         const transform = this.state.state === 'default' ?
-            'translate(' + x + ',' + y + ')' + ' scale(' + scale + ')':
-            'translate(' + x + ',' + y + ')' + ' scale(' + scale + ')' + ' scale(-1, 1) translate(-431, 0)';
+            'translate(' + x + ',' + y + ')' + ' scale(' + scale * 0.8 + ')':
+            'translate(' + x + ',' + y + ')' + ' scale(' + scale * 0.8 + ')' + ' scale(-1, 1) translate(-431, 0)';
 
         return (
             <g>
-                <pattern id="vera" x={0} y={0} width={431} height={626} patternUnits="userSpaceOnUse">
-                    <image xlinkHref={getData("/raw/img/vera.png")} x={0} y={0} width={431} height={626}/>
+                <pattern id="vera" width={596} height={842} patternUnits="userSpaceOnUse">
+                    <image className={'test-animation'} xlinkHref={getData("/raw/img/vera/10_sprite_test.png")} width={16092} height={842}/>
                 </pattern>
                 <g transform={transform}
                    className={'vera'}>
-                    <rect x={0} y={0} width={431} height={626}/>
+                    <rect x={0} y={0} width={596} height={842}/>
                 </g>
             </g>
         );
