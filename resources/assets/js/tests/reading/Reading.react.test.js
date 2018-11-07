@@ -17,6 +17,7 @@ jest.mock('../../components/common/Preloader', () => ({
 jest.mock('../../model/executor', () => {
     return function() {
         return {
+            execute: () => Promise.resolve(),
             executeSequence: () => Promise.resolve(),
             executeAudio: () => Promise.resolve(),
         };

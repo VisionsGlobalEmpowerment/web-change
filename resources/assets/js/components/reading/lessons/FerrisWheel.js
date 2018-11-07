@@ -5,9 +5,10 @@ import {getDataset, getLessonState, resetLessonState} from "../../../model/lesso
 import Reading from "../Reading";
 import FerrisWheelModel from "../../../model/lessons/ferrisWheelModel";
 import {Stage, Layer} from 'react-konva';
-import {KImage} from "../../common";
+import {KImage, pipe, withRegistration} from "../../common";
 import {Back, Menu} from "../../common/MenuCanvas";
 import {Score} from "./ferris-wheel/Score";
+import Mari from "../../common/Mari";
 
 export const assets = [
     {url: '/raw/audio/ferris-wheel/instructions.mp3', size: 10, type: "audio"},
@@ -46,6 +47,10 @@ export const assets = [
     {url: '/raw/img/ferris-wheel/words/whale_default.png', size: 1, type: "image"},
     {url: '/raw/img/ferris-wheel/words/whale_done.png', size: 1, type: "image"},
 ];
+
+const EnhancedMari = pipe(
+    withRegistration('mari'),
+)(Mari);
 
 export default class FerrisWheel extends Component {
     static lesson = 'ferris-wheel';
@@ -105,6 +110,8 @@ export default class FerrisWheel extends Component {
                     <KImage image={"/raw/img/ferris-wheel/background.png"}/>
 
                     <Wheel ferrisWheel={this.state.ferrisWheel} />
+
+                    <EnhancedMari x={1400} y={700} />
 
                     <Back viewBox={viewBox} viewPort={viewPort} onClick={() => this.props.handleMove('fair')} />
                     <Menu viewBox={viewBox} viewPort={viewPort} />

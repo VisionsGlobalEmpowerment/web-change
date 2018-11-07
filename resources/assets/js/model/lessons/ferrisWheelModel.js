@@ -18,10 +18,24 @@ export default class FerrisWheelModel {
     handlers = {};
 
     data = {
+        'start': [
+            {type: 'sequence', name: 'mari instructions', data:
+                    [
+                        'start-fx',
+                        'mari-speak', 'instructions', 'mari-default',
+                    ]},
+        ],
+        'mari-speak': [
+            {type: 'state', target: 'mari', id: 'speaking'},
+        ],
+        'mari-default': [
+            {type: 'state', target: 'mari', id: 'default'},
+        ],
         'start-fx': [
             {type: 'audio', id: 'start'},
         ],
         'instructions': [
+
             {type: 'audio', name: 'instruction', id: 'instructions', start: 0.743, duration: 6.117},
         ],
         'word-tornado': [
@@ -220,7 +234,7 @@ export default class FerrisWheelModel {
     }
 
     start() {
-        this.executor.executeSequence(['start-fx', 'instructions'])
+        this.executor.execute('start')
             .then(() => {
                 this.renewWord();
 
