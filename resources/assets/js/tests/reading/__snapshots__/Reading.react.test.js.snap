@@ -148,27 +148,24 @@ exports[`Reading can be rendered 1`] = `
     </g>
     <g>
       <pattern
-        height={626}
+        height={842}
         id="vera"
         patternUnits="userSpaceOnUse"
-        width={431}
-        x={0}
-        y={0}
+        width={596}
       >
         <image
-          height={626}
-          width={431}
-          x={0}
-          y={0}
+          className="test-animation"
+          height={842}
+          width={16092}
         />
       </pattern>
       <g
         className="vera"
-        transform="translate(1350,400) scale(1)"
+        transform="translate(1350,400) scale(0.8)"
       >
         <rect
-          height={626}
-          width={431}
+          height={842}
+          width={596}
           x={0}
           y={0}
         />
