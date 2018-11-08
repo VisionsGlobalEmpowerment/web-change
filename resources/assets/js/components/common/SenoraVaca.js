@@ -36,7 +36,7 @@ export default class SenoraVaca extends Component {
             y,
         } = this.props;
 
-        const transform = this.state.state === 'default' ?
+        const transform = this.state.state === 'default' || true ?
             'translate(' + x + ',' + y + ')':
             'translate(' + x + ',' + y + ')' + ' scale(-1, 1) translate(-426, 0)';
 

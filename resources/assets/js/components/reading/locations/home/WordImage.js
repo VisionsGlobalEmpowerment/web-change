@@ -15,11 +15,11 @@ export default class WordImage extends Component {
     imageData() {
         switch (this.state.state) {
             case 'uvas':
-                return getData("/raw/img/ferris-wheel/words/broccoli_default.png");
+                return getData("/raw/img/ferris-wheel/words/Grapes.png");
             case 'cuchara':
-                return getData("/raw/img/ferris-wheel/words/crocodile_default.png");
+                return getData("/raw/img/ferris-wheel/words/Spoon.png");
             case 'tenedor':
-                return getData("/raw/img/ferris-wheel/words/orange_default.png");
+                return getData("/raw/img/ferris-wheel/words/Fork.png");
             default:
                 return '';
         }

@@ -146,9 +146,9 @@ const files = [
     {url: '/raw/img/ui/star_02.png', size: 1, type: "image"},
     {url: '/raw/img/ui/star_03.png', size: 1, type: "image"},
 
-    {url: "/raw/img/ferris-wheel/words/broccoli_default.png", size: 1, type: "image"},
-    {url: "/raw/img/ferris-wheel/words/crocodile_default.png", size: 1, type: "image"},
-    {url: "/raw/img/ferris-wheel/words/orange_default.png", size: 1, type: "image"},
+    {url: "/raw/img/ferris-wheel/words/Grapes.png", size: 1, type: "image"},
+    {url: "/raw/img/ferris-wheel/words/Spoon.png", size: 1, type: "image"},
+    {url: "/raw/img/ferris-wheel/words/Fork.png", size: 1, type: "image"},
 ];
 
 if (document.getElementById('reading-course')) {

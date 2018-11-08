@@ -137,7 +137,7 @@ export class Vera extends React.Component {
             scale = 1,
         } = this.props;
 
-        const transform = this.state.state === 'default' ?
+        const transform = this.state.state === 'default' || true ?
             'translate(' + x + ',' + y + ')' + ' scale(' + scale * 0.8 + ')':
             'translate(' + x + ',' + y + ')' + ' scale(' + scale * 0.8 + ')' + ' scale(-1, 1) translate(-431, 0)';
 
